@@ -3,12 +3,6 @@
   "version": "1.0.0",
   "description": "yandex alica skill",
   "main": "index.js",
-  "scripts": {
-    "start": "micro"
-  },
-  "author": "r.dronov+j.dronov",
-  "license": "MIT",
-  "dependencies": {
-    "micro": "^9.3.4"
-  }
+  "author": "r.dronov+j.dronova",
+  "license": "MIT"
 }

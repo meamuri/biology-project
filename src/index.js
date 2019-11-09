@@ -1,8 +1,7 @@
 
-const { json } = require('micro');
 
-module.exports = async (req, res) => {
-    const { request, session, version } = await json(req);
+module.exports = async (event, res) => {
+    const { request, session, version } = event;
 
     res.end(JSON.stringify({
         version,
