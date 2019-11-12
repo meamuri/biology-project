@@ -1,11 +1,13 @@
 {
   "presets": [
-    "@babel/prevent-env",
-    {
-      "targets": {
-        "node": "12"
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "12"
+        }
       }
-    }
+    ]
   ],
   "sourceMaps": "both"
 }
