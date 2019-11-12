@@ -1,0 +1,11 @@
+{
+  "presets": [
+    "@babel/prevent-env",
+    {
+      "targets": {
+        "node": "12"
+      }
+    }
+  ],
+  "sourceMaps": "both"
+}
