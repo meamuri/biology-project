@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "yandex alica skill",
   "main": "index.js",
+  "scripts": {
+    "transpile": "babel src --out-dir bin --ignore \"src/**/*.test.js\"",
+    "test": "jest"
+  },
   "author": "r.dronov+j.dronova",
   "license": "MIT",
   "devDependencies": {
