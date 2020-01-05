@@ -8,6 +8,7 @@ import {
     Route,
     Link
 } from 'react-router-dom';
+import CONFIG from './config';
 
 function App() {
   return (
@@ -17,20 +18,22 @@ function App() {
                 <Table/>
             </Route>
             <Route path="/">
-                {boop()}
+                {
+                    main(CONFIG.defaultMessage)
+                }
             </Route>
         </Switch>
     </Router>
   );
 }
 
-function boop() {
+function main(greetingMessage) {
     return (
         <div className="App">
             <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />
                 <p>
-                    Люблю <code>Котявку</code> и делаю цмок.
+                    {greetingMessage}
                 </p>
                 <a
                     className="App-link"
