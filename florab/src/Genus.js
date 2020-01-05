@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-function Genus(name, species) {
+function Genus({name, species}) {
     let rows = species.map((e) =>
         <tr>
             <td>{e.name}</td>

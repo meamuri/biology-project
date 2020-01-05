@@ -9,13 +9,18 @@ import {
     Link
 } from 'react-router-dom';
 import CONFIG from './config';
+import Genus from './Genus';
 
 function App() {
+  let species = [
+      {name: 'цветок 1', description: 'супер цветок растет много где'},
+  ];
   return (
     <Router>
         <Switch>
             <Route path="/flora">
                 <Table/>
+                <Genus name="meeh" species={species}/>
             </Route>
             <Route path="/">
                 {
