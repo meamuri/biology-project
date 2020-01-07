@@ -7,6 +7,7 @@ const MongoClient = require('mongodb').MongoClient;
 const url = "mongodb://localhost:27017/";
 
 const results = { };
+const acc = [];
 
 async function main() {
     const conn = await MongoClient.connect(url);
@@ -22,13 +23,11 @@ async function main() {
             mapValues: ({ header, index, value }) => value.trim()
         }))
         .on('data', async data => {
-            let phylum = await processFloraInsert('Phylum', results, phylumCollection, () => ({}), data);
-            let family = await processFloraInsert('Family', phylum, familyCollection, () => ({}), data);
-            let species = await processFloraInsert('Species', family, speciesCollection, () => [], data);
+            acc.push(data)
         })
         .on('end', async () => {
-            console.log(results);
-            console.log('woof');
+            console.log(acc);
+            await conn.close()
         });
 }
 
