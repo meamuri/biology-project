@@ -6,17 +6,9 @@ const headers = ['Phylum', 'PhylumName', 'Family', 'FamilyName', 'Species', 'Spe
 const MongoClient = require('mongodb').MongoClient;
 const url = "mongodb://localhost:27017/";
 
-const results = { };
 const acc = [];
 
 async function main() {
-    const conn = await MongoClient.connect(url);
-    const db = conn.db("flora");
-
-    const phylumCollection = db.collection('phylum');
-    const familyCollection = db.collection('family');
-    const speciesCollection = db.collection('species');
-
     fs.createReadStream('../Classification.csv')
         .pipe(csv({
             headers,
@@ -27,8 +19,24 @@ async function main() {
         })
         .on('end', async () => {
             console.log(acc);
-            await conn.close()
+            await processData(acc);
         });
+}
+
+async function processData(data) {
+    const conn = await MongoClient.connect(url);
+    const db = conn.db("flora");
+
+    const phylumCollection = db.collection('phylum');
+    const familyCollection = db.collection('family');
+    const speciesCollection = db.collection('species');
+
+    let res = data.reduce((acc, elem) => {
+        acc[elem.Species] = elem;
+        return acc
+    }, {});
+    console.log(res);
+    await conn.close();
 }
 
 async function processFloraInsert(keyName, cache, collection, defaultObj, obj) {
