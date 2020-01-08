@@ -3,6 +3,9 @@ package edu.vsu.florab.parser
 import java.io.File
 
 import com.github.tototoshi.csv.CSVReader
+import org.bson.types.ObjectId
+import org.mongodb.scala.Document
+import org.mongodb.scala._
 
 import scala.collection.mutable
 
@@ -22,10 +25,11 @@ object Main extends App {
   })
 
   cache.foreach { phylum =>
-//    Storage.phylumCollection.insertOne(phylum)
+    val id = ObjectId.get()
+    val phylumDoc = Document("id" -> id, "name" -> phylum._1.name, "ruLocaleName" -> phylum._1.rusLocaleName)
+    Storage.phylumCollection.insertOne(phylumDoc).toFuture().value // blocking operation for script
     phylum._2.foreach { family =>
       family._2.foreach { species =>
-
       }
     }
   }
