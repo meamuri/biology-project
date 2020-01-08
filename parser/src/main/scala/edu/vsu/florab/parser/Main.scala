@@ -8,6 +8,8 @@ import org.mongodb.scala.Document
 import org.mongodb.scala._
 
 import scala.collection.mutable
+import scala.concurrent.Await
+import scala.concurrent.duration._
 
 object Main extends App {
   val reader = CSVReader.open(new File("data/Classification.csv"))
@@ -25,12 +27,26 @@ object Main extends App {
   })
 
   cache.foreach { phylum =>
-    val id = ObjectId.get()
-    val phylumDoc = Document("id" -> id, "name" -> phylum._1.name, "ruLocaleName" -> phylum._1.rusLocaleName)
-    Storage.phylumCollection.insertOne(phylumDoc).toFuture().value // blocking operation for script
+    val id = insertTaxon(phylum._1, Document(), Storage.phylumCollection)
+    val parentDocument = Document("phylum" -> Document("id" -> id, "name" -> phylum._1.name))
     phylum._2.foreach { family =>
+      val familyId = insertTaxon(family._1, parentDocument, Storage.familyCollection)
+      val familyDocument = parentDocument ++ Document("family" -> Document("id" -> familyId, "name" -> family._1.name))
       family._2.foreach { species =>
+        insertTaxon(species, familyDocument, Storage.speciesCollection)
       }
     }
+  }
+
+  def insertTaxon(taxon: Taxon, default: Document, collection: MongoCollection[Document]): ObjectId = {
+    val id = ObjectId.get()
+    val doc = default ++ Document(
+      "_id" -> id,
+      "name" -> taxon.name,
+      "ruLocaleName" -> taxon.rusLocaleName
+    )
+    val insert = collection.insertOne(doc).toFuture()
+    Await.ready(insert, 1.second).value
+    id
   }
 }
