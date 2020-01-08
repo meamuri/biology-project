@@ -20,5 +20,13 @@ object Main extends App {
     val species = families.getOrElseUpdate(e.family, List())
     families(e.family) = e.species :: species
   })
-  println(cache)
+
+  cache.foreach { phylum =>
+//    Storage.phylumCollection.insertOne(phylum)
+    phylum._2.foreach { family =>
+      family._2.foreach { species =>
+
+      }
+    }
+  }
 }
