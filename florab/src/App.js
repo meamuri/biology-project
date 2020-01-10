@@ -20,6 +20,8 @@ function App() {
         <Switch>
             <Route path="/flora">
                 <Table/>
+            </Route>
+            <Route path="/genus">
                 <Genus name="meeh" species={species}/>
             </Route>
             <Route path="/">

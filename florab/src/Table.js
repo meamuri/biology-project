@@ -4,13 +4,13 @@ import './Table.css';
 function Table() {
     return (
         <div>
-            <h3>ОтрядНейм</h3>
-            <table>
+            <table className="table">
+                <thead>Плауновидные</thead>
                 <tr>
-                    <th>Род</th>
+                    <th>Плауновые</th>
                 </tr>
                 <tr>
-                    <td>Виднейм</td>
+                    <td>Плаун годичный</td>
                 </tr>
             </table>
         </div>
