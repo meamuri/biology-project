@@ -4,6 +4,8 @@ import * as Router from "koa-router";
 import * as logger from "koa-logger";
 import * as json from "koa-json";
 
+import * as mongo from "koa-mongo";
+
 const app = new Koa();
 const router = new Router();
 
@@ -17,6 +19,9 @@ router.get("/", async (ctx, next) => {
 // Middlewares
 app.use(json());
 app.use(logger());
+app.use(mongo({
+
+}));
 
 // Routes
 app.use(router.routes()).use(router.allowedMethods());
