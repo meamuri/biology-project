@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
+import Config from './config';
 import './App.css';
 
 const App: React.FC = () => {
@@ -8,7 +9,7 @@ const App: React.FC = () => {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+          {Config.message}
         </p>
         <a
           className="App-link"
