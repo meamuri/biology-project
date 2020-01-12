@@ -1,12 +1,15 @@
 import React from 'react';
 import './Table.css';
+import {
+    Link
+} from 'react-router-dom';
 
 function Table() {
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container">
-                    <a className="navbar-brand" href="#">Flora</a>
+                    <Link className="navbar-brand" to="/">Flora</Link>
                 </div>
             </nav>
         <div className="container">
