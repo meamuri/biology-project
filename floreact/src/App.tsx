@@ -4,35 +4,10 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
-import logo from './logo.svg';
 import Config from './config';
 import './App.css';
+import {MainPage} from './app/MainPage'
 
-
-export interface MainProps {
-  title?: string,
-}
-
-const Index: React.FC<MainProps> = (props) => {
-  return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            {Config.message}
-          </p>
-          <a
-              className="App-link"
-              href="https://reactjs.org"
-              target="_blank"
-              rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-  )
-}
 
 const App: React.FC = () => {
   return (
@@ -45,7 +20,7 @@ const App: React.FC = () => {
             {/*<Genus name="meeh" species={species}/>*/}
           </Route>
           <Route path="/">
-            <Index title={Config.message} />
+            <MainPage title={Config.message} />
           </Route>
         </Switch>
       </Router>
