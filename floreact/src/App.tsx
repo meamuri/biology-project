@@ -7,6 +7,7 @@ import {
 import Config from './config';
 import './App.css';
 import {MainPage} from './app/MainPage'
+import {Table} from './app/Table'
 
 
 const App: React.FC = () => {
@@ -14,7 +15,7 @@ const App: React.FC = () => {
       <Router>
         <Switch>
           <Route path="/flora">
-            {/*<Table/>*/}
+            <Table/>
           </Route>
           <Route path="/genus">
             {/*<Genus name="meeh" species={species}/>*/}

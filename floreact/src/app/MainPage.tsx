@@ -1,6 +1,5 @@
 import React from 'react';
 import logo from '../logo.svg';
-import Config from '../config';
 
 export interface MainProps {
     title?: string,
@@ -12,7 +11,7 @@ export const MainPage: React.FC<MainProps> = (props) => {
             <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />
                 <p>
-                    {Config.message}
+                    {props.title}
                 </p>
                 <a
                     className="App-link"
