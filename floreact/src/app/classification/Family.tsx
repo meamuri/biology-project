@@ -1,17 +1,13 @@
 import React from 'react';
-import {Species, SpeciesData} from './Species';
+import {Species} from './Species';
+import {Family as FamilyData} from '../taxon';
 
-export interface FamilyProps {
-    family: string,
-    species: SpeciesData[],
-}
-
-export const Family: React.FC<FamilyProps> = (props) => {
-    let species = props.species.map(e => <Species name={e.name} ruLocaleName={e.ruLocaleName}/>);
+export const Family: React.FC<FamilyData> = (props) => {
+    let species = props.children.map(e => <Species name={e.name} ruLocaleName={e.ruLocaleName} children={void[]} />);
     return (
         <table className="table">
             <thead>
-                <tr><th>{props.family}</th></tr>
+                <tr><th>{props.name}</th></tr>
             </thead>
             <tbody>
                 {species}

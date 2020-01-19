@@ -1,9 +1,5 @@
 import React from 'react';
-
-export interface SpeciesData {
-    name: string
-    ruLocaleName: string
-}
+import {Species as SpeciesData} from '../taxon';
 
 export const Species: React.FC<SpeciesData> = (props) => {
     return (
