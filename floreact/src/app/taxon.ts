@@ -1,36 +1,14 @@
 
-export interface Taxon<T extends Taxon<any>> {
-    name: string
-    children?: T[]
-}
-
-export class Phylum implements Taxon<Family> {
-    children?: Family[];
+export abstract class Taxon<T extends Taxon<any>[] | never> {
     name: string;
+    children: T;
 
-    constructor(name: string, children: Family[]) {
+    constructor(name: string, children: T) {
+        this.name = name;
         this.children = children;
-        this.name = name;
     }
 }
 
-export class Family implements Taxon<Species> {
-    children: Species[];
-    name: string;
-
-    constructor(name: string, children: Species[]) {
-        this.children = children;
-        this.name = name;
-    }
-}
-
-export class Species implements Taxon<never> {
-    children? = undefined;
-    name: string;
-
-    constructor(name: string) {
-        this.children = undefined;
-        this.name = name;
-    }
-
-}
+export class Phylum extends Taxon<Family[]> {}
+export class Family extends Taxon<Species[]> {}
+export class Species extends Taxon<never> {}
