@@ -8,6 +8,7 @@ import Config from './config';
 import './App.css';
 import {MainPage} from './app/MainPage'
 import {Table} from './app/Table'
+import {FloraComponent} from './app/classification/FloraComponent';
 
 
 const App: React.FC = () => {
@@ -17,8 +18,8 @@ const App: React.FC = () => {
           <Route path="/flora">
             <Table/>
           </Route>
-          <Route path="/genus">
-            {/*<Genus name="meeh" species={species}/>*/}
+          <Route path="/index">
+            <FloraComponent/>
           </Route>
           <Route path="/">
             <MainPage title={Config.message} />
