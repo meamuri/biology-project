@@ -1,4 +1,5 @@
 import {Phylum, Family, Species} from './taxon';
+import axios from 'axios';
 
 export function getData(): Phylum[] {
     return [
@@ -11,3 +12,11 @@ export function getData(): Phylum[] {
         ])
     ]
 }
+
+const httpClient = axios.create({
+    baseURL: 'http://localhost:8080/api',
+});
+
+export const getApiData = async () => {
+    return await httpClient.get<Phylum[]>('')
+};
