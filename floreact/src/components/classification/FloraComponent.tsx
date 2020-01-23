@@ -1,8 +1,8 @@
 import React from 'react';
-import {getApiData} from '../api';
+import {getApiData} from '../../lib/api';
 import {Link} from 'react-router-dom';
 import {Phylum} from './Phylum';
-import {PhylumTaxon as PhylumData} from '../taxon';
+import {PhylumTaxon as PhylumData} from '../../lib/taxon';
 
 interface FloraComponentState {
     data: PhylumData[]

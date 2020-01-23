@@ -1,6 +1,6 @@
 import React from 'react';
 import {Species} from './Species';
-import {FamilyTaxon} from '../taxon';
+import {FamilyTaxon} from '../../lib/taxon';
 
 export const Family: React.FC<FamilyTaxon> = (props) => {
     let species = props.children.map(e => <Species name={e.name} ruLocaleName={e.ruLocaleName} children={void[]} />);

@@ -1,5 +1,5 @@
 import React from 'react';
-import {SpeciesTaxon} from '../taxon';
+import {SpeciesTaxon} from '../../lib/taxon';
 
 export const Species: React.FC<SpeciesTaxon> = (props) => {
     return (

@@ -6,9 +6,9 @@ import {
 } from 'react-router-dom';
 import Config from './config';
 import './App.css';
-import {MainPage} from './app/MainPage'
-import {Table} from './app/Table'
-import {FloraComponent} from './app/classification/FloraComponent';
+import {MainPage} from './components/MainPage'
+import {Table} from './components/Table'
+import {FloraComponent} from './components/classification/FloraComponent';
 
 
 const App: React.FC = () => {

@@ -24,4 +24,4 @@ export const MainPage: React.FC<MainProps> = (props) => {
             </header>
         </div>
     )
-}
+};
