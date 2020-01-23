@@ -15,18 +15,18 @@ const App: React.FC = () => {
   return (
       <Router>
         <Switch>
-          <Route path="/flora">
+          <Route path="/table">
             <Table/>
           </Route>
-          <Route path="/index">
-            <FloraComponent/>
+          <Route path="/easter-egg">
+            <MainPage title={Config.message} />
           </Route>
           <Route path="/">
-            <MainPage title={Config.message} />
+            <FloraComponent name="Flora"/>
           </Route>
         </Switch>
       </Router>
   )
-}
+};
 
 export default App;

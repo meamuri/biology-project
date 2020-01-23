@@ -11,6 +11,6 @@ export abstract class Taxon<T extends Taxon<any>[] | void> {
     }
 }
 
-export class Phylum extends Taxon<Family[]> {}
-export class Family extends Taxon<Species[]> {}
-export class Species extends Taxon<void> {}
+export class PhylumTaxon extends Taxon<FamilyTaxon[]> {}
+export class FamilyTaxon extends Taxon<SpeciesTaxon[]> {}
+export class SpeciesTaxon extends Taxon<void> {}
