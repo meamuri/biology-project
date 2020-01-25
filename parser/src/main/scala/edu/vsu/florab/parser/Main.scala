@@ -28,10 +28,10 @@ object Main extends App {
 
   cache.foreach { phylum =>
     val id = insertTaxon(phylum._1, Document(), Storage.phylumCollection)
-    val parentDocument = Document("phylum" -> Document("id" -> id, "name" -> phylum._1.name))
+    val parentDocument = Document("phylum" -> Document("_id" -> id, "name" -> phylum._1.name))
     phylum._2.foreach { family =>
       val familyId = insertTaxon(family._1, parentDocument, Storage.familyCollection)
-      val familyDocument = parentDocument ++ Document("family" -> Document("id" -> familyId, "name" -> family._1.name))
+      val familyDocument = parentDocument ++ Document("family" -> Document("_id" -> familyId, "name" -> family._1.name))
       family._2.foreach { species =>
         insertTaxon(species, familyDocument, Storage.speciesCollection)
       }
