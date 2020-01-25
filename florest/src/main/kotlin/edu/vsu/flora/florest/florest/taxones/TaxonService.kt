@@ -16,13 +16,13 @@ class TaxonService(private val taxonRepository: TaxonRepository) {
     fun format(species: List<Record>): Map<String, Phylum> {
         val res = mutableMapOf<String, Phylum>()
         species.forEach { record ->
-            val phylum = res.computeIfAbsent(record.phylum!!.id!!) {
+            val phylum = res.computeIfAbsent(record.phylum.id) {
                 Phylum(it, mutableMapOf())
             }
-            val family = phylum.children!!.computeIfAbsent(record.family!!.id!!) {
+            val family = phylum.children!!.computeIfAbsent(record.family.id) {
                 Family(it, mutableMapOf())
             }
-            family.children!![record.id!!] = Species(record.name!!)
+            family.children!![record.id] = Species(record.name)
         }
         return res
     }
