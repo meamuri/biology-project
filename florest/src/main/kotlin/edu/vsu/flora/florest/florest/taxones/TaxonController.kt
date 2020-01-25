@@ -19,22 +19,5 @@ class TaxonController(private val taxonService: TaxonService) {
             @RequestParam speciesName: String?) = taxonService.withFilters(phylumName, familyName, speciesName)
 
     @GetMapping("")
-    fun get(): List<Phylum> {
-        return listOf(
-                Phylum().apply {
-                    name = "woosh"
-                    children = listOf(
-                            Family().apply {
-                                name = "justFamily"
-                                children = listOf(
-                                        Species().apply {
-                                            name = "best of"
-                                            children = listOf()
-                                        }
-                                )
-                            }
-                    )
-                }
-        )
-    }
+    fun get(): Collection<Phylum> = taxonService.format().values
 }
