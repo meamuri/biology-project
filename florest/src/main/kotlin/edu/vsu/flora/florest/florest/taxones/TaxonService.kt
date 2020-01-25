@@ -5,5 +5,6 @@ import org.springframework.stereotype.Service
 
 @Service
 class TaxonService(private val taxonRepository: TaxonRepository) {
-    fun findAll() = taxonRepository.findWithFilters()
+    fun withFilters(phylumName: String?) = taxonRepository.findWithFilters(phylumName)
+    fun all(): List<Record> = taxonRepository.findAll()
 }
