@@ -12,4 +12,4 @@ data class Record(
         var ruLocaleName: String?
 )
 
-data class SubRecord(@Id var id: String?, var name: String?, var ruLocaleName: String? = null)
+data class SubRecord(var id: String?, var name: String?, var ruLocaleName: String? = null)
