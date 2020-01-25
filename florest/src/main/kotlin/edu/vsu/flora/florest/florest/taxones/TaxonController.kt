@@ -1,13 +1,16 @@
 package edu.vsu.flora.florest.florest.taxones
 
-import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api")
-class TaxonController {
+class TaxonController(private val taxonService: TaxonService) {
+
+    @GetMapping("/all")
+    fun all() = taxonService.findAll()
+
     @GetMapping("")
     fun get(): List<Phylum> {
         return listOf(
