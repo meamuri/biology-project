@@ -13,7 +13,10 @@ class TaxonController(private val taxonService: TaxonService) {
     fun all() = taxonService.all()
 
     @GetMapping("/species")
-    fun withFilters(@RequestParam phylumName: String?) = taxonService.withFilters(phylumName)
+    fun withFilters(
+            @RequestParam phylumName: String?,
+            @RequestParam familyName: String?,
+            @RequestParam speciesName: String?) = taxonService.withFilters(phylumName, familyName, speciesName)
 
     @GetMapping("")
     fun get(): List<Phylum> {
