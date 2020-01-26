@@ -17,7 +17,7 @@ object Main extends App {
   val taxonList = reader.all().map(e => {
     val tmp = e.map(_.trim)
     val row = if (tmp.length == 6) tmp else {
-      tmp.head :: tmp(1) :: tmp.slice(3, 8)
+      tmp.head :: tmp(1) :: tmp.slice(4, 8)
     }
     val phylum = Taxon(row.head, row(1))
     val family = Taxon(row(2), row(3))
