@@ -15,7 +15,10 @@ object Main extends App {
   val reader = CSVReader.open(new File("data/Classification.csv"))
   val cache: mutable.Map[Taxon, mutable.Map[Taxon, List[Taxon]]] = mutable.Map()
   val taxonList = reader.all().map(e => {
-    val row = e.map(_.trim)
+    val tmp = e.map(_.trim)
+    val row = if (tmp.length == 6) tmp else {
+      tmp.head :: tmp(1) :: tmp.slice(3, 8)
+    }
     val phylum = Taxon(row.head, row(1))
     val family = Taxon(row(2), row(3))
     val species = Taxon(row(4), row(5))
@@ -29,12 +32,15 @@ object Main extends App {
 
   cache.foreach { phylum =>
     val id = insertTaxon(phylum._1, Document(), Storage.phylumCollection)
-    val parentDocument = Document("phylum" -> Document("_id" -> id, "name" -> phylum._1.name))
+    val parentDocument = Document("phylum" ->
+      Document("_id" -> id, "name" -> phylum._1.name, "ruLocaleName" -> phylum._1.rusLocaleName))
     phylum._2.foreach { family =>
-      val familyId = insertTaxon(family._1, parentDocument, Storage.familyCollection)
-      val familyDocument = parentDocument ++ Document("family" -> Document("_id" -> familyId, "name" -> family._1.name))
+      val familyId = insertTaxon(family._1, parentDocument ++ Document("parentId" -> id), Storage.familyCollection)
+      val familyDocument = parentDocument ++
+        Document("family" ->
+          Document("_id" -> familyId, "parentId" -> id, "name" -> family._1.name, "ruLocaleName" -> family._1.rusLocaleName))
       family._2.foreach { species =>
-        insertTaxon(species, familyDocument, Storage.speciesCollection)
+        insertTaxon(species, familyDocument ++ Document("parentId" -> familyId), Storage.speciesCollection)
       }
     }
   }
