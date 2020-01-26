@@ -19,5 +19,5 @@ class TaxonController(private val taxonService: TaxonService) {
             @RequestParam speciesName: String?) = taxonService.withFilters(phylumName, familyName, speciesName)
 
     @GetMapping("")
-    fun get(): Collection<Phylum> = taxonService.format().values
+    fun get(): Collection<Taxon.Phylum> = taxonService.format()
 }

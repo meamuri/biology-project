@@ -12,18 +12,26 @@ class TaxonService(private val taxonRepository: TaxonRepository) {
 
     fun all(): List<Record> = taxonRepository.findAll()
 
-    fun format(): Map<String, Phylum> = format(all())
-    fun format(species: List<Record>): Map<String, Phylum> {
-        val res = mutableMapOf<String, Phylum>()
-        species.forEach { record ->
-            val phylum = res.computeIfAbsent(record.phylum.id) {
-                Phylum(it, mutableMapOf())
+    fun format(): List<Taxon.Phylum> = format(all())
+    fun format(species: List<Record>): List<Taxon.Phylum> {
+        val phylum = mutableMapOf<String, Taxon.Phylum>()
+        species.forEach { r ->
+            phylum.computeIfAbsent(r.phylum.id) {
+                Taxon.Phylum(r.phylum.name, mutableListOf())
             }
-            val family = phylum.children!!.computeIfAbsent(record.family.id) {
-                Family(it, mutableMapOf())
-            }
-            family.children!![record.id] = Species(record.name)
         }
-        return res
+        val families = mutableMapOf<String, MutableMap<String, Taxon.Family>>()
+        species.forEach { r ->
+            val ph = families.computeIfAbsent(r.phylum.id) { mutableMapOf() }
+            val family = ph.computeIfAbsent(r.family.id) { Taxon.Family(r.family.name, mutableListOf()) }
+        }
+
+        val speciesMap = mutableMapOf<String, MutableMap<String, MutableMap<String, Record>>>()
+        species.forEach { r ->
+            val ph = speciesMap.computeIfAbsent(r.phylum.id) { mutableMapOf() }
+            val family = ph.computeIfAbsent(r.family.id) { mutableMapOf() }
+            family[r.id] = r
+        }
+        return emptyList()
     }
 }
