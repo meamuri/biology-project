@@ -5,9 +5,9 @@ import {FamilyTaxon} from '../../lib/taxon';
 export const Family: React.FC<FamilyTaxon> = (props) => {
     let species = props.children.map(e => <Species name={e.name} ruLocaleName={e.ruLocaleName} children={void[]} />);
     return (
-        <table className="table">
+        <table className="table table-bordered">
             <thead>
-                <tr><th>{props.name}</th></tr>
+                <tr><th scope="col" colSpan={2}>{props.name}</th></tr>
             </thead>
             <tbody>
                 {species}
