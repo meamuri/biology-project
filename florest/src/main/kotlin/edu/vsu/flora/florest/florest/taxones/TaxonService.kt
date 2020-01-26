@@ -13,25 +13,19 @@ class TaxonService(private val taxonRepository: TaxonRepository) {
     fun all(): List<Record> = taxonRepository.findAll()
 
     fun format(): List<Taxon.Phylum> = format(all())
-    fun format(species: List<Record>): List<Taxon.Phylum> {
-        val phylum = mutableMapOf<String, Taxon.Phylum>()
-        species.forEach { r ->
-            phylum.computeIfAbsent(r.phylum.id) {
-                Taxon.Phylum(r.phylum.name, mutableListOf())
-            }
-        }
-        val families = mutableMapOf<String, MutableMap<String, Taxon.Family>>()
-        species.forEach { r ->
-            val ph = families.computeIfAbsent(r.phylum.id) { mutableMapOf() }
-            val family = ph.computeIfAbsent(r.family.id) { Taxon.Family(r.family.name, mutableListOf()) }
-        }
+    fun format(records: List<Record>): List<Taxon.Phylum> {
+        val species = records
+                .map { Taxon.Species(it.id, it.name, it.family.id) }
+                .groupBy { it.parentId }
 
-        val speciesMap = mutableMapOf<String, MutableMap<String, MutableMap<String, Record>>>()
-        species.forEach { r ->
-            val ph = speciesMap.computeIfAbsent(r.phylum.id) { mutableMapOf() }
-            val family = ph.computeIfAbsent(r.family.id) { mutableMapOf() }
-            family[r.id] = r
-        }
-        return emptyList()
+        val family = records
+                .groupBy { it.family }
+                .map { Taxon.Family(it.key.id, it.key.name, it.key.parentId!!, species[it.key.id] ?: error("")) }
+                .groupBy { it.parentId }
+
+        return records
+                .groupBy { it.phylum }
+                .map { Taxon.Phylum(it.key.id, it.key.name, family[it.key.id] ?: error("")) }
+
     }
 }

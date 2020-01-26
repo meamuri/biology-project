@@ -16,5 +16,6 @@ data class SubRecord(
         // https://docs.spring.io/spring-data/data-mongo/docs/1.5.1.RELEASE/reference/html/mapping-chapter.html
         @Id var id: String,
         var name: String,
-        var ruLocaleName: String? = null
+        var ruLocaleName: String? = null,
+        var parentId: String? = null
 )
