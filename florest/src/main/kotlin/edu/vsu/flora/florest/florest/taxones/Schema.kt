@@ -3,7 +3,7 @@ package edu.vsu.flora.florest.florest.taxones
 interface TaxonProperties {
     val id: String
     val name: String
-//    val ruLocaleName: String?
+    val ruLocaleName: String?
 }
 
 sealed class Taxon: TaxonProperties {
@@ -11,7 +11,7 @@ sealed class Taxon: TaxonProperties {
             override val id: String,
             override val name: String,
             val children: Collection<Family>,
-            val ruLocaleName: String?
+            override val ruLocaleName: String?
     ) : Taxon()
 
     data class Family(
@@ -19,13 +19,13 @@ sealed class Taxon: TaxonProperties {
             override val name: String,
             val parentId: String,
             val children: Collection<Species>,
-            val ruLocaleName: String?
+            override val ruLocaleName: String?
     ) : Taxon()
 
     data class Species(
             override val id: String,
             override val name: String,
             val parentId: String,
-            val ruLocaleName: String?
+            override val ruLocaleName: String?
     ) : Taxon()
 }
