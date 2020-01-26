@@ -15,17 +15,17 @@ class TaxonService(private val taxonRepository: TaxonRepository) {
     fun format(): List<Taxon.Phylum> = format(all())
     fun format(records: List<Record>): List<Taxon.Phylum> {
         val species = records
-                .map { Taxon.Species(it.id, it.name, it.family.id) }
+                .map { Taxon.Species(it.id, it.name, it.family.id, it.ruLocaleName) }
                 .groupBy { it.parentId }
 
         val family = records
                 .groupBy { it.family }
-                .map { Taxon.Family(it.key.id, it.key.name, it.key.parentId!!, species[it.key.id] ?: error("")) }
+                .map { Taxon.Family(it.key.id, it.key.name, it.key.parentId!!, species[it.key.id] ?: error(""), it.key.ruLocaleName) }
                 .groupBy { it.parentId }
 
         return records
                 .groupBy { it.phylum }
-                .map { Taxon.Phylum(it.key.id, it.key.name, family[it.key.id] ?: error("")) }
+                .map { Taxon.Phylum(it.key.id, it.key.name, family[it.key.id] ?: error(""), it.key.ruLocaleName) }
 
     }
 }
