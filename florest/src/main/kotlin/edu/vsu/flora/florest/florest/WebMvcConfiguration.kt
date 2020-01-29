@@ -2,6 +2,7 @@ package edu.vsu.flora.florest.florest
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.ResourceLoader
@@ -14,7 +15,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 @Configuration
 class WebMvcConfiguration(
-        private val resourceLoader: ResourceLoader,
+        @Qualifier("webApplicationContext") private val resourceLoader: ResourceLoader,
         private val configProperties: ConfigProperties
 ) : WebSecurityConfigurerAdapter() {
 
