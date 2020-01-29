@@ -1,0 +1,4 @@
+mv .env .env-tmp
+cp .env.prod .env
+npm run build
+mv .env-tmp .env
