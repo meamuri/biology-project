@@ -2,3 +2,5 @@ spring:
   data:
     mongodb:
       database: flora
+security:
+  path-to-allowed-origins: allowed-origins.json

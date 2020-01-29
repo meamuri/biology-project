@@ -76,6 +76,13 @@
 					<compilerPlugins>
 						<plugin>spring</plugin>
 					</compilerPlugins>
+
+					<annotationProcessors>
+						<annotationProcessor>
+							<groupId>org.springframework.boot</groupId>
+							<artifactId>spring-boot-configuration-processor</artifactId>
+						</annotationProcessor>
+					</annotationProcessors>
 				</configuration>
 				<dependencies>
 					<dependency>

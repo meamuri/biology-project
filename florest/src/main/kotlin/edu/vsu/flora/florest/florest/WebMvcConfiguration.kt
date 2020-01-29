@@ -1,7 +1,10 @@
 package edu.vsu.flora.florest.florest
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.core.io.ResourceLoader
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
@@ -10,7 +13,10 @@ import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 @Configuration
-class WebMvcConfiguration : WebSecurityConfigurerAdapter() {
+class WebMvcConfiguration(
+        private val resourceLoader: ResourceLoader,
+        private val configProperties: ConfigProperties
+) : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
         http
@@ -27,7 +33,7 @@ class WebMvcConfiguration : WebSecurityConfigurerAdapter() {
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
         val cors = CorsConfiguration()
-        cors.allowedOrigins = listOf("*")
+        cors.allowedOrigins = loadOrigins()
         cors.allowedMethods = listOf("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
 
         cors.allowCredentials = true
@@ -37,5 +43,11 @@ class WebMvcConfiguration : WebSecurityConfigurerAdapter() {
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", cors)
         return source
+    }
+
+    fun loadOrigins(): List<String> {
+        val path = configProperties.pathToAllowedOrigins
+        val resource = resourceLoader.getResource("file:${path}")
+        return jacksonObjectMapper().readValue(resource.url)
     }
 }
