@@ -1,10 +1,14 @@
 
 export abstract class Taxon<T extends Taxon<any>[] | void> {
+    id: string;
+    key: string;
     name: string;
     ruLocaleName?: string;
     children: T;
 
-    constructor(name: string, children: T, ruLocaleName?: string,) {
+    constructor(id: string, name: string, children: T, ruLocaleName?: string,) {
+        this.id = id;
+        this.key = id;
         this.name = name;
         this.children = children;
         this.ruLocaleName = ruLocaleName

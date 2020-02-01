@@ -26,7 +26,7 @@ export class FloraComponent extends React.Component<FloraComponentProps, FloraCo
         if (!this.state.data.length) {
             return <div/>
         }
-        let flora = this.state.data.map(e => <Phylum name={e.name} children={e.children}/> );
+        let flora = this.state.data.map(e => <Phylum id={e.id} key={e.id} name={e.name} children={e.children}/> );
         return (
             <div>
                 <nav className="navbar navbar-expand-lg navbar-light bg-light">
