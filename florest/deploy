@@ -1,2 +1,4 @@
 #!/usr/bin/env bash
 
+./mvnw clean package
+source ../.env && scp -i $PATH_TO_KEY target/florest.jar ${BACKEND_USER}@${BACKEND_IP}:/home/${BACKEND_USER}/
