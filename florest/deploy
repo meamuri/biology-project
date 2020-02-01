@@ -2,3 +2,5 @@
 
 ./mvnw clean package
 source ../.env && scp -i $PATH_TO_KEY target/florest.jar ${BACKEND_USER}@${BACKEND_IP}:/home/${BACKEND_USER}/
+source ../.env && ssh -T ${BACKEND_USER}@${BACKEND_IP} \
+    "sudo systemctl stop ${BACKEND_SERVICE_NAME} && mv /home/${BACKEND_USER}/florest.jar ${PATH_TO_JAR}florest.jar && sudo systemctl start ${BACKEND_SERVICE_NAME} && date > ${PATH_TO_JAR}/last_update.dat"
