@@ -1,9 +1,9 @@
 import React from 'react';
-import {Species} from './Species';
-import {FamilyTaxon} from '../../lib/taxon';
+import { Species } from './Species';
+import { TaxonProps } from './taxon-props';
 
-export const Family: React.FC<FamilyTaxon> = (props) => {
-    let species = props.children.map(e => <Species id={e.id} key={e.id} name={e.name} ruLocaleName={e.ruLocaleName} children={void[]} />);
+export const Family: React.FC<TaxonProps> = (props) => {
+    let species = props.children.map(e => <Species key={e.id} name={e.name} ruLocaleName={e.ruLocaleName} children={[]} />);
     return (
         <table className="table table-bordered">
             <thead>

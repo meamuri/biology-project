@@ -1,7 +1,7 @@
 import React from 'react';
-import {SpeciesTaxon} from '../../lib/taxon';
+import { TaxonProps } from './taxon-props';
 
-export const Species: React.FC<SpeciesTaxon> = (props) => {
+export const Species: React.FC<TaxonProps> = (props) => {
     return (
         <tr><
             td style={{width: '50%'}}>{props.name}</td>
