@@ -26,7 +26,15 @@ export class FloraComponent extends React.Component<FloraComponentProps, FloraCo
         }
         let flora = this.state.data.map(e => <Phylum key={e.id} name={e.name} ruLocaleName={e.ruLocaleName} children={e.children}/> );
         return (
-            <div className="container">
+            <div>
+                <table className="table mt-3">
+                    <thead>
+                    <tr>
+                        <th scope="col" colSpan={2} style={{width: '70%'}} />
+                        <th scope="col" style={{width: '30%'}}>встречаемость</th>
+                    </tr>
+                    </thead>
+                </table>
                 {flora}
             </div>
         )
