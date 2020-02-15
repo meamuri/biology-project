@@ -1,6 +1,5 @@
 import React from 'react';
 import { getApiData } from '../../lib/api';
-import { Link } from 'react-router-dom';
 import { Phylum } from './Phylum';
 import { PhylumTaxon as PhylumData } from '../../lib/taxon';
 
@@ -9,7 +8,6 @@ interface FloraComponentState {
 }
 
 interface FloraComponentProps {
-    name: string
 }
 
 export class FloraComponent extends React.Component<FloraComponentProps, FloraComponentState> {
@@ -28,15 +26,8 @@ export class FloraComponent extends React.Component<FloraComponentProps, FloraCo
         }
         let flora = this.state.data.map(e => <Phylum key={e.id} name={e.name} ruLocaleName={e.ruLocaleName} children={e.children}/> );
         return (
-            <div>
-                <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                    <div className="container">
-                        <Link className="navbar-brand" to="/">{this.props.name}</Link>
-                    </div>
-                </nav>
-                <div className="container">
-                    {flora}
-                </div>
+            <div className="container">
+                {flora}
             </div>
         )
     }

@@ -7,7 +7,10 @@ export const Family: React.FC<TaxonProps> = (props) => {
     return (
         <table className="table table-bordered">
             <thead>
-                <tr><th scope="col" colSpan={2}>{props.name}</th></tr>
+                <tr>
+                    <th scope="col" colSpan={2}>{props.name}</th>
+                    <th scope="col">встречается</th>
+                </tr>
             </thead>
             <tbody>
                 {species}
