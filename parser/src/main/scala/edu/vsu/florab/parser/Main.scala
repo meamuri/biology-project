@@ -3,6 +3,7 @@ package edu.vsu.florab.parser
 import java.io.File
 
 import com.github.tototoshi.csv.CSVReader
+import edu.vsu.florab.infrastructure.Storage
 import org.bson.types.ObjectId
 import org.mongodb.scala.Document
 import org.mongodb.scala._

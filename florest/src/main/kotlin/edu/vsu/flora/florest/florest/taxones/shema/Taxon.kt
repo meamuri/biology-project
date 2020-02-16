@@ -1,4 +1,4 @@
-package edu.vsu.flora.florest.florest.taxones
+package edu.vsu.flora.florest.florest.taxones.shema
 
 interface TaxonProperties {
     val id: String
@@ -26,6 +26,7 @@ sealed class Taxon: TaxonProperties {
             override val id: String,
             override val name: String,
             val parentId: String,
-            override val ruLocaleName: String?
+            override val ruLocaleName: String?,
+            val frequency: Frequency? = Frequency.UNKNOWN
     ) : Taxon()
 }

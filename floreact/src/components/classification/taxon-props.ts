@@ -1,4 +1,5 @@
-import { Taxon } from '../../lib/taxon';
+import { Taxon, SpeciesTaxon } from '../../lib/taxon';
+import { FREQUENCY } from '../../lib/frequency';
 
 export class TaxonProps {
     key: string;
@@ -11,5 +12,13 @@ export class TaxonProps {
         this.name = t.name;
         this.ruLocaleName = t.ruLocaleName;
         this.children = t.children;
+    }
+}
+
+export class SpeciesProps extends TaxonProps {
+    frequency: FREQUENCY
+    constructor(t: SpeciesTaxon) {
+        super(t);
+        this.frequency = t.frequency
     }
 }

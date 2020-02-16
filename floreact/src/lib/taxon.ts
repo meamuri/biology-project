@@ -1,3 +1,4 @@
+import { FREQUENCY } from './frequency';
 
 export abstract class Taxon<T extends Taxon<any>[] | void> {
     id: string;
@@ -17,4 +18,10 @@ export abstract class Taxon<T extends Taxon<any>[] | void> {
 
 export class PhylumTaxon extends Taxon<FamilyTaxon[]> {}
 export class FamilyTaxon extends Taxon<SpeciesTaxon[]> {}
-export class SpeciesTaxon extends Taxon<void> {}
+export class SpeciesTaxon extends Taxon<void> {
+    frequency: FREQUENCY
+    constructor(id: string, name: string, frequency: FREQUENCY, ruLocaleName?: string) {
+        super(id, name, undefined, ruLocaleName);
+        this.frequency = frequency
+    }
+}

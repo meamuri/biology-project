@@ -1,6 +1,7 @@
 package edu.vsu.flora.florest.florest.taxones
 
 import edu.vsu.flora.florest.florest.taxones.repository.TaxonRepository
+import edu.vsu.flora.florest.florest.taxones.shema.Taxon
 import org.springframework.stereotype.Service
 
 @Service
@@ -15,7 +16,9 @@ class TaxonService(private val taxonRepository: TaxonRepository) {
     fun format(): List<Taxon.Phylum> = format(all())
     fun format(records: List<Record>): List<Taxon.Phylum> {
         val species = records
-                .map { Taxon.Species(it.id, it.name, it.family.id, it.ruLocaleName) }
+                .map {
+                    Taxon.Species(it.id, it.name, it.family.id, it.ruLocaleName, it.frequency)
+                }
                 .groupBy { it.parentId }
 
         val family = records
