@@ -3,6 +3,7 @@ package edu.vsu.flora.migrator
 import edu.vsu.flora.migrator.schema.MigrationCollection
 import edu.vsu.flora.migrator.schema.MigrationMetadata
 import edu.vsu.flora.migrator.scripts.M000InitialMigration
+import edu.vsu.flora.migrator.scripts.M001AddFrequencyToSpecies
 import kotlinx.coroutines.runBlocking
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.reactivestreams.KMongo
@@ -10,10 +11,10 @@ import org.litote.kmongo.reactivestreams.KMongo
 fun main(args: Array<String>) {
     val client = KMongo.createClient().coroutine
     val database = client.getDatabase("flora")
-    val metadataCollection = database.getCollection<MigrationMetadata>()
 
     runBlocking {
-        M000InitialMigration(metadataCollection).migrate()
+        M000InitialMigration(database).migrate()
+        M001AddFrequencyToSpecies(database).migrate()
     }
 
 }

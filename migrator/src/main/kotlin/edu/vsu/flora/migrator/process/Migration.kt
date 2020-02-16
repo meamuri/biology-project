@@ -4,33 +4,35 @@ import edu.vsu.flora.migrator.insert
 import edu.vsu.flora.migrator.schema.MigrationCollection
 import edu.vsu.flora.migrator.schema.MigrationDescription
 import edu.vsu.flora.migrator.schema.MigrationMetadata
+import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.eq
 import java.time.Instant
 
 abstract class Migration(
-    private val migrations: MigrationCollection,
+    private val db: CoroutineDatabase,
     override val id: Int,
     override val actions: List<MigrationDescription>
 ) : Numero, MigrationScript {
+    private val migrations: MigrationCollection = db.getCollection()
 
     suspend fun migrate() {
         val migrationId = id
-        actions.forEachIndexed { n, description ->
-            val migration = MigrationMetadata(
+        actions.forEachIndexed { n, migration ->
+            val metadata = MigrationMetadata(
                 migrationId,
                 scriptId = n,
                 author = "dr.meamuri",
-                description = description.description,
+                description = migration.description,
                 timestamp = Instant.now()
             )
-            if (migrationExists(migration)) {
-                println("migration $migration already completed")
+            if (migrationExists(metadata)) {
+                println("migration $metadata already completed")
                 return
             }
-            description.apply(migrations, migration)
-            println("starting ${migration.migrationId}: $n migration: ${migration.description}")
-            commit(migration)
-            println("migration $migration successfully completed")
+            migration.apply(db)
+            println("starting ${metadata.migrationId}: $n migration: ${metadata.description}")
+            commit(metadata)
+            println("migration $metadata successfully completed")
         }
     }
 
