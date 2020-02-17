@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+mvn clean package
+source ../.env && scp -i $PATH_TO_KEY target/flora-migrator.jar ${BACKEND_USER}@${BACKEND_IP}:${PATH_TO_JAR}

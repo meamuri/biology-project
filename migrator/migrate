@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+source .env && $PATH_TO_JAVA -jar flora-migrator.jar
