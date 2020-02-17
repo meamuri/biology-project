@@ -5,6 +5,7 @@ import { SpeciesTaxon } from '../../lib/taxon';
 
 export const Family: React.FC<TaxonProps> = (props: TaxonProps) => {
     let species = props.children.map(e => <Species
+        id={e.id}
         key={e.id}
         name={e.name}
         ruLocaleName={e.ruLocaleName}
