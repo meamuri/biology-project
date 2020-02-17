@@ -7,5 +7,6 @@ Todo:
 * editable fields
 * authorization
 * table of content
-* links near phylum
+* links to the near phylum
 * add css files
+* react bootstrap
