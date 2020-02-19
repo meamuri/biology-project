@@ -4,3 +4,6 @@ spring:
       database: flora
 security:
   path-to-allowed-origins: allowed-origins.json
+  jwt:
+    expiration: 2000
+    secret:
