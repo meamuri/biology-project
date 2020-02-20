@@ -5,5 +5,5 @@ spring:
 security:
   path-to-allowed-origins: allowed-origins.json
   jwt:
-    expiration: 2000
+    expirationInDays: 7
     secret:

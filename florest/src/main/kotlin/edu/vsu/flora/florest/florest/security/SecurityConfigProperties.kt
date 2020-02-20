@@ -6,6 +6,6 @@ import org.springframework.stereotype.Component
 @Component
 @ConfigurationProperties("security.jwt")
 class SecurityConfigProperties {
-    var expiration: Long? = null
+    var expirationInDays: Long? = null
     lateinit var secret: String
 }
