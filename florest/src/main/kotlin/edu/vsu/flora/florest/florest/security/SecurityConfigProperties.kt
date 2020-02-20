@@ -8,4 +8,5 @@ import org.springframework.stereotype.Component
 class SecurityConfigProperties {
     var expirationInDays: Long? = null
     lateinit var secret: String
+    var registrationEnabled: Boolean = false
 }
