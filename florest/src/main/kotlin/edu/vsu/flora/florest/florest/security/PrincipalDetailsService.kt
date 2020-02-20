@@ -1,5 +1,6 @@
-package edu.vsu.flora.florest.florest.user
+package edu.vsu.flora.florest.florest.security
 
+import edu.vsu.flora.florest.florest.user.UserRepository
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Component

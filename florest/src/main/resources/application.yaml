@@ -6,4 +6,6 @@ security:
   path-to-allowed-origins: allowed-origins.json
   jwt:
     expirationInDays: 7
-    secret:
+    # https://generate.plus/en/base64
+    # with a configuration: 32 bytes length
+    secret: VLlTboNwSJ7IqoNbt2CMAo26Di4Knfi9MM1wqvbM4oc=

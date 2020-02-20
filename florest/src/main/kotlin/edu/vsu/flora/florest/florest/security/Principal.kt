@@ -1,5 +1,6 @@
-package edu.vsu.flora.florest.florest.user
+package edu.vsu.flora.florest.florest.security
 
+import edu.vsu.flora.florest.florest.user.User
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 

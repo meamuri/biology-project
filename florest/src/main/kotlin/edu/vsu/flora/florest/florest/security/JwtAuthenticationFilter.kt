@@ -1,6 +1,5 @@
 package edu.vsu.flora.florest.florest.security
 
-import edu.vsu.flora.florest.florest.user.PrincipalDetailsService
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
@@ -44,8 +43,8 @@ class JwtAuthenticationFilter(
     fun extractJwtFromHeader(request: HttpServletRequest): String? {
         val authenticationHeader = request.getHeader("Authorization")
         return authenticationHeader
-            ?.takeIf { it.isNotBlank() && it.startsWith("Bearer ") }
-            ?.let { it.substring(7) }
+                ?.takeIf { it.isNotBlank() && it.startsWith("Bearer ") }
+                ?.substring(7)
     }
 
 }

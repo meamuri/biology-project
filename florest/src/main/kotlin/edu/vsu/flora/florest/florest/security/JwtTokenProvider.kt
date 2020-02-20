@@ -1,6 +1,5 @@
 package edu.vsu.flora.florest.florest.security
 
-import edu.vsu.flora.florest.florest.user.Principal
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
