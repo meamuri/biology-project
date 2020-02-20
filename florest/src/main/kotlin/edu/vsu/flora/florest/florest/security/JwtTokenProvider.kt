@@ -32,7 +32,7 @@ class JwtTokenProvider(securityConfigProperties: SecurityConfigProperties) {
             .setSubject(principal.username)
             .setIssuedAt(Date.from(now))
             .setExpiration(Date.from(now.plus(untilExpiration)))
-            .signWith(key, SignatureAlgorithm.HS512)
+            .signWith(key, SignatureAlgorithm.HS256)
             .compact()
     }
 

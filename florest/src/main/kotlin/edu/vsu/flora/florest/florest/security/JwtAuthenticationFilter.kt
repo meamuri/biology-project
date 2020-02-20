@@ -2,6 +2,7 @@ package edu.vsu.flora.florest.florest.security
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.stereotype.Service
 import org.springframework.web.filter.OncePerRequestFilter
@@ -12,8 +13,12 @@ import javax.servlet.http.HttpServletResponse
 @Service
 class JwtAuthenticationFilter(
     private val jwtTokenProvider: JwtTokenProvider,
-    private val principalDetailsService: PrincipalDetailsService
+    private val principalDetailsService: UserDetailsService
 ) : OncePerRequestFilter() {
+
+    override fun shouldNotFilter(request: HttpServletRequest): Boolean {
+        return request.servletPath.startsWith("/auth/")
+    }
 
     override fun doFilterInternal(
         request: HttpServletRequest,
@@ -40,7 +45,7 @@ class JwtAuthenticationFilter(
         filterChain.doFilter(request, response)
     }
 
-    fun extractJwtFromHeader(request: HttpServletRequest): String? {
+    private fun extractJwtFromHeader(request: HttpServletRequest): String? {
         val authenticationHeader = request.getHeader("Authorization")
         return authenticationHeader
                 ?.takeIf { it.isNotBlank() && it.startsWith("Bearer ") }
