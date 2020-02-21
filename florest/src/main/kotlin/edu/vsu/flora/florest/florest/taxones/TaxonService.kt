@@ -3,6 +3,7 @@ package edu.vsu.flora.florest.florest.taxones
 import edu.vsu.flora.florest.florest.taxones.repository.TaxonRepository
 import edu.vsu.flora.florest.florest.taxones.shema.Record
 import edu.vsu.flora.florest.florest.taxones.shema.Taxon
+import edu.vsu.flora.florest.florest.taxones.shema.UpdateDTO
 import org.springframework.stereotype.Service
 
 @Service
@@ -31,5 +32,9 @@ class TaxonService(private val taxonRepository: TaxonRepository) {
                 .groupBy { it.phylum }
                 .map { Taxon.Phylum(it.key.id, it.key.name, family[it.key.id] ?: error(""), it.key.ruLocaleName) }
 
+    }
+
+    fun update(id: String, dto: UpdateDTO) {
+        taxonRepository.findById(id)
     }
 }
