@@ -1,6 +1,13 @@
 spring:
   data:
     mongodb:
-      database: flora
+      database: flora-test
 security:
   path-to-allowed-origins: allowed-origins.json
+  jwt:
+    expirationInDays: 7
+    # https://generate.plus/en/base64
+    # with a configuration: 32 bytes length
+    secret:
+
+    registrationEnabled: true
