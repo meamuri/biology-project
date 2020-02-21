@@ -39,6 +39,8 @@ class TaxonService(private val taxonRepository: TaxonRepository) : Logging {
 
     fun update(id: String, dto: UpdateDTO) {
         val species = taxonRepository.findById(id).orElseThrow {
+            // inspired by:
+            // https://www.baeldung.com/exception-handling-for-rest-with-spring
             ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown species id")
         }
         logger.info("$species")
