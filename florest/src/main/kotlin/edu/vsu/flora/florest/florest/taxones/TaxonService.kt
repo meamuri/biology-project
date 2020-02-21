@@ -4,10 +4,11 @@ import edu.vsu.flora.florest.florest.taxones.repository.TaxonRepository
 import edu.vsu.flora.florest.florest.taxones.shema.Record
 import edu.vsu.flora.florest.florest.taxones.shema.Taxon
 import edu.vsu.flora.florest.florest.taxones.shema.UpdateDTO
+import edu.vsu.flora.florest.florest.tools.Logging
 import org.springframework.stereotype.Service
 
 @Service
-class TaxonService(private val taxonRepository: TaxonRepository) {
+class TaxonService(private val taxonRepository: TaxonRepository) : Logging {
     fun withFilters(
             phylumName: String?,
             familyName: String?,
@@ -35,6 +36,7 @@ class TaxonService(private val taxonRepository: TaxonRepository) {
     }
 
     fun update(id: String, dto: UpdateDTO) {
-        taxonRepository.findById(id)
+        val species = taxonRepository.findById(id).orElseThrow { RuntimeException("Not found") }
+        logger.info("$species")
     }
 }
