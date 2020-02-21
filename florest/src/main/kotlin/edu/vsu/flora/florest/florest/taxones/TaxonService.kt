@@ -5,7 +5,9 @@ import edu.vsu.flora.florest.florest.taxones.shema.Record
 import edu.vsu.flora.florest.florest.taxones.shema.Taxon
 import edu.vsu.flora.florest.florest.taxones.shema.UpdateDTO
 import edu.vsu.flora.florest.florest.tools.Logging
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import org.springframework.web.server.ResponseStatusException
 
 @Service
 class TaxonService(private val taxonRepository: TaxonRepository) : Logging {
@@ -36,7 +38,9 @@ class TaxonService(private val taxonRepository: TaxonRepository) : Logging {
     }
 
     fun update(id: String, dto: UpdateDTO) {
-        val species = taxonRepository.findById(id).orElseThrow { RuntimeException("Not found") }
+        val species = taxonRepository.findById(id).orElseThrow {
+            ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown species id")
+        }
         logger.info("$species")
     }
 }
