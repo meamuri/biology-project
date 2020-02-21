@@ -28,8 +28,8 @@ class TaxonController(private val taxonService: TaxonService) {
     @GetMapping("")
     fun get(): Collection<Taxon.Phylum> = taxonService.format()
 
-    @PostMapping("/api/species/{id}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PostMapping("/species/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun updateSpecies(@PathVariable("id") id: String, @RequestBody dto: UpdateDTO) {
         taxonService.update(id, dto)
     }
