@@ -1,6 +1,7 @@
 package edu.vsu.flora.florest.florest.taxones
 
 import edu.vsu.flora.florest.florest.taxones.repository.TaxonRepository
+import edu.vsu.flora.florest.florest.taxones.shema.Record
 import edu.vsu.flora.florest.florest.taxones.shema.Taxon
 import org.springframework.stereotype.Service
 

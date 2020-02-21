@@ -1,6 +1,6 @@
 package edu.vsu.flora.florest.florest.taxones.repository
 
-import edu.vsu.flora.florest.florest.taxones.Record
+import edu.vsu.flora.florest.florest.taxones.shema.Record
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
