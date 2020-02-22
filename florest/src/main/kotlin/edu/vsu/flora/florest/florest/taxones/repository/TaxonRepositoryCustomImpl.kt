@@ -1,9 +1,12 @@
 package edu.vsu.flora.florest.florest.taxones.repository
 
-import edu.vsu.flora.florest.florest.taxones.Record
+import edu.vsu.flora.florest.florest.taxones.shema.Record
+import edu.vsu.flora.florest.florest.taxones.shema.UpdateDTO
+import org.springframework.data.mongodb.core.FindAndModifyOptions
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
+import org.springframework.data.mongodb.core.query.Update
 
 class TaxonRepositoryCustomImpl(private val mongoTemplate: MongoTemplate) : TaxonRepositoryCustom {
     override fun findWithFilters(phylumName: String?, familyName: String?, speciesName: String?): List<Record> {
@@ -21,5 +24,18 @@ class TaxonRepositoryCustomImpl(private val mongoTemplate: MongoTemplate) : Taxo
             query.addCriteria(criteria)
         }
         return mongoTemplate.find(query, Record::class.java)
+    }
+
+    override fun updateSpecies(id: String, updateDTO: UpdateDTO): Record? {
+        val query = Query(Criteria.where("_id").`is`(id))
+        val update = Update()
+            .addToSet("frequency").value(updateDTO.frequency)
+            .addToSet("description").value(updateDTO.description)
+        return mongoTemplate.findAndModify(
+            query,
+            update,
+            FindAndModifyOptions().returnNew(true),
+            Record::class.java
+        )
     }
 }

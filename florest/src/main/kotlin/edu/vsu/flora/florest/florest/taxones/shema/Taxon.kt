@@ -27,6 +27,8 @@ sealed class Taxon: TaxonProperties {
             override val name: String,
             val parentId: String,
             override val ruLocaleName: String?,
-            val frequency: Frequency? = Frequency.UNKNOWN
+            val frequency: Frequency? = Frequency.UNKNOWN,
+            val description: String? = null,
+            var locations: List<Location>? = null
     ) : Taxon()
 }

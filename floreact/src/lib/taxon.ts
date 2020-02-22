@@ -1,4 +1,5 @@
 import { FREQUENCY } from './frequency';
+import {Area} from "./location";
 
 export abstract class Taxon<T extends Taxon<any>[] | void> {
     id: string;
@@ -20,8 +21,18 @@ export class PhylumTaxon extends Taxon<FamilyTaxon[]> {}
 export class FamilyTaxon extends Taxon<SpeciesTaxon[]> {}
 export class SpeciesTaxon extends Taxon<void> {
     frequency: FREQUENCY
-    constructor(id: string, name: string, frequency: FREQUENCY, ruLocaleName?: string) {
+    description?: string
+    locations?: Area[]
+    constructor(id: string,
+                name: string,
+                frequency: FREQUENCY,
+                ruLocaleName?: string,
+                description?: string,
+                locations?: Area[]
+    ) {
         super(id, name, undefined, ruLocaleName);
         this.frequency = frequency
+        this.description = description
+        this.locations = locations
     }
 }

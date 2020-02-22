@@ -1,6 +1,5 @@
-package edu.vsu.flora.florest.florest.taxones
+package edu.vsu.flora.florest.florest.taxones.shema
 
-import edu.vsu.flora.florest.florest.taxones.shema.Frequency
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
@@ -11,7 +10,9 @@ data class Record(
         var family: SubRecord,
         var name: String,
         var ruLocaleName: String? = null,
-        var frequency: Frequency = Frequency.UNKNOWN
+        var frequency: Frequency = Frequency.UNKNOWN,
+        var description: String? = null,
+        var locations: List<Location>? = null
 )
 
 data class SubRecord(
