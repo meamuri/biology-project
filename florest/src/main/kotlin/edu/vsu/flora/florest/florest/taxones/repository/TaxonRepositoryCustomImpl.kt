@@ -29,8 +29,8 @@ class TaxonRepositoryCustomImpl(private val mongoTemplate: MongoTemplate) : Taxo
     override fun updateSpecies(id: String, updateDTO: UpdateDTO): Record? {
         val query = Query(Criteria.where("_id").`is`(id))
         val update = Update()
-            .addToSet("frequency").value(updateDTO.frequency)
-            .addToSet("description").value(updateDTO.description)
+            .set("frequency", updateDTO.frequency)
+            .set("description", updateDTO.description)
         return mongoTemplate.findAndModify(
             query,
             update,
