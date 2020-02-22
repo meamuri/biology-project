@@ -1,5 +1,6 @@
 import React from 'react'
 import { FloraComponent } from './classification/FloraComponent'
+import Alert from 'react-bootstrap/Alert'
 import Navbar from 'react-bootstrap/Navbar'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
@@ -19,7 +20,12 @@ export default class Classification extends React.Component<any, any> {
         return (
             <div className="container">
                 <Navbar className="navbar justify-content-between navbar-expand-lg navbar-light bg-light">
-                    <Navbar.Brand href="/">Flora</Navbar.Brand>
+                    <Navbar.Brand href="/">Флора</Navbar.Brand>
+                    <Navbar.Collapse className="justify-content-end mr-3">
+                        <Navbar.Text>
+                            Гость
+                        </Navbar.Text>
+                    </Navbar.Collapse>
                     <Form inline>
                         <Button onClick={this.handleShow}>Вход</Button>
                     </Form>
@@ -43,6 +49,10 @@ export default class Classification extends React.Component<any, any> {
                                 <Form.Control type="password" placeholder="пароль" />
                             </Form.Group>
                         </Form>
+                        {
+                            false &&
+                            <Alert variant='danger'>Некорректный пароль. Пожалуйста, обратитесь к администратору</Alert>
+                        }
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.handleClose}>
