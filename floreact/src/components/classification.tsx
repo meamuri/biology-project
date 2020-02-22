@@ -1,16 +1,17 @@
 import React from 'react';
-import { Link } from "react-router-dom";
-import { FloraComponent } from "./classification/FloraComponent";
+import { Link } from 'react-router-dom';
+import { FloraComponent } from './classification/FloraComponent';
+import Nav from 'react-bootstrap/Nav'
 
 export default class Classification extends React.Component<any, any> {
-    render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
+    render(): React.ReactElement {
         return (
             <>
-                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                <Nav className="navbar navbar-expand-lg navbar-light bg-light">
                     <div className="container">
                         <Link className="navbar-brand" to="/">Flora</Link>
                     </div>
-                </nav>
+                </Nav>
                 <div className="container">
                     <FloraComponent/>
                 </div>

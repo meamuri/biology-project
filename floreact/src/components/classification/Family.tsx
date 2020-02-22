@@ -2,6 +2,7 @@ import React from 'react';
 import { Species } from './Species';
 import { TaxonProps } from './taxon-props';
 import { SpeciesTaxon } from '../../lib/taxon';
+import Table from 'react-bootstrap/Table'
 
 export const Family: React.FC<TaxonProps> = (props: TaxonProps) => {
     let species = props.children.map(e => <Species
@@ -12,7 +13,7 @@ export const Family: React.FC<TaxonProps> = (props: TaxonProps) => {
         frequency={(e as SpeciesTaxon).frequency}
     />);
     return (
-        <table className="table table-bordered table-hover">
+        <Table className="table-bordered table-hover">
             <thead>
                 <tr>
                     <th scope="col" colSpan={3}>{props.name}</th>
@@ -21,6 +22,6 @@ export const Family: React.FC<TaxonProps> = (props: TaxonProps) => {
             <tbody>
                 {species}
             </tbody>
-        </table>
+        </Table>
     )
 };
