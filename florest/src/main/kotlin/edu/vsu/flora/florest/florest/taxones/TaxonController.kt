@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/species")
 class TaxonController(private val taxonService: TaxonService) {
 
     @GetMapping("/all")
     fun all() = taxonService.all()
 
-    @GetMapping("/species")
+    @GetMapping("/taxon")
     fun withFilters(
             @RequestParam phylumName: String?,
             @RequestParam familyName: String?,
@@ -29,7 +29,7 @@ class TaxonController(private val taxonService: TaxonService) {
     @GetMapping("")
     fun get(): Collection<Taxon.Phylum> = taxonService.format()
 
-    @PutMapping("/species/{id}")
+    @PutMapping("/{id}")
     fun updateSpecies(@PathVariable("id") id: String, @RequestBody dto: UpdateDTO): Taxon.Species =
         try {
             taxonService.update(id, dto)
