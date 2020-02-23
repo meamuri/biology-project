@@ -2,10 +2,13 @@ import React, { FormEvent } from 'react'
 import { FloraComponent } from './classification/FloraComponent'
 import { login } from '../lib/api'
 import Alert from 'react-bootstrap/Alert'
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
 import Navbar from 'react-bootstrap/Navbar'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Form from "react-bootstrap/Form";
+import Dropdown from "react-bootstrap/Dropdown";
 
 export default class Classification extends React.Component<any, any> {
     constructor(props: any) {
@@ -26,6 +29,7 @@ export default class Classification extends React.Component<any, any> {
 
     render(): React.ReactElement {
         return (
+            <>
             <div className="container">
                 <Navbar className="navbar justify-content-between navbar-expand-lg navbar-light bg-light">
                     <Navbar.Brand href="/">Флора</Navbar.Brand>
@@ -44,7 +48,7 @@ export default class Classification extends React.Component<any, any> {
                 </Navbar>
 
                 <FloraComponent/>
-
+            </div>
                 <Modal show={this.state.show} onHide={this.handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Введите пароль</Modal.Title>
@@ -81,7 +85,71 @@ export default class Classification extends React.Component<any, any> {
                         </Button>
                     </Modal.Footer>
                 </Modal>
-            </div>
+
+                <Modal show={false} size="lg"
+                       // onHide={this.handleClose}
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>Редактирование вида</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                            <Form.Group as={Row} controlId="formPlaintextEmail">
+                                <Form.Label column sm="4">
+                                    Латинское название
+                                </Form.Label>
+                                <Col sm="8">
+                                    <Form.Control plaintext readOnly defaultValue="Scrophularia cretacea Fish. ex Spreng." />
+                                </Col>
+                            </Form.Group>
+                            <Form.Group as={Row} controlId="formPlaintextEmail">
+                                <Form.Label column sm="4">
+                                    Русское название
+                                </Form.Label>
+                                <Col sm="8">
+                                    <Form.Control plaintext readOnly defaultValue="Норичник меловой" />
+                                </Col>
+                            </Form.Group>
+
+                            <Form.Group as={Row} controlId="formPlaintextPassword">
+                                <Form.Label column sm="4">
+                                    Описание
+                                </Form.Label>
+                                <Col sm="8">
+                                    <Form.Control />
+                                </Col>
+                            </Form.Group>
+
+                            <Form.Group as={Row} controlId="formPlaintextPassword">
+                                <Form.Label column sm="4">
+                                    Описание
+                                </Form.Label>
+                                <Col sm="8">
+                                    <Dropdown>
+                                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                            HIGH
+                                        </Dropdown.Toggle>
+
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item href="#/action-1">HIGH</Dropdown.Item>
+                                            <Dropdown.Item href="#/action-2">MEDIUM</Dropdown.Item>
+                                            <Dropdown.Item href="#/action-3">LOW</Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                </Col>
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.handleClose}>
+                            Отмена
+                        </Button>
+                        <Button variant="primary" onClick={this.handleLogin}>
+                            Сохранить
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </>
         )
     }
 
