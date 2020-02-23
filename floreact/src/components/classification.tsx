@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FormEvent } from 'react'
 import { FloraComponent } from './classification/FloraComponent'
 import { login } from '../lib/api'
 import Alert from 'react-bootstrap/Alert'
@@ -12,9 +12,12 @@ export default class Classification extends React.Component<any, any> {
         super(props);
         this.state = {
             show: false,
+            username: '',
+            password: '',
         }
         this.handleClose = this.handleClose.bind(this)
         this.handleShow = this.handleShow.bind(this)
+        this.handleLoginInput = this.handleLoginInput.bind(this)
     }
 
     render(): React.ReactElement {
@@ -42,7 +45,7 @@ export default class Classification extends React.Component<any, any> {
                         <Form>
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Label>Логин</Form.Label>
-                                <Form.Control type="email" placeholder="логин" />
+                                <Form.Control value={this.state.username} onChange={this.handleLoginInput} type="email" placeholder="логин" />
                             </Form.Group>
 
                             <Form.Group controlId="formBasicPassword">
@@ -66,6 +69,13 @@ export default class Classification extends React.Component<any, any> {
                 </Modal>
             </div>
         )
+    }
+
+    handleLoginInput(event: FormEvent<HTMLInputElement>) {
+        event.preventDefault()
+        this.setState({
+            username: event.currentTarget.value,
+        })
     }
 
     async handleLogin() {
