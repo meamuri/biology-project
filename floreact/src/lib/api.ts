@@ -1,13 +1,15 @@
-import {PhylumTaxon} from './taxon';
 import axios from 'axios';
-import {LoginResponse} from "./authentication";
+import { PhylumTaxon } from './taxon';
+import { LoginResponse } from "./authentication";
 
 const httpClient = axios.create({
     baseURL: process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080/api',
 });
 
-export const login = async () => {
-    let response = await httpClient.post<LoginResponse[]>('/auth/login')
+export const login = async (username: string, password: string) => {
+    let response = await httpClient.post<LoginResponse>('/auth/login', {
+        username, password
+    })
     if (response.status !== 200) {
         return null
     }

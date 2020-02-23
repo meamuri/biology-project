@@ -11,13 +11,16 @@ export default class Classification extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
+            showErrorBlock: false,
             show: false,
             username: '',
             password: '',
         }
         this.handleClose = this.handleClose.bind(this)
         this.handleShow = this.handleShow.bind(this)
+        this.handleLogin = this.handleLogin.bind(this)
         this.handleLoginInput = this.handleLoginInput.bind(this)
+        this.handlePasswordInput = this.handlePasswordInput.bind(this)
     }
 
     render(): React.ReactElement {
@@ -50,11 +53,11 @@ export default class Classification extends React.Component<any, any> {
 
                             <Form.Group controlId="formBasicPassword">
                                 <Form.Label>Пароль</Form.Label>
-                                <Form.Control type="password" placeholder="пароль" />
+                                <Form.Control value={this.state.password} onChange={this.handlePasswordInput} type="password" placeholder="пароль" />
                             </Form.Group>
                         </Form>
                         {
-                            false &&
+                            this.state.showErrorBlock &&
                             <Alert variant='danger'>Некорректный пароль. Пожалуйста, обратитесь к администратору</Alert>
                         }
                     </Modal.Body>
@@ -62,7 +65,7 @@ export default class Classification extends React.Component<any, any> {
                         <Button variant="secondary" onClick={this.handleClose}>
                             Отмена
                         </Button>
-                        <Button variant="primary" onClick={this.handleClose}>
+                        <Button variant="primary" onClick={this.handleLogin}>
                             Войти
                         </Button>
                     </Modal.Footer>
@@ -78,8 +81,23 @@ export default class Classification extends React.Component<any, any> {
         })
     }
 
+    handlePasswordInput(event: FormEvent<HTMLInputElement>) {
+        event.preventDefault()
+        this.setState({
+            password: event.currentTarget.value,
+        })
+    }
+
     async handleLogin() {
-        await login()
+        let res = await login(this.state.username, this.state.password)
+        if (res == null) {
+            this.setState({
+                showErrorBlock: true
+            })
+            return
+        }
+        console.log(res.token)
+        this.handleClose()
     }
 
     handleShow() {
