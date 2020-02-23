@@ -6,7 +6,8 @@ const httpClient = axios.create({
     baseURL: process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080/api',
 });
 
-export const login = async (username: string, password: string) => {
+type LoginAction = (username: string, password: string) => Promise<LoginResponse | null>
+export const login: LoginAction = async (username, password) => {
     try {
         let response = await httpClient.post<LoginResponse>('/auth/login', {
             username, password

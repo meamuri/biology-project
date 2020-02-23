@@ -11,6 +11,7 @@ export default class Classification extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
+            user: null,
             showErrorBlock: false,
             show: false,
             username: '',
@@ -19,6 +20,7 @@ export default class Classification extends React.Component<any, any> {
         this.handleClose = this.handleClose.bind(this)
         this.handleShow = this.handleShow.bind(this)
         this.handleLogin = this.handleLogin.bind(this)
+        this.handleLogout = this.handleLogout.bind(this)
         this.handleFormInput = this.handleFormInput.bind(this)
     }
 
@@ -29,11 +31,15 @@ export default class Classification extends React.Component<any, any> {
                     <Navbar.Brand href="/">Флора</Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end mr-3">
                         <Navbar.Text>
-                            Гость
+                            { this.state.user ? this.state.user : 'Гость' }
                         </Navbar.Text>
                     </Navbar.Collapse>
                     <Form inline>
-                        <Button onClick={this.handleShow}>Вход</Button>
+                        {
+                            this.state.user ?
+                                <Button onClick={this.handleLogout}>Выход</Button> :
+                                <Button onClick={this.handleShow}>Вход</Button>
+                        }
                     </Form>
                 </Navbar>
 
@@ -86,6 +92,12 @@ export default class Classification extends React.Component<any, any> {
         })
     }
 
+    handleLogout() {
+        this.setState({
+            user: null,
+        })
+    }
+
     async handleLogin() {
         let res = await login(this.state.username, this.state.password)
         if (res === null) {
@@ -95,6 +107,10 @@ export default class Classification extends React.Component<any, any> {
             return
         }
         console.log(res.token)
+        // need to save token somewhere
+        this.setState((state: {[key: string]: any}, p: any) => ({
+            user: state.username
+        }))
         this.handleClose()
     }
 
