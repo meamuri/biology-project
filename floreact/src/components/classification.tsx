@@ -19,8 +19,7 @@ export default class Classification extends React.Component<any, any> {
         this.handleClose = this.handleClose.bind(this)
         this.handleShow = this.handleShow.bind(this)
         this.handleLogin = this.handleLogin.bind(this)
-        this.handleLoginInput = this.handleLoginInput.bind(this)
-        this.handlePasswordInput = this.handlePasswordInput.bind(this)
+        this.handleFormInput = this.handleFormInput.bind(this)
     }
 
     render(): React.ReactElement {
@@ -48,12 +47,18 @@ export default class Classification extends React.Component<any, any> {
                         <Form>
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Label>Логин</Form.Label>
-                                <Form.Control value={this.state.username} onChange={this.handleLoginInput} type="email" placeholder="логин" />
+                                <Form.Control value={ this.state.username }
+                                              onChange={ this.handleFormInput.bind(this, 'username') }
+                                              type="email"
+                                              placeholder="логин" />
                             </Form.Group>
 
                             <Form.Group controlId="formBasicPassword">
                                 <Form.Label>Пароль</Form.Label>
-                                <Form.Control value={this.state.password} onChange={this.handlePasswordInput} type="password" placeholder="пароль" />
+                                <Form.Control value={this.state.password}
+                                              onChange={this.handleFormInput.bind(this, 'password')}
+                                              type="password"
+                                              placeholder="пароль" />
                             </Form.Group>
                         </Form>
                         {
@@ -74,23 +79,16 @@ export default class Classification extends React.Component<any, any> {
         )
     }
 
-    handleLoginInput(event: FormEvent<HTMLInputElement>) {
+    handleFormInput(key: string, event: FormEvent<HTMLInputElement>) {
         event.preventDefault()
         this.setState({
-            username: event.currentTarget.value,
-        })
-    }
-
-    handlePasswordInput(event: FormEvent<HTMLInputElement>) {
-        event.preventDefault()
-        this.setState({
-            password: event.currentTarget.value,
+            [key]: event.currentTarget.value,
         })
     }
 
     async handleLogin() {
         let res = await login(this.state.username, this.state.password)
-        if (res == null) {
+        if (res === null) {
             this.setState({
                 showErrorBlock: true
             })
@@ -109,6 +107,16 @@ export default class Classification extends React.Component<any, any> {
     handleClose() {
         this.setState({
             show: false,
+        })
+        this.resetLoginForm()
+    }
+
+    resetLoginForm() {
+        console.log('writing defaults to login fields')
+        this.setState({
+            username: '',
+            password: '',
+            showErrorBlock: false,
         })
     }
 

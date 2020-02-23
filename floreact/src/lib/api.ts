@@ -7,13 +7,15 @@ const httpClient = axios.create({
 });
 
 export const login = async (username: string, password: string) => {
-    let response = await httpClient.post<LoginResponse>('/auth/login', {
-        username, password
-    })
-    if (response.status !== 200) {
+    try {
+        let response = await httpClient.post<LoginResponse>('/auth/login', {
+            username, password
+        })
+        return response.data
+    }
+    catch (Error) {
         return null
     }
-    return response.data
 };
 
 export const getApiData = async () => {
