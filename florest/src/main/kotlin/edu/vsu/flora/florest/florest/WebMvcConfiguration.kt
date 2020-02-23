@@ -32,9 +32,9 @@ class WebMvcConfiguration(
 
     override fun configure(http: HttpSecurity) {
         http
-            .authorizeRequests().antMatchers("/auth/**").permitAll()
+            .authorizeRequests().antMatchers("/api/auth/**").permitAll()
             .and()
-            .authorizeRequests().antMatchers(HttpMethod.GET, "/api/**").permitAll()
+            .authorizeRequests().antMatchers(HttpMethod.GET, "/api/species/**").permitAll()
             .anyRequest().authenticated()
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

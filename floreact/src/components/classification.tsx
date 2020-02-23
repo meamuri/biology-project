@@ -1,5 +1,6 @@
 import React from 'react'
 import { FloraComponent } from './classification/FloraComponent'
+import { login } from '../lib/api'
 import Alert from 'react-bootstrap/Alert'
 import Navbar from 'react-bootstrap/Navbar'
 import Modal from 'react-bootstrap/Modal'
@@ -65,6 +66,10 @@ export default class Classification extends React.Component<any, any> {
                 </Modal>
             </div>
         )
+    }
+
+    async handleLogin() {
+        await login()
     }
 
     handleShow() {
