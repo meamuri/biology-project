@@ -1,12 +1,8 @@
 import React from 'react'
 import { FloraComponent } from './classification/FloraComponent'
-import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
 import Navbar from 'react-bootstrap/Navbar'
-import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Form from "react-bootstrap/Form";
-import Dropdown from "react-bootstrap/Dropdown";
 import Login from "./login";
 import EditSpeciesModal from "./edit-modal";
 
@@ -46,10 +42,11 @@ export default class Classification extends React.Component<any, any> {
 
                 <FloraComponent/>
             </div>
+                {this.state.show &&
                 <Login show={this.state.show}
                        handleModalClose={this.handleModalClose}
                        handleSuccessfulLogin={this.handleSuccessfulLogin}
-                />
+                />}
                 <EditSpeciesModal/>
             </>
         )
