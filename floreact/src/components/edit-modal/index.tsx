@@ -5,15 +5,21 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Dropdown from "react-bootstrap/Dropdown";
 import Button from "react-bootstrap/Button";
+import {SpeciesRecord} from "../../lib/taxon";
 
-export default class EditSpeciesModal extends React.Component<any, any> {
-    constructor(props: any) {
+type EditSpeciesModalProps = {
+    species: SpeciesRecord,
+    show: boolean,
+}
+
+export default class EditSpeciesModal extends React.Component<EditSpeciesModalProps, any> {
+    constructor(props: EditSpeciesModalProps) {
         super(props)
         this.handleShow = this.handleShow.bind(this)
     }
 
     render() {
-        return <Modal show={false} size="lg"
+        return <Modal show={this.props.show} size="lg"
             // onHide={this.handleClose}
         >
             <Modal.Header closeButton>

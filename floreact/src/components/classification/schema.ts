@@ -18,3 +18,16 @@ export type FloraClassification = {
         [key: string]: SpeciesRecord
     }
 }
+
+export const initClassification: () => FloraClassification = () => ({
+    phylums: {
+        families: new Set<string>(),
+        species: new Set<string>(),
+        items: { }
+    },
+    families: {
+        species: new Set<string>(),
+        items: {}
+    },
+    species: {}
+})

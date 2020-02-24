@@ -2,17 +2,20 @@ import React from 'react'
 import { FloraComponent } from './classification/FloraComponent'
 import Navbar from 'react-bootstrap/Navbar'
 import Button from 'react-bootstrap/Button'
-import Form from "react-bootstrap/Form";
-import Login from "./login";
-import EditSpeciesModal from "./edit-modal";
-import { getApiData, getSpecies } from "../lib/api";
-import { PhylumTaxon } from "../lib/taxon";
-import { FloraClassification } from "./classification/schema";
+import Form from 'react-bootstrap/Form'
+import Login from './login'
+import EditSpeciesModal from './edit-modal'
+import { getApiData, getSpecies } from '../lib/api'
+import { PhylumTaxon } from '../lib/taxon'
+import { FloraClassification, initClassification } from './classification/schema'
 
 type AppState =
     { [key: string]: any } &
-    { data: PhylumTaxon[] } &
-    { classification?: FloraClassification }
+    {
+        data: PhylumTaxon[],
+        classification: FloraClassification,
+        selectedSpeciesId?: string,
+    }
 
 export default class Classification extends React.Component<any, AppState> {
     constructor(props: any) {
@@ -25,6 +28,7 @@ export default class Classification extends React.Component<any, AppState> {
             showErrorBlock: false,
             show: false,
             data: [],
+            classification: initClassification(),
         }
         this.handleModalClose = this.handleModalClose.bind(this)
         this.handleShow = this.handleShow.bind(this)
@@ -40,18 +44,7 @@ export default class Classification extends React.Component<any, AppState> {
         if (species === null) {
             return
         }
-        let classification: FloraClassification = {
-            phylums: {
-                families: new Set<string>(),
-                species: new Set<string>(),
-                items: { }
-            },
-            families: {
-                species: new Set<string>(),
-                items: {}
-            },
-            species: {}
-        }
+        let classification: FloraClassification = initClassification()
         for (let s of species) {
             classification.phylums.species.add(s.id)
             classification.phylums.families.add(s.id)
@@ -92,8 +85,12 @@ export default class Classification extends React.Component<any, AppState> {
                 <Login show={this.state.show}
                        handleModalClose={this.handleModalClose}
                        handleSuccessfulLogin={this.handleSuccessfulLogin}
-                />}
-                <EditSpeciesModal/>
+                /> }
+                {this.state.selectedSpeciesId &&
+                <EditSpeciesModal
+                    show={this.state.selectedSpeciesId !== null}
+                    species={this.state.classification.species[this.state.selectedSpeciesId]}
+                /> }
             </>
         )
     }
