@@ -4,6 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Todo:
 * refactoring http client
+* notifications (about a successful login, successful update)
 * add health check endpoint or simple token expiration mechanism (after some days)
 * rendering optimization (hidden rows, filters on client side)
 * table of content
