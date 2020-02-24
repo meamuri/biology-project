@@ -60,7 +60,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                             Описание
                         </Form.Label>
                         <Col sm="8">
-                            <Form.Control onChange={this.handleFormInput} defaultValue={this.state.initialDescription} />
+                            <Form.Control as='textarea' rows="8" onChange={this.handleFormInput} defaultValue={this.state.initialDescription} />
                         </Col>
                     </Form.Group>
 
