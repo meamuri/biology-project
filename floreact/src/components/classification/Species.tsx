@@ -15,10 +15,12 @@ function frequencyToLabel(frequency: FREQUENCY) {
     }
 }
 
-export const Species: React.FC<SpeciesProps> = (props) => {
+type SpeciesComponentProps = SpeciesProps & { handleSelectSpecies: (id: string) => void }
+
+export const Species: React.FC<SpeciesComponentProps> = (props) => {
     let label = frequencyToLabel(props.frequency)
     return (
-        <tr>
+        <tr onClick={e => props.handleSelectSpecies(props.id)}>
             <td style={{width: '35%'}}>{props.name}</td>
             <td style={{width: '35%'}}>{props.ruLocaleName}</td>
             <td style={{width: '30%'}}><span className={`badge ${label}`}>{props.frequency}</span></td>

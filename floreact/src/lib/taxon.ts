@@ -36,3 +36,18 @@ export class SpeciesTaxon extends Taxon<void> {
         this.locations = locations
     }
 }
+
+export type ParentTaxon = {
+    id: string
+    name: string
+    ruLocaleName: string
+    parentId?: string
+}
+
+export type SpeciesRecord = ParentTaxon & {
+    frequency?: FREQUENCY
+    description?: string
+    family: ParentTaxon
+    phylum: ParentTaxon
+    locations?: Area[]
+}
