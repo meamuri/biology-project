@@ -55,7 +55,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
 
                     <Form.Group as={Row} controlId="formPlaintextPassword">
                         <Form.Label column sm="4">
-                            Описание
+                            Встречаемость
                         </Form.Label>
                         <Col sm="8">
                             <Dropdown>
