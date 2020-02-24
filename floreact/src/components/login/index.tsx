@@ -1,10 +1,10 @@
 
-import React, {FormEvent} from "react";
-import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
-import Alert from "react-bootstrap/Alert";
-import Button from "react-bootstrap/Button";
-import { login } from "../../lib/api";
+import React, {FormEvent} from 'react'
+import Modal from 'react-bootstrap/Modal'
+import Form from 'react-bootstrap/Form'
+import Alert from 'react-bootstrap/Alert'
+import Button from 'react-bootstrap/Button'
+import { login } from '../../lib/api'
 
 type LoginProps = {
     show: boolean,
@@ -77,7 +77,6 @@ export default class Login extends React.Component<LoginProps, LoginState> {
             })
             return
         }
-        console.log(res.token)
         this.props.handleSuccessfulLogin(res.token, this.state.username)
         this.handleClose()
     }

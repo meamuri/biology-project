@@ -1,2 +1,2 @@
 
-export type FREQUENCY = 'LOW' | 'MEDIUM' | 'HIGH'
+export type FREQUENCY = 'LOW' | 'MEDIUM' | 'HIGH' | 'UNKNOWN'

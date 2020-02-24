@@ -38,6 +38,7 @@ export default class Classification extends React.Component<any, AppState> {
 
         this.handleSelectSpecies = this.handleSelectSpecies.bind(this)
         this.handleCloseEditModal = this.handleCloseEditModal.bind(this)
+        this.handleSuccessfulUpdateSpeciesInfo = this.handleSuccessfulUpdateSpeciesInfo.bind(this)
     }
 
     async componentDidMount() {
@@ -92,6 +93,8 @@ export default class Classification extends React.Component<any, AppState> {
                 /> }
                 {this.state.selectedSpeciesId &&
                 <EditSpeciesModal
+                    handleSuccessfulUpdateSpeciesInfo={this.handleSuccessfulUpdateSpeciesInfo}
+                    token={this.state.token}
                     show={this.state.selectedSpeciesId !== null}
                     species={this.state.classification.species[this.state.selectedSpeciesId]}
                     handleCloseEditModal={this.handleCloseEditModal}
@@ -118,17 +121,26 @@ export default class Classification extends React.Component<any, AppState> {
     }
 
     handleSuccessfulLogin(token: string, username: string) {
-        localStorage.setItem("token", token)
+        let jwtToken = `Bearer ${token}`
+        localStorage.setItem("token", jwtToken)
         localStorage.setItem("user", username)
         this.setState({
             user: username,
-            token,
+            token: jwtToken,
         })
     }
 
     handleSelectSpecies(id: string) {
         this.setState({
             selectedSpeciesId: id,
+        })
+    }
+
+    async handleSuccessfulUpdateSpeciesInfo() {
+        let response = await getApiData()
+        this.setState({
+            selectedSpeciesId: null,
+            data: response.data,
         })
     }
 
