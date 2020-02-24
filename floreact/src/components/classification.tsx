@@ -9,8 +9,11 @@ import EditSpeciesModal from "./edit-modal";
 export default class Classification extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
+        let user = localStorage.getItem("user")
+        let token = localStorage.getItem("token")
         this.state = {
-            user: null,
+            user,
+            token,
             showErrorBlock: false,
             show: false,
         }
@@ -53,26 +56,28 @@ export default class Classification extends React.Component<any, any> {
     }
 
     handleLogout() {
+        localStorage.removeItem("user")
+        localStorage.removeItem("token")
         this.setState({
             user: null,
+            token: null,
         })
     }
 
     handleShow() {
-        this.setState({
-            show: true,
-        })
+        this.setState({ show: true, })
     }
 
     handleModalClose() {
-        this.setState({
-            show: false,
-        })
+        this.setState({ show: false, })
     }
 
     handleSuccessfulLogin(token: string, username: string) {
+        localStorage.setItem("token", token)
+        localStorage.setItem("user", username)
         this.setState({
-            user: username
+            user: username,
+            token,
         })
     }
 }
