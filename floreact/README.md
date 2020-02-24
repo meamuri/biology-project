@@ -7,3 +7,4 @@ Todo:
 * editable fields
 * table of content
 * add css files
+* autologin / refresh tokens

@@ -1,31 +1,24 @@
 import React from 'react';
-import { getApiData } from '../../lib/api';
 import { Phylum } from './Phylum';
 import { PhylumTaxon as PhylumData } from '../../lib/taxon';
 import Table from 'react-bootstrap/Table'
 
-interface FloraComponentState {
-    data: PhylumData[]
-}
+type FloraComponentState = { }
 
-interface FloraComponentProps {
-}
+type FloraComponentProps = { data: PhylumData[] }
 
 export class FloraComponent extends React.Component<FloraComponentProps, FloraComponentState> {
-    constructor(props: FloraComponentProps) {
-        super(props);
-        this.state = { data: [] }
-    }
-    componentDidMount() {
-        getApiData().then(e => {
-            this.setState({ data: e.data })
-        })
-    }
     render(): React.ReactElement | null {
-        if (!this.state.data.length) {
+        if (!this.props.data.length) {
             return null
         }
-        let flora = this.state.data.map(e => <Phylum key={e.id} name={e.name} ruLocaleName={e.ruLocaleName} children={e.children}/> );
+
+        let flora = this.props.data.map(e => <Phylum
+            key={e.id}
+            name={e.name}
+            ruLocaleName={e.ruLocaleName}
+            children={e.children}/>
+        );
         return (
             <>
                 <Table className="mt-3">

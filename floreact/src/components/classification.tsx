@@ -5,8 +5,14 @@ import Button from 'react-bootstrap/Button'
 import Form from "react-bootstrap/Form";
 import Login from "./login";
 import EditSpeciesModal from "./edit-modal";
+import {getApiData} from "../lib/api";
+import {PhylumTaxon} from "../lib/taxon";
 
-export default class Classification extends React.Component<any, any> {
+type AppState =
+    { [key: string]: any } &
+    { data: PhylumTaxon[] }
+
+export default class Classification extends React.Component<any, AppState> {
     constructor(props: any) {
         super(props);
         let user = localStorage.getItem("user")
@@ -16,11 +22,17 @@ export default class Classification extends React.Component<any, any> {
             token,
             showErrorBlock: false,
             show: false,
+            data: [],
         }
         this.handleModalClose = this.handleModalClose.bind(this)
         this.handleShow = this.handleShow.bind(this)
         this.handleLogout = this.handleLogout.bind(this)
         this.handleSuccessfulLogin = this.handleSuccessfulLogin.bind(this)
+    }
+
+    async componentDidMount() {
+        let response = await getApiData()
+        this.setState({ data: response.data })
     }
 
     render(): React.ReactElement {
@@ -43,7 +55,8 @@ export default class Classification extends React.Component<any, any> {
                     </Form>
                 </Navbar>
 
-                <FloraComponent/>
+                <FloraComponent data={this.state.data}/>
+
             </div>
                 {this.state.show &&
                 <Login show={this.state.show}
