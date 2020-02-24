@@ -1,7 +1,5 @@
-import React, { FormEvent } from 'react'
+import React from 'react'
 import { FloraComponent } from './classification/FloraComponent'
-import { login } from '../lib/api'
-import Alert from 'react-bootstrap/Alert'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Navbar from 'react-bootstrap/Navbar'
@@ -9,6 +7,7 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Form from "react-bootstrap/Form";
 import Dropdown from "react-bootstrap/Dropdown";
+import Login from "./login";
 
 export default class Classification extends React.Component<any, any> {
     constructor(props: any) {
@@ -17,14 +16,11 @@ export default class Classification extends React.Component<any, any> {
             user: null,
             showErrorBlock: false,
             show: false,
-            username: '',
-            password: '',
         }
-        this.handleClose = this.handleClose.bind(this)
+        this.handleModalClose = this.handleModalClose.bind(this)
         this.handleShow = this.handleShow.bind(this)
-        this.handleLogin = this.handleLogin.bind(this)
         this.handleLogout = this.handleLogout.bind(this)
-        this.handleFormInput = this.handleFormInput.bind(this)
+        this.handleSuccessfulLogin = this.handleSuccessfulLogin.bind(this)
     }
 
     render(): React.ReactElement {
@@ -49,42 +45,10 @@ export default class Classification extends React.Component<any, any> {
 
                 <FloraComponent/>
             </div>
-                <Modal show={this.state.show} onHide={this.handleClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Введите пароль</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form>
-                            <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Логин</Form.Label>
-                                <Form.Control value={ this.state.username }
-                                              onChange={ this.handleFormInput.bind(this, 'username') }
-                                              type="email"
-                                              placeholder="логин" />
-                            </Form.Group>
-
-                            <Form.Group controlId="formBasicPassword">
-                                <Form.Label>Пароль</Form.Label>
-                                <Form.Control value={this.state.password}
-                                              onChange={this.handleFormInput.bind(this, 'password')}
-                                              type="password"
-                                              placeholder="пароль" />
-                            </Form.Group>
-                        </Form>
-                        {
-                            this.state.showErrorBlock &&
-                            <Alert variant='danger'>Некорректный пароль. Пожалуйста, обратитесь к администратору</Alert>
-                        }
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={this.handleClose}>
-                            Отмена
-                        </Button>
-                        <Button variant="primary" onClick={this.handleLogin}>
-                            Войти
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
+                <Login show={this.state.show}
+                       handleModalClose={this.handleModalClose}
+                       handleSuccessfulLogin={this.handleSuccessfulLogin}
+                />
 
                 <Modal show={false} size="lg"
                        // onHide={this.handleClose}
@@ -141,10 +105,10 @@ export default class Classification extends React.Component<any, any> {
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={this.handleClose}>
+                        <Button variant="secondary" onClick={this.handleShow}>
                             Отмена
                         </Button>
-                        <Button variant="primary" onClick={this.handleLogin}>
+                        <Button variant="primary" onClick={this.handleShow}>
                             Сохранить
                         </Button>
                     </Modal.Footer>
@@ -153,33 +117,10 @@ export default class Classification extends React.Component<any, any> {
         )
     }
 
-    handleFormInput(key: string, event: FormEvent<HTMLInputElement>) {
-        event.preventDefault()
-        this.setState({
-            [key]: event.currentTarget.value,
-        })
-    }
-
     handleLogout() {
         this.setState({
             user: null,
         })
-    }
-
-    async handleLogin() {
-        let res = await login(this.state.username, this.state.password)
-        if (res === null) {
-            this.setState({
-                showErrorBlock: true
-            })
-            return
-        }
-        console.log(res.token)
-        // need to save token somewhere
-        this.setState((state: {[key: string]: any}, p: any) => ({
-            user: state.username
-        }))
-        this.handleClose()
     }
 
     handleShow() {
@@ -188,20 +129,15 @@ export default class Classification extends React.Component<any, any> {
         })
     }
 
-    handleClose() {
+    handleModalClose() {
         this.setState({
             show: false,
         })
-        this.resetLoginForm()
     }
 
-    resetLoginForm() {
-        console.log('writing defaults to login fields')
+    handleSuccessfulLogin(token: string, username: string) {
         this.setState({
-            username: '',
-            password: '',
-            showErrorBlock: false,
+            user: username
         })
     }
-
 }
