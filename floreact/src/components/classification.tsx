@@ -14,7 +14,7 @@ type AppState =
     {
         data: PhylumTaxon[],
         classification: FloraClassification,
-        selectedSpeciesId?: string,
+        selectedSpeciesId: string | null,
     }
 
 export default class Classification extends React.Component<any, AppState> {
@@ -27,6 +27,7 @@ export default class Classification extends React.Component<any, AppState> {
             token,
             showErrorBlock: false,
             show: false,
+            selectedSpeciesId: null,
             data: [],
             classification: initClassification(),
         }
@@ -36,6 +37,7 @@ export default class Classification extends React.Component<any, AppState> {
         this.handleSuccessfulLogin = this.handleSuccessfulLogin.bind(this)
 
         this.handleSelectSpecies = this.handleSelectSpecies.bind(this)
+        this.handleCloseEditModal = this.handleCloseEditModal.bind(this)
     }
 
     async componentDidMount() {
@@ -92,6 +94,7 @@ export default class Classification extends React.Component<any, AppState> {
                 <EditSpeciesModal
                     show={this.state.selectedSpeciesId !== null}
                     species={this.state.classification.species[this.state.selectedSpeciesId]}
+                    handleCloseEditModal={this.handleCloseEditModal}
                 /> }
             </>
         )
@@ -124,9 +127,14 @@ export default class Classification extends React.Component<any, AppState> {
     }
 
     handleSelectSpecies(id: string) {
-        console.log("woooof?!")
         this.setState({
             selectedSpeciesId: id,
+        })
+    }
+
+    handleCloseEditModal() {
+        this.setState({
+            selectedSpeciesId: null,
         })
     }
 }

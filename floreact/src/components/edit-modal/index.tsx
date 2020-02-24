@@ -10,17 +10,17 @@ import {SpeciesRecord} from "../../lib/taxon";
 type EditSpeciesModalProps = {
     species: SpeciesRecord,
     show: boolean,
+    handleCloseEditModal: () => void,
 }
 
 export default class EditSpeciesModal extends React.Component<EditSpeciesModalProps, any> {
     constructor(props: EditSpeciesModalProps) {
         super(props)
-        this.handleShow = this.handleShow.bind(this)
     }
 
     render() {
         return <Modal show={this.props.show} size="lg"
-            // onHide={this.handleClose}
+            onHide={this.props.handleCloseEditModal}
         >
             <Modal.Header closeButton>
                 <Modal.Title>Редактирование вида</Modal.Title>
@@ -32,7 +32,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                             Латинское название
                         </Form.Label>
                         <Col sm="8">
-                            <Form.Control plaintext readOnly defaultValue="Scrophularia cretacea Fish. ex Spreng." />
+                            <Form.Control plaintext readOnly defaultValue={this.props.species.name} />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formPlaintextEmail">
@@ -40,7 +40,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                             Русское название
                         </Form.Label>
                         <Col sm="8">
-                            <Form.Control plaintext readOnly defaultValue="Норичник меловой" />
+                            <Form.Control plaintext readOnly defaultValue={this.props.species.ruLocaleName} />
                         </Col>
                     </Form.Group>
 
@@ -49,7 +49,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                             Описание
                         </Form.Label>
                         <Col sm="8">
-                            <Form.Control />
+                            <Form.Control defaultValue={this.props.species.description} />
                         </Col>
                     </Form.Group>
 
@@ -74,17 +74,14 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={this.handleShow}>
+                <Button variant="secondary" onClick={this.props.handleCloseEditModal}>
                     Отмена
                 </Button>
-                <Button variant="primary" onClick={this.handleShow}>
+                <Button variant="primary" onClick={this.props.handleCloseEditModal}>
                     Сохранить
                 </Button>
             </Modal.Footer>
         </Modal>
     }
 
-    handleShow() {
-
-    }
 }
