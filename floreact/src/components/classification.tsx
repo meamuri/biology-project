@@ -8,6 +8,7 @@ import Button from 'react-bootstrap/Button'
 import Form from "react-bootstrap/Form";
 import Dropdown from "react-bootstrap/Dropdown";
 import Login from "./login";
+import EditSpeciesModal from "./edit-modal";
 
 export default class Classification extends React.Component<any, any> {
     constructor(props: any) {
@@ -49,70 +50,7 @@ export default class Classification extends React.Component<any, any> {
                        handleModalClose={this.handleModalClose}
                        handleSuccessfulLogin={this.handleSuccessfulLogin}
                 />
-
-                <Modal show={false} size="lg"
-                       // onHide={this.handleClose}
-                >
-                    <Modal.Header closeButton>
-                        <Modal.Title>Редактирование вида</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form>
-                            <Form.Group as={Row} controlId="formPlaintextEmail">
-                                <Form.Label column sm="4">
-                                    Латинское название
-                                </Form.Label>
-                                <Col sm="8">
-                                    <Form.Control plaintext readOnly defaultValue="Scrophularia cretacea Fish. ex Spreng." />
-                                </Col>
-                            </Form.Group>
-                            <Form.Group as={Row} controlId="formPlaintextEmail">
-                                <Form.Label column sm="4">
-                                    Русское название
-                                </Form.Label>
-                                <Col sm="8">
-                                    <Form.Control plaintext readOnly defaultValue="Норичник меловой" />
-                                </Col>
-                            </Form.Group>
-
-                            <Form.Group as={Row} controlId="formPlaintextPassword">
-                                <Form.Label column sm="4">
-                                    Описание
-                                </Form.Label>
-                                <Col sm="8">
-                                    <Form.Control />
-                                </Col>
-                            </Form.Group>
-
-                            <Form.Group as={Row} controlId="formPlaintextPassword">
-                                <Form.Label column sm="4">
-                                    Описание
-                                </Form.Label>
-                                <Col sm="8">
-                                    <Dropdown>
-                                        <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                            HIGH
-                                        </Dropdown.Toggle>
-
-                                        <Dropdown.Menu>
-                                            <Dropdown.Item href="#/action-1">HIGH</Dropdown.Item>
-                                            <Dropdown.Item href="#/action-2">MEDIUM</Dropdown.Item>
-                                            <Dropdown.Item href="#/action-3">LOW</Dropdown.Item>
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-                                </Col>
-                            </Form.Group>
-                        </Form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={this.handleShow}>
-                            Отмена
-                        </Button>
-                        <Button variant="primary" onClick={this.handleShow}>
-                            Сохранить
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
+                <EditSpeciesModal/>
             </>
         )
     }
