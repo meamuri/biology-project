@@ -6,8 +6,9 @@ import Form from 'react-bootstrap/Form'
 import Login from './login'
 import EditSpeciesModal from './edit-modal'
 import { getApiData, getSpecies } from '../lib/api'
-import { PhylumTaxon } from '../lib/taxon'
+import { PhylumTaxon, SpeciesRecord } from '../lib/taxon'
 import { FloraClassification, initClassification } from './classification/schema'
+import { FREQUENCY } from '../lib/frequency'
 
 type AppState =
     { [key: string]: any } &
@@ -15,6 +16,9 @@ type AppState =
         data: PhylumTaxon[],
         classification: FloraClassification,
         selectedSpeciesId: string | null,
+        species: {
+            [key: string]: SpeciesRecord,
+        },
     }
 
 export default class Classification extends React.Component<any, AppState> {
@@ -30,6 +34,7 @@ export default class Classification extends React.Component<any, AppState> {
             selectedSpeciesId: null,
             data: [],
             classification: initClassification(),
+            species: {},
         }
         this.handleModalClose = this.handleModalClose.bind(this)
         this.handleShow = this.handleShow.bind(this)
@@ -49,18 +54,19 @@ export default class Classification extends React.Component<any, AppState> {
         if (species === null) {
             return
         }
+
         let classification: FloraClassification = initClassification()
         for (let s of species) {
-            classification.phylums.species.add(s.id)
-            classification.phylums.families.add(s.id)
-            classification.phylums.items[s.phylum.id] = (s.phylum)
-
-            classification.families.species.add(s.id)
-            classification.families.items[s.family.id] = (s.family)
+            // classification.phylums.species.add(s.id)
+            // classification.phylums.families.add(s.id)
+            // classification.phylums.items[s.phylum.id] = (s.phylum)
+            //
+            // classification.families.species.add(s.id)
+            // classification.families.items[s.family.id] = (s.family)
 
             classification.species[s.id] = s
         }
-        this.setState({ classification })
+        this.setState({ species: classification.species })
     }
 
     render(): React.ReactElement {
@@ -96,7 +102,7 @@ export default class Classification extends React.Component<any, AppState> {
                     handleSuccessfulUpdateSpeciesInfo={this.handleSuccessfulUpdateSpeciesInfo}
                     token={this.state.token}
                     show={this.state.selectedSpeciesId !== null}
-                    species={this.state.classification.species[this.state.selectedSpeciesId]}
+                    species={this.state.species[this.state.selectedSpeciesId]}
                     handleCloseEditModal={this.handleCloseEditModal}
                 /> }
             </>
@@ -136,12 +142,18 @@ export default class Classification extends React.Component<any, AppState> {
         })
     }
 
-    async handleSuccessfulUpdateSpeciesInfo() {
+    async handleSuccessfulUpdateSpeciesInfo(changes: { description: string, frequency: FREQUENCY }) {
         let response = await getApiData()
-        this.setState({
+        let id = this.state.selectedSpeciesId!
+        let changedRecord = { ...this.state.species[id], ...changes }
+        this.setState((state, props) => ({
             selectedSpeciesId: null,
             data: response.data,
-        })
+            species: {
+                ...state.species,
+                [id]: changedRecord,
+            },
+        }))
     }
 
     handleCloseEditModal() {

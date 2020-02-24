@@ -6,12 +6,13 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import { SpeciesRecord } from '../../lib/taxon'
 import { modifySpeciesAction } from '../../lib/api'
+import { FREQUENCY } from '../../lib/frequency'
 
 type EditSpeciesModalProps = {
     species: SpeciesRecord,
     show: boolean,
     handleCloseEditModal: () => void,
-    handleSuccessfulUpdateSpeciesInfo: () => void,
+    handleSuccessfulUpdateSpeciesInfo: (changes: { description: string, frequency: FREQUENCY }) => void,
     token: string,
 }
 
@@ -104,14 +105,15 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
     }
 
     async handleOkButton() {
+        let changes = {
+            description: this.state.description,
+            frequency: this.state.currentFrequency,
+        }
         await modifySpeciesAction(
             this.props.token,
             this.props.species.id,
-            {
-                description: this.state.description,
-                frequency: this.state.currentFrequency,
-            })
-        this.props.handleSuccessfulUpdateSpeciesInfo()
+            changes)
+        this.props.handleSuccessfulUpdateSpeciesInfo(changes)
     }
 
 }
