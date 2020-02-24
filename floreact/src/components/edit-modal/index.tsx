@@ -11,6 +11,7 @@ type EditSpeciesModalProps = {
     species: SpeciesRecord,
     show: boolean,
     handleCloseEditModal: () => void,
+    handleSuccessfulUpdateSpeciesInfo: () => void,
     token: string,
 }
 
@@ -110,7 +111,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                 description: this.state.description,
                 frequency: this.state.currentFrequency,
             })
-        this.props.handleCloseEditModal()
+        this.props.handleSuccessfulUpdateSpeciesInfo()
     }
 
 }
