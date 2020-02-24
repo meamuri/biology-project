@@ -1,11 +1,10 @@
-import React from "react";
-import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Dropdown from "react-bootstrap/Dropdown";
-import Button from "react-bootstrap/Button";
-import {SpeciesRecord} from "../../lib/taxon";
+import React, { FormEvent } from 'react'
+import Modal from 'react-bootstrap/Modal'
+import Form from 'react-bootstrap/Form'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Button from "react-bootstrap/Button"
+import { SpeciesRecord } from '../../lib/taxon'
 
 type EditSpeciesModalProps = {
     species: SpeciesRecord,
@@ -16,6 +15,13 @@ type EditSpeciesModalProps = {
 export default class EditSpeciesModal extends React.Component<EditSpeciesModalProps, any> {
     constructor(props: EditSpeciesModalProps) {
         super(props)
+        this.state = {
+            currentFrequency: props.species.frequency || 'UNKNOWN',
+            description: props.species.description || '',
+            isFieldsChanged: false,
+        }
+        this.handleFormInput = this.handleFormInput.bind(this)
+        this.handleFrequencyChange = this.handleFrequencyChange.bind(this)
     }
 
     render() {
@@ -49,7 +55,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                             Описание
                         </Form.Label>
                         <Col sm="8">
-                            <Form.Control defaultValue={this.props.species.description} />
+                            <Form.Control onChange={this.handleFormInput} defaultValue={this.props.species.description} />
                         </Col>
                     </Form.Group>
 
@@ -58,17 +64,11 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                             Встречаемость
                         </Form.Label>
                         <Col sm="8">
-                            <Dropdown>
-                                <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                    HIGH
-                                </Dropdown.Toggle>
-
-                                <Dropdown.Menu>
-                                    <Dropdown.Item href="#/action-1">HIGH</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-2">MEDIUM</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">LOW</Dropdown.Item>
-                                </Dropdown.Menu>
-                            </Dropdown>
+                        <Form.Control as="select" onChange={this.handleFrequencyChange}>
+                            {['HIGH', 'MEDIUM', 'LOW', 'UNKNOWN'].map((frequency, i) =>
+                                <option key={i}>{frequency}</option>
+                            )}
+                        </Form.Control>
                         </Col>
                     </Form.Group>
                 </Form>
@@ -77,11 +77,29 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                 <Button variant="secondary" onClick={this.props.handleCloseEditModal}>
                     Отмена
                 </Button>
-                <Button variant="primary" onClick={this.props.handleCloseEditModal}>
+                <Button disabled={!this.state.isFieldsChanged} variant="primary" onClick={this.props.handleCloseEditModal}>
                     Сохранить
                 </Button>
             </Modal.Footer>
         </Modal>
+    }
+
+    handleFrequencyChange(event: FormEvent<HTMLInputElement>) {
+        console.log(event.currentTarget.value)
+        this.setState({
+            currentFrequency: event.currentTarget.value,
+            // TODO: it does not work with empty fields
+            isFieldsChanged: event.currentTarget.value !== this.props.species.frequency,
+        })
+    }
+
+    handleFormInput(event: FormEvent<HTMLInputElement>) {
+        event.preventDefault()
+        this.setState({
+            description: event.currentTarget.value,
+            // TODO: it does not work with empty fields
+            isFieldsChanged: event.currentTarget.value !== this.props.species.description,
+        })
     }
 
 }
