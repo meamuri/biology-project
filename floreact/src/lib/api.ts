@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { PhylumTaxon } from './taxon';
+import {PhylumTaxon, SpeciesRecord} from './taxon';
 import { LoginResponse } from "./authentication";
 
 const httpClient = axios.create({
@@ -21,4 +21,14 @@ export const login: LoginAction = async (username, password) => {
 
 export const getApiData = async () => {
     return await httpClient.get<PhylumTaxon[]>('/species')
+};
+
+type GetSpeciesAction = () => Promise<SpeciesRecord[] | null>
+export const getSpecies: GetSpeciesAction = async () => {
+    try {
+        let res = await httpClient.get<SpeciesRecord[]>('/species/all')
+        return res.data
+    } catch (e) {
+        return null
+    }
 };

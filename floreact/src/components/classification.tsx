@@ -5,12 +5,14 @@ import Button from 'react-bootstrap/Button'
 import Form from "react-bootstrap/Form";
 import Login from "./login";
 import EditSpeciesModal from "./edit-modal";
-import {getApiData} from "../lib/api";
-import {PhylumTaxon} from "../lib/taxon";
+import { getApiData, getSpecies } from "../lib/api";
+import { PhylumTaxon } from "../lib/taxon";
+import { FloraClassification } from "./classification/schema";
 
 type AppState =
     { [key: string]: any } &
-    { data: PhylumTaxon[] }
+    { data: PhylumTaxon[] } &
+    { classification?: FloraClassification }
 
 export default class Classification extends React.Component<any, AppState> {
     constructor(props: any) {
@@ -33,6 +35,34 @@ export default class Classification extends React.Component<any, AppState> {
     async componentDidMount() {
         let response = await getApiData()
         this.setState({ data: response.data })
+
+        let species = await getSpecies()
+        if (species === null) {
+            return
+        }
+        let classification: FloraClassification = {
+            phylums: {
+                families: new Set<string>(),
+                species: new Set<string>(),
+                items: { }
+            },
+            families: {
+                species: new Set<string>(),
+                items: {}
+            },
+            species: {}
+        }
+        for (let s of species) {
+            classification.phylums.species.add(s.id)
+            classification.phylums.families.add(s.id)
+            classification.phylums.items[s.phylum.id] = (s.phylum)
+
+            classification.families.species.add(s.id)
+            classification.families.items[s.family.id] = (s.family)
+
+            classification.species[s.id] = s
+        }
+        this.setState({ classification })
     }
 
     render(): React.ReactElement {
