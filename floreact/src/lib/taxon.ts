@@ -51,3 +51,7 @@ export type SpeciesRecord = ParentTaxon & {
     phylum: ParentTaxon
     locations?: Area[]
 }
+
+export type BaseTaxon = ParentTaxon & {children: ParentTaxon[]}
+export type Phylum = BaseTaxon
+export type Family = ParentTaxon & {children: SpeciesRecord[]}
