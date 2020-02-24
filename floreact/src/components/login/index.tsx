@@ -77,7 +77,6 @@ export default class Login extends React.Component<LoginProps, LoginState> {
             })
             return
         }
-        console.log(res.token)
         this.props.handleSuccessfulLogin(res.token, this.state.username)
         this.handleClose()
     }

@@ -92,6 +92,7 @@ export default class Classification extends React.Component<any, AppState> {
                 /> }
                 {this.state.selectedSpeciesId &&
                 <EditSpeciesModal
+                    token={this.state.token}
                     show={this.state.selectedSpeciesId !== null}
                     species={this.state.classification.species[this.state.selectedSpeciesId]}
                     handleCloseEditModal={this.handleCloseEditModal}
@@ -118,11 +119,12 @@ export default class Classification extends React.Component<any, AppState> {
     }
 
     handleSuccessfulLogin(token: string, username: string) {
-        localStorage.setItem("token", token)
+        let jwtToken = `Bearer ${token}`
+        localStorage.setItem("token", jwtToken)
         localStorage.setItem("user", username)
         this.setState({
             user: username,
-            token,
+            token: jwtToken,
         })
     }
 

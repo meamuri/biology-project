@@ -5,11 +5,13 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import { SpeciesRecord } from '../../lib/taxon'
+import { modifySpeciesAction } from '../../lib/api'
 
 type EditSpeciesModalProps = {
     species: SpeciesRecord,
     show: boolean,
     handleCloseEditModal: () => void,
+    token: string,
 }
 
 export default class EditSpeciesModal extends React.Component<EditSpeciesModalProps, any> {
@@ -22,6 +24,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
         }
         this.handleFormInput = this.handleFormInput.bind(this)
         this.handleFrequencyChange = this.handleFrequencyChange.bind(this)
+        this.handleOkButton = this.handleOkButton.bind(this)
     }
 
     render() {
@@ -66,7 +69,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                             Встречаемость
                         </Form.Label>
                         <Col sm="8">
-                        <Form.Control as="select" onChange={this.handleFrequencyChange}>
+                        <Form.Control as="select" onChange={this.handleFrequencyChange} defaultValue={this.state.currentFrequency}>
                             {['HIGH', 'MEDIUM', 'LOW', 'UNKNOWN'].map((frequency, i) =>
                                 <option key={i}>{frequency}</option>
                             )}
@@ -79,7 +82,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                 <Button variant="secondary" onClick={this.props.handleCloseEditModal}>
                     Отмена
                 </Button>
-                <Button disabled={!isFieldsChanged} variant="primary" onClick={this.props.handleCloseEditModal}>
+                <Button disabled={!isFieldsChanged} variant="primary" onClick={this.handleOkButton}>
                     Сохранить
                 </Button>
             </Modal.Footer>
@@ -97,6 +100,17 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
         this.setState({
             description: event.currentTarget.value,
         })
+    }
+
+    async handleOkButton() {
+        await modifySpeciesAction(
+            this.props.token,
+            this.props.species.id,
+            {
+                description: this.state.description,
+                frequency: this.state.currentFrequency,
+            })
+        this.props.handleCloseEditModal()
     }
 
 }
