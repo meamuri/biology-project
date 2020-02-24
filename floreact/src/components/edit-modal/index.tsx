@@ -3,7 +3,7 @@ import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Button from "react-bootstrap/Button"
+import Button from 'react-bootstrap/Button'
 import { SpeciesRecord } from '../../lib/taxon'
 
 type EditSpeciesModalProps = {
@@ -17,14 +17,16 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
         super(props)
         this.state = {
             currentFrequency: props.species.frequency || 'UNKNOWN',
+            initialDescription: props.species.description || '',
             description: props.species.description || '',
-            isFieldsChanged: false,
         }
         this.handleFormInput = this.handleFormInput.bind(this)
         this.handleFrequencyChange = this.handleFrequencyChange.bind(this)
     }
 
     render() {
+        let isFieldsChanged = this.state.currentFrequency !== this.props.species.frequency ||
+            this.state.initialDescription !== this.state.description
         return <Modal show={this.props.show} size="lg"
             onHide={this.props.handleCloseEditModal}
         >
@@ -55,7 +57,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                             Описание
                         </Form.Label>
                         <Col sm="8">
-                            <Form.Control onChange={this.handleFormInput} defaultValue={this.props.species.description} />
+                            <Form.Control onChange={this.handleFormInput} defaultValue={this.state.initialDescription} />
                         </Col>
                     </Form.Group>
 
@@ -77,7 +79,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                 <Button variant="secondary" onClick={this.props.handleCloseEditModal}>
                     Отмена
                 </Button>
-                <Button disabled={!this.state.isFieldsChanged} variant="primary" onClick={this.props.handleCloseEditModal}>
+                <Button disabled={!isFieldsChanged} variant="primary" onClick={this.props.handleCloseEditModal}>
                     Сохранить
                 </Button>
             </Modal.Footer>
@@ -85,11 +87,8 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
     }
 
     handleFrequencyChange(event: FormEvent<HTMLInputElement>) {
-        console.log(event.currentTarget.value)
         this.setState({
             currentFrequency: event.currentTarget.value,
-            // TODO: it does not work with empty fields
-            isFieldsChanged: event.currentTarget.value !== this.props.species.frequency,
         })
     }
 
@@ -97,8 +96,6 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
         event.preventDefault()
         this.setState({
             description: event.currentTarget.value,
-            // TODO: it does not work with empty fields
-            isFieldsChanged: event.currentTarget.value !== this.props.species.description,
         })
     }
 

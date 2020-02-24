@@ -46,7 +46,7 @@ export type ParentTaxon = {
 
 export type SpeciesRecord = ParentTaxon & {
     frequency?: FREQUENCY
-    description?: string
+    description: string | null
     family: ParentTaxon
     phylum: ParentTaxon
     locations?: Area[]
