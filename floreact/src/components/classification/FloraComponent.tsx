@@ -5,7 +5,10 @@ import Table from 'react-bootstrap/Table'
 
 type FloraComponentState = { }
 
-type FloraComponentProps = { data: PhylumData[] }
+type FloraComponentProps = {
+    data: PhylumData[],
+    handleSelectSpecies: (id: string) => void,
+}
 
 export class FloraComponent extends React.Component<FloraComponentProps, FloraComponentState> {
     render(): React.ReactElement | null {
@@ -14,10 +17,13 @@ export class FloraComponent extends React.Component<FloraComponentProps, FloraCo
         }
 
         let flora = this.props.data.map(e => <Phylum
+            id={e.id}
             key={e.id}
             name={e.name}
             ruLocaleName={e.ruLocaleName}
-            children={e.children}/>
+            children={e.children}
+            handleSelectSpecies={this.props.handleSelectSpecies}
+            />
         );
         return (
             <>

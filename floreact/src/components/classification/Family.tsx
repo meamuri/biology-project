@@ -4,13 +4,17 @@ import { TaxonProps } from './taxon-props';
 import { SpeciesTaxon } from '../../lib/taxon';
 import Table from 'react-bootstrap/Table'
 
-export const Family: React.FC<TaxonProps> = (props: TaxonProps) => {
+type FamilyComponentProps = TaxonProps & { handleSelectSpecies: (id: string) => void }
+
+export const Family: React.FC<FamilyComponentProps> = (props) => {
     let species = props.children.map(e => <Species
+        id={e.id}
         key={e.id}
         name={e.name}
         ruLocaleName={e.ruLocaleName}
         children={[]}
         frequency={(e as SpeciesTaxon).frequency}
+        handleSelectSpecies={props.handleSelectSpecies}
     />);
     return (
         <Table className="table-bordered table-hover">

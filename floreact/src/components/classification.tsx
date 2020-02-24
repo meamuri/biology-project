@@ -34,6 +34,8 @@ export default class Classification extends React.Component<any, AppState> {
         this.handleShow = this.handleShow.bind(this)
         this.handleLogout = this.handleLogout.bind(this)
         this.handleSuccessfulLogin = this.handleSuccessfulLogin.bind(this)
+
+        this.handleSelectSpecies = this.handleSelectSpecies.bind(this)
     }
 
     async componentDidMount() {
@@ -78,7 +80,7 @@ export default class Classification extends React.Component<any, AppState> {
                     </Form>
                 </Navbar>
 
-                <FloraComponent data={this.state.data}/>
+                <FloraComponent data={this.state.data} handleSelectSpecies={this.handleSelectSpecies} />
 
             </div>
                 {this.state.show &&
@@ -118,6 +120,13 @@ export default class Classification extends React.Component<any, AppState> {
         this.setState({
             user: username,
             token,
+        })
+    }
+
+    handleSelectSpecies(id: string) {
+        console.log("woooof?!")
+        this.setState({
+            selectedSpeciesId: id,
         })
     }
 }
