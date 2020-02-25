@@ -1,7 +1,6 @@
-import React from 'react';
-import { Phylum } from './Phylum';
-import { PhylumTaxon as PhylumData } from '../../lib/taxon';
-import Table from 'react-bootstrap/Table'
+import React from 'react'
+import { Phylum } from './Phylum'
+import { PhylumTaxon as PhylumData } from '../../lib/taxon'
 
 type FloraComponentState = { }
 
@@ -27,14 +26,6 @@ export class FloraComponent extends React.Component<FloraComponentProps, FloraCo
         );
         return (
             <>
-                <Table className="mt-3">
-                    <thead>
-                    <tr>
-                        <th scope="col" colSpan={2} style={{width: '70%'}} />
-                        <th scope="col" style={{width: '30%'}}>встречаемость</th>
-                    </tr>
-                    </thead>
-                </Table>
                 {flora}
             </>
         )

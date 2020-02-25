@@ -9,6 +9,8 @@ import { getApiData, getSpecies } from '../lib/api'
 import { PhylumTaxon, SpeciesRecord } from '../lib/taxon'
 import { FloraClassification, initClassification } from './classification/schema'
 import { FREQUENCY } from '../lib/frequency'
+import Table from 'react-bootstrap/Table'
+import Notification from './notification'
 
 type AppState =
     { [key: string]: any } &
@@ -89,6 +91,14 @@ export default class Classification extends React.Component<any, AppState> {
                     </Form>
                 </Navbar>
 
+                <Table className="mt-3">
+                    <thead>
+                    <tr>
+                        <th scope="col" colSpan={2} style={{width: '70%'}} />
+                        <th scope="col" style={{width: '30%'}}>встречаемость</th>
+                    </tr>
+                    </thead>
+                </Table>
                 <FloraComponent data={this.state.data} handleSelectSpecies={this.handleSelectSpecies} />
 
             </div>
