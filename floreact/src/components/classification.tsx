@@ -5,12 +5,11 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Login from './login'
 import EditSpeciesModal from './edit-modal'
-import { getApiData, getSpecies } from '../lib/api'
+import FloraApiClient from '../lib/api'
 import { PhylumTaxon, SpeciesRecord } from '../lib/taxon'
 import { FloraClassification, initClassification } from './classification/schema'
 import { FREQUENCY } from '../lib/frequency'
 import Table from 'react-bootstrap/Table'
-import Notification from './notification'
 
 type AppState =
     { [key: string]: any } &
@@ -24,6 +23,7 @@ type AppState =
     }
 
 export default class Classification extends React.Component<any, AppState> {
+    apiClient: FloraApiClient
     constructor(props: any) {
         super(props);
         let user = localStorage.getItem("user")
@@ -46,26 +46,23 @@ export default class Classification extends React.Component<any, AppState> {
         this.handleSelectSpecies = this.handleSelectSpecies.bind(this)
         this.handleCloseEditModal = this.handleCloseEditModal.bind(this)
         this.handleSuccessfulUpdateSpeciesInfo = this.handleSuccessfulUpdateSpeciesInfo.bind(this)
+
+        this.apiClient = new FloraApiClient()
     }
 
     async componentDidMount() {
-        let response = await getApiData()
-        this.setState({ data: response.data })
+        let response = await this.apiClient.getSpeciesTree()
+        if (typeof response !== 'number') {
+            this.setState({data: response})
+        }
 
-        let species = await getSpecies()
-        if (species === null) {
+        let species = await this.apiClient.getSpecies()
+        if (species === null || typeof species === 'number') {
             return
         }
 
         let classification: FloraClassification = initClassification()
         for (let s of species) {
-            // classification.phylums.species.add(s.id)
-            // classification.phylums.families.add(s.id)
-            // classification.phylums.items[s.phylum.id] = (s.phylum)
-            //
-            // classification.families.species.add(s.id)
-            // classification.families.items[s.family.id] = (s.family)
-
             classification.species[s.id] = s
         }
         this.setState({ species: classification.species })
@@ -153,12 +150,15 @@ export default class Classification extends React.Component<any, AppState> {
     }
 
     async handleSuccessfulUpdateSpeciesInfo(changes: { description: string, frequency: FREQUENCY }) {
-        let response = await getApiData()
+        let response = await this.apiClient.getSpeciesTree()
+        if (typeof response === 'number') {
+            throw Error() // TODO fix it later
+        }
         let id = this.state.selectedSpeciesId!
         let changedRecord = { ...this.state.species[id], ...changes }
         this.setState((state, props) => ({
             selectedSpeciesId: null,
-            data: response.data,
+            data: response as PhylumTaxon[],
             species: {
                 ...state.species,
                 [id]: changedRecord,

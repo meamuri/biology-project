@@ -17,8 +17,8 @@ import org.springframework.web.server.ResponseStatusException
 @RequestMapping("/api/species")
 class TaxonController(private val taxonService: TaxonService) {
 
-    @GetMapping("/all")
-    fun all() = taxonService.all()
+    @GetMapping("")
+    fun getSpecies() = taxonService.all()
 
     @GetMapping("/taxon")
     fun withFilters(
@@ -26,8 +26,8 @@ class TaxonController(private val taxonService: TaxonService) {
             @RequestParam familyName: String?,
             @RequestParam speciesName: String?) = taxonService.withFilters(phylumName, familyName, speciesName)
 
-    @GetMapping("")
-    fun get(): Collection<Taxon.Phylum> = taxonService.format()
+    @GetMapping("/tree")
+    fun getTree(): Collection<Taxon.Phylum> = taxonService.format()
 
     @PutMapping("/{id}")
     fun updateSpecies(@PathVariable("id") id: String, @RequestBody dto: UpdateDTO): Taxon.Species =
