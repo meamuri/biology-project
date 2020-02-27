@@ -1,5 +1,5 @@
 import axios, {AxiosError, AxiosInstance} from 'axios'
-import { PhylumTaxon, SpeciesRecord, SpeciesTaxon } from '../taxon'
+import { PhylumTaxon, SpeciesRecord } from '../taxon'
 import { LoginResponse } from '../authentication'
 import { FREQUENCY } from '../frequency'
 
@@ -8,12 +8,16 @@ const httpClient = axios.create({
 });
 
 export default class FloraApiClient {
-    token: string | null
+    private token: string | null
     readonly axiosInstance: AxiosInstance
 
     constructor() {
         this.token = null
         this.axiosInstance = httpClient
+    }
+
+    setToken(token: string | null) {
+        this.token = token
     }
 
     async login(username: string, password: string): Promise<LoginResponse | number> {
@@ -28,8 +32,8 @@ export default class FloraApiClient {
         return await this.call('/species', 'get', )
     }
 
-    async updateSpecies(id: string, description: string, frequency: FREQUENCY): Promise<number> {
-        return await this.call(`/species/${id}`, 'put', { authorization: this.token }, { description, frequency })
+    async updateSpecies(id: string, change:  {description: string, frequency: FREQUENCY}): Promise<number> {
+        return await this.call(`/species/${id}`, 'put', { authorization: this.token }, change)
     }
 
     private async call<T>(url: string,
@@ -42,37 +46,3 @@ export default class FloraApiClient {
             .catch((e: AxiosError) => e.response?.status)
     }
 }
-
-type LoginAction = (username: string, password: string) => Promise<LoginResponse | null>
-export const login: LoginAction = async (username, password) => {
-    try {
-        let response = await httpClient.post<LoginResponse>('/auth/login', {
-            username, password
-        })
-        return response.data
-    }
-    catch (Error) {
-        return null
-    }
-};
-
-type ModifySpeciesAction = (token: string, id: string, dto: {
-    frequency: FREQUENCY,
-    description: string,
-}) => Promise<SpeciesTaxon | null>
-export const modifySpeciesAction: ModifySpeciesAction = async (token, id, dto) => {
-    try {
-        let res = await httpClient.put<SpeciesTaxon>(
-            `/species/${id}`,
-            dto,
-            {
-                headers: {
-                    'Authorization': token,
-                }
-            }
-        )
-        return res.data
-    } catch (e) {
-        return null
-    }
-};

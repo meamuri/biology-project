@@ -4,12 +4,13 @@ import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'
-import { login } from '../../lib/api'
+import FloraApiClient from '../../lib/api'
 
 type LoginProps = {
     show: boolean,
     handleSuccessfulLogin: (token: string, username: string) => void,
     handleModalClose: () => void,
+    httpClient: FloraApiClient,
 }
 
 type LoginState = {
@@ -70,8 +71,8 @@ export default class Login extends React.Component<LoginProps, LoginState> {
     }
 
     async handleLogin() {
-        let res = await login(this.state.username, this.state.password)
-        if (res === null) {
+        let res = await this.props.httpClient.login(this.state.username, this.state.password)
+        if (typeof res === 'number') {
             this.setState({
                 showErrorBlock: true,
             })

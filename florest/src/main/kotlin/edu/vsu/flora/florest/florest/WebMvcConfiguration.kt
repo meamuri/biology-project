@@ -42,6 +42,11 @@ class WebMvcConfiguration(
             .cors()
             .and()
             .csrf().disable()
+//            .exceptionHandling()
+//            .authenticationEntryPoint { _, httpServletResponse, _ ->
+//                httpServletResponse.status = HttpStatus.UNAUTHORIZED.value()
+//            }
+        // TODO: 401 on incorrect token
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
     }

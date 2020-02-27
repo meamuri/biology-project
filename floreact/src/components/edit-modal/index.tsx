@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import { SpeciesRecord } from '../../lib/taxon'
-import { modifySpeciesAction } from '../../lib/api'
+import FloraApiClient from '../../lib/api'
 import { FREQUENCY } from '../../lib/frequency'
 
 type EditSpeciesModalProps = {
@@ -14,6 +14,7 @@ type EditSpeciesModalProps = {
     handleCloseEditModal: () => void,
     handleSuccessfulUpdateSpeciesInfo: (changes: { description: string, frequency: FREQUENCY }) => void,
     token: string,
+    httpClient: FloraApiClient,
 }
 
 export default class EditSpeciesModal extends React.Component<EditSpeciesModalProps, any> {
@@ -109,8 +110,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
             description: this.state.description,
             frequency: this.state.currentFrequency,
         }
-        await modifySpeciesAction(
-            this.props.token,
+        await this.props.httpClient.updateSpecies(
             this.props.species.id,
             changes)
         this.props.handleSuccessfulUpdateSpeciesInfo(changes)

@@ -8,16 +8,24 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api")
 class AuthController(private val authService: AuthService) {
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     fun login(@RequestBody request: LoginRequest): LoginResponse {
         return authService.login(request.username, request.password)
     }
 
-    @PostMapping("/sign-up")
+    @PostMapping("/auth/sign-up")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun signUp(@RequestBody request: SignUpRequest) {
         authService.signUp(request.username, request.password)
     }
+
+    /**
+     * this endpoint provides token check.
+     * returns 204 status if token is correct, otherwise 401 unauthorized.
+     */
+    @PostMapping("/health")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun healthCheck() = Unit
 }

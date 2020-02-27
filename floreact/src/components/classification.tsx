@@ -26,8 +26,10 @@ export default class Classification extends React.Component<any, AppState> {
     apiClient: FloraApiClient
     constructor(props: any) {
         super(props);
+        let client = new FloraApiClient()
         let user = localStorage.getItem("user")
         let token = localStorage.getItem("token")
+        client.setToken(token)
         this.state = {
             user,
             token,
@@ -46,8 +48,7 @@ export default class Classification extends React.Component<any, AppState> {
         this.handleSelectSpecies = this.handleSelectSpecies.bind(this)
         this.handleCloseEditModal = this.handleCloseEditModal.bind(this)
         this.handleSuccessfulUpdateSpeciesInfo = this.handleSuccessfulUpdateSpeciesInfo.bind(this)
-
-        this.apiClient = new FloraApiClient()
+        this.apiClient = client
     }
 
     async componentDidMount() {
@@ -103,9 +104,11 @@ export default class Classification extends React.Component<any, AppState> {
                 <Login show={this.state.show}
                        handleModalClose={this.handleModalClose}
                        handleSuccessfulLogin={this.handleSuccessfulLogin}
+                       httpClient={this.apiClient}
                 /> }
                 {this.state.selectedSpeciesId &&
                 <EditSpeciesModal
+                    httpClient={this.apiClient}
                     handleSuccessfulUpdateSpeciesInfo={this.handleSuccessfulUpdateSpeciesInfo}
                     token={this.state.token}
                     show={this.state.selectedSpeciesId !== null}
