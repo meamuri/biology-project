@@ -53,12 +53,10 @@ export default class Classification extends React.Component<any, AppState> {
 
     async componentDidMount() {
         let response = await this.apiClient.getSpeciesTree()
-        if (typeof response !== 'number') {
-            this.setState({data: response})
-        }
+        this.setState({data: response})
 
         let species = await this.apiClient.getSpecies()
-        if (species === null || typeof species === 'number') {
+        if (species === null) {
             return
         }
 
@@ -154,9 +152,6 @@ export default class Classification extends React.Component<any, AppState> {
 
     async handleSuccessfulUpdateSpeciesInfo(changes: { description: string, frequency: FREQUENCY }) {
         let response = await this.apiClient.getSpeciesTree()
-        if (typeof response === 'number') {
-            throw Error() // TODO fix it later
-        }
         let id = this.state.selectedSpeciesId!
         let changedRecord = { ...this.state.species[id], ...changes }
         this.setState((state, props) => ({

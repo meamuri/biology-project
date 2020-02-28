@@ -71,15 +71,15 @@ export default class Login extends React.Component<LoginProps, LoginState> {
     }
 
     async handleLogin() {
-        let res = await this.props.httpClient.login(this.state.username, this.state.password)
-        if (typeof res === 'number') {
+        try {
+            let res = await this.props.httpClient.login(this.state.username, this.state.password)
+            this.props.handleSuccessfulLogin(res.token, this.state.username)
+            this.handleClose()
+        } catch (e) {
             this.setState({
                 showErrorBlock: true,
             })
-            return
         }
-        this.props.handleSuccessfulLogin(res.token, this.state.username)
-        this.handleClose()
     }
 
     handleFormInput(key: 'username' | 'password', event: FormEvent<HTMLInputElement>) {
