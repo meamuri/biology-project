@@ -1,14 +1,14 @@
-import React from 'react';
+import React from 'react'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-} from 'react-router-dom';
-import Config from './config';
-import './App.css';
+} from 'react-router-dom'
+import Config from './config'
+import './App.css'
 import { MainPage } from './components/MainPage'
 import { Table } from './components/Table'
-import Classification from "./components/classification";
+import Classification from './components/Classification'
 
 
 const App: React.FC = () => {
@@ -27,6 +27,6 @@ const App: React.FC = () => {
         </Switch>
       </Router>
   )
-};
+}
 
-export default App;
+export default App
