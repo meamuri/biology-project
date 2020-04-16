@@ -21,9 +21,9 @@ export const Species: React.FC<SpeciesComponentProps> = (props) => {
     let label = frequencyToLabel(props.frequency)
     return (
         <tr onClick={e => props.handleSelectSpecies(props.id)}>
-            <td style={{width: '35%'}}>{props.name}</td>
-            <td style={{width: '35%'}}>{props.ruLocaleName}</td>
-            <td style={{width: '30%'}}><span className={`badge ${label}`}>{props.frequency}</span></td>
+            <td style={{width: '40%'}}>{props.name}</td>
+            <td style={{width: '40%'}}>{props.ruLocaleName}</td>
+            <td style={{width: '20%'}}><span className={`badge ${label}`}>{props.frequency}</span></td>
         </tr>
     )
 };

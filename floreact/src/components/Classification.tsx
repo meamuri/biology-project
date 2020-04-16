@@ -10,6 +10,10 @@ import { PhylumTaxon, SpeciesRecord } from '../lib/taxon'
 import { FloraClassification, initClassification } from './classification/schema'
 import { FREQUENCY } from '../lib/frequency'
 import Table from 'react-bootstrap/Table'
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import Card from "react-bootstrap/Card";
+import Accordion from "react-bootstrap/Accordion";
 
 type AppState =
     { [key: string]: any } &
@@ -53,12 +57,10 @@ export default class Classification extends React.Component<any, AppState> {
 
     async componentDidMount() {
         let response = await this.apiClient.getSpeciesTree()
-        if (typeof response !== 'number') {
-            this.setState({data: response})
-        }
+        this.setState({data: response})
 
         let species = await this.apiClient.getSpecies()
-        if (species === null || typeof species === 'number') {
+        if (species === null) {
             return
         }
 
@@ -72,7 +74,9 @@ export default class Classification extends React.Component<any, AppState> {
     render(): React.ReactElement {
         return (
             <>
-            <div className="container">
+                <Row>
+                    <Col xs={1} />
+                    <Col xs={10} >
                 <Navbar className="navbar justify-content-between navbar-expand-lg navbar-light bg-light">
                     <Navbar.Brand href="/">Флора</Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end mr-3">
@@ -88,18 +92,40 @@ export default class Classification extends React.Component<any, AppState> {
                         }
                     </Form>
                 </Navbar>
+                    </Col>
+                </Row>
 
-                <Table className="mt-3">
-                    <thead>
-                    <tr>
-                        <th scope="col" colSpan={2} style={{width: '70%'}} />
-                        <th scope="col" style={{width: '30%'}}>встречаемость</th>
-                    </tr>
-                    </thead>
-                </Table>
-                <FloraComponent data={this.state.data} handleSelectSpecies={this.handleSelectSpecies} />
+                <Row>
+                    <Col xs={1} />
+                    <Col xs={8} >
+                        <FloraComponent data={this.state.data} handleSelectSpecies={this.handleSelectSpecies} />
+                    </Col>
+                    <Col xs={2}>
+                        <Accordion className="mt-3" defaultActiveKey="0">
+                            <Card>
+                                <Card.Header>
+                                    <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                                        Природоохранный статус
+                                    </Accordion.Toggle>
+                                </Card.Header>
+                                <Accordion.Collapse eventKey="0">
+                                    <Card.Body>HIGH</Card.Body>
+                                </Accordion.Collapse>
+                            </Card>
+                            <Card>
+                                <Card.Header>
+                                    <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                        Местоположение
+                                    </Accordion.Toggle>
+                                </Card.Header>
+                                <Accordion.Collapse eventKey="1">
+                                    <Card.Body>Hello! I'm another body</Card.Body>
+                                </Accordion.Collapse>
+                            </Card>
+                        </Accordion>
+                    </Col>
+                </Row>
 
-            </div>
                 {this.state.show &&
                 <Login show={this.state.show}
                        handleModalClose={this.handleModalClose}
@@ -154,9 +180,6 @@ export default class Classification extends React.Component<any, AppState> {
 
     async handleSuccessfulUpdateSpeciesInfo(changes: { description: string, frequency: FREQUENCY }) {
         let response = await this.apiClient.getSpeciesTree()
-        if (typeof response === 'number') {
-            throw Error() // TODO fix it later
-        }
         let id = this.state.selectedSpeciesId!
         let changedRecord = { ...this.state.species[id], ...changes }
         this.setState((state, props) => ({
