@@ -9,11 +9,10 @@ import FloraApiClient from '../lib/api'
 import { PhylumTaxon, SpeciesRecord } from '../lib/taxon'
 import { FloraClassification, initClassification } from './classification/schema'
 import { FREQUENCY } from '../lib/frequency'
-import Table from 'react-bootstrap/Table'
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import Card from "react-bootstrap/Card";
-import Accordion from "react-bootstrap/Accordion";
+import Col from "react-bootstrap/Col"
+import Row from "react-bootstrap/Row"
+import Card from "react-bootstrap/Card"
+import Accordion from "react-bootstrap/Accordion"
 
 type AppState =
     { [key: string]: any } &

@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance } from 'axios'
+import axios, { AxiosInstance } from 'axios'
 import { LoginResponse } from './authentication'
 import { PhylumTaxon, SpeciesRecord } from '../taxon'
 import { FREQUENCY } from '../frequency'
