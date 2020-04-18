@@ -18,6 +18,15 @@ export class FloraApiClient {
         this.axiosInstance = httpClient
     }
 
+    async validateToken(token: string): Promise<Boolean> {
+        try {
+            await this.call('/health', 'post', { authorization: token }, )
+            return true
+        } catch (e) {
+            return false
+        }
+    }
+
     setToken(token: string | null) {
         this.token = token
     }

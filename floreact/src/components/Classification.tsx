@@ -30,9 +30,17 @@ export default class Classification extends React.Component<any, AppState> {
     constructor(props: any) {
         super(props);
         let client = new FloraApiClient()
+
         let user = localStorage.getItem("user")
         let token = localStorage.getItem("token")
-        client.setToken(token)
+
+        if (token !== null && client.validateToken(token)) {
+            client.setToken(token)
+        } else {
+            localStorage.removeItem("user")
+            localStorage.removeItem("token")
+        }
+
         this.state = {
             user,
             token,

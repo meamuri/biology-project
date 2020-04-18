@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.ResourceLoader
 import org.springframework.http.HttpMethod
+import org.springframework.http.HttpStatus
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
@@ -42,11 +43,10 @@ class WebMvcConfiguration(
             .cors()
             .and()
             .csrf().disable()
-//            .exceptionHandling()
-//            .authenticationEntryPoint { _, httpServletResponse, _ ->
-//                httpServletResponse.status = HttpStatus.UNAUTHORIZED.value()
-//            }
-        // TODO: 401 on incorrect token
+            .exceptionHandling()
+            .authenticationEntryPoint { _, httpServletResponse, _ ->
+                httpServletResponse.sendError(HttpStatus.UNAUTHORIZED.value(), "should be authenticated")
+            }
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
     }
