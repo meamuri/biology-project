@@ -55,7 +55,7 @@ export class FloraApiClient {
             let response = await this.axiosInstance.request({ url, method, data, headers })
             return response.data
         } catch (e) {
-            throw new FloraApiException(e)
+            return Promise.reject(new FloraApiException(e))
         }
     }
 }

@@ -28,18 +28,12 @@ type AppState =
 export default class Classification extends React.Component<any, AppState> {
     apiClient: FloraApiClient
     constructor(props: any) {
-        super(props);
+        super(props)
         let client = new FloraApiClient()
 
         let user = localStorage.getItem("user")
         let token = localStorage.getItem("token")
-
-        if (token !== null && client.validateToken(token)) {
-            client.setToken(token)
-        } else {
-            localStorage.removeItem("user")
-            localStorage.removeItem("token")
-        }
+        client.setToken(token)
 
         this.state = {
             user,
@@ -76,6 +70,16 @@ export default class Classification extends React.Component<any, AppState> {
             classification.species[s.id] = s
         }
         this.setState({ species: classification.species })
+
+        let token = this.state.token
+        if (token !== null && !await this.apiClient.validateToken(token)) {
+            localStorage.removeItem("user")
+            localStorage.removeItem("token")
+            this.setState({
+                token: null,
+                user: null,
+            })
+        }
     }
 
     render(): React.ReactElement {
