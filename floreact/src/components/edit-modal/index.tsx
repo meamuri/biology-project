@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import { SpeciesRecord } from '../../lib/taxon'
 import FloraApiClient from '../../lib/api'
-import { FREQUENCY } from '../../lib/frequency'
+import { describeFrequency, FREQUENCY } from '../../lib/frequency'
 
 type EditSpeciesModalProps = {
     species: SpeciesRecord,
@@ -74,7 +74,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                         <Col sm="8">
                         <Form.Control as="select" onChange={this.handleFrequencyChange} defaultValue={this.state.currentFrequency}>
                             {['DISAPPEARED', 'ENDANGERED', 'SHRINKING', 'RARE', 'RECOVERING', 'UNDEFINED'].map((frequency, i) =>
-                                <option key={i}>{frequency}</option>
+                                <option value={frequency} key={i}>{describeFrequency(frequency)}</option>
                             )}
                         </Form.Control>
                         </Col>

@@ -1,18 +1,17 @@
-import React from 'react';
-import { SpeciesProps } from './taxon-props';
-import { FREQUENCY } from '../../lib/frequency';
+import React from 'react'
+import { SpeciesProps } from './taxon-props'
+import { describeFrequency , FREQUENCY } from '../../lib/frequency'
 
 function frequencyToLabel(frequency: FREQUENCY) {
     switch (frequency) {
         case 'DISAPPEARED':
-            return "badge-danger";
         case 'ENDANGERED':
-            return "badge-warning";
+            return "badge-danger";
         case 'SHRINKING':
-            return "badge-success";
         case "RARE":
+            return "badge-warning";
         case "RECOVERING":
-            return "badge-warning"
+            return "badge-success";
         case 'UNDEFINED':
         default:
             return "badge-secondary";
@@ -27,7 +26,7 @@ export const Species: React.FC<SpeciesComponentProps> = (props) => {
         <tr onClick={e => props.handleSelectSpecies(props.id)}>
             <td style={{width: '40%'}}>{props.name}</td>
             <td style={{width: '40%'}}>{props.ruLocaleName}</td>
-            <td style={{width: '20%'}}><span className={`badge ${label}`}>{props.frequency}</span></td>
+            <td style={{width: '20%'}}><span className={`badge ${label}`}>{describeFrequency(props.frequency)}</span></td>
         </tr>
     )
 };
