@@ -5,14 +5,14 @@ import org.springframework.data.mongodb.core.mapping.Document
 
 @Document(collection = "species")
 data class Record(
-        @Id var id: String,
-        var phylum: SubRecord,
-        var family: SubRecord,
-        var name: String,
-        var ruLocaleName: String? = null,
-        var frequency: Frequency = Frequency.UNKNOWN,
-        var description: String? = null,
-        var locations: List<Location>? = null
+    @Id var id: String,
+    var phylum: SubRecord,
+    var family: SubRecord,
+    var name: String,
+    var ruLocaleName: String? = null,
+    var frequency: Frequency = Frequency.UNDEFINED,
+    var description: String? = null,
+    var locations: List<Location>? = null
 )
 
 data class SubRecord(
