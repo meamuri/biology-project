@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+source .env && mongodump --db=flora --archive=floradb --gzip
