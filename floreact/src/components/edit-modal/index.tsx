@@ -21,7 +21,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
     constructor(props: EditSpeciesModalProps) {
         super(props)
         this.state = {
-            currentFrequency: props.species.frequency || 'UNKNOWN',
+            currentFrequency: props.species.frequency || 'UNDEFINED',
             initialDescription: props.species.description || '',
             description: props.species.description || '',
         }
@@ -73,7 +73,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                         </Form.Label>
                         <Col sm="8">
                         <Form.Control as="select" onChange={this.handleFrequencyChange} defaultValue={this.state.currentFrequency}>
-                            {['HIGH', 'MEDIUM', 'LOW', 'UNKNOWN'].map((frequency, i) =>
+                            {['DISAPPEARED', 'ENDANGERED', 'SHRINKING', 'RARE', 'RECOVERING', 'UNDEFINED'].map((frequency, i) =>
                                 <option key={i}>{frequency}</option>
                             )}
                         </Form.Control>

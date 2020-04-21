@@ -4,12 +4,16 @@ import { FREQUENCY } from '../../lib/frequency';
 
 function frequencyToLabel(frequency: FREQUENCY) {
     switch (frequency) {
-        case 'LOW':
+        case 'DISAPPEARED':
             return "badge-danger";
-        case 'MEDIUM':
+        case 'ENDANGERED':
             return "badge-warning";
-        case 'HIGH':
+        case 'SHRINKING':
             return "badge-success";
+        case "RARE":
+        case "RECOVERING":
+            return "badge-warning"
+        case 'UNDEFINED':
         default:
             return "badge-secondary";
     }

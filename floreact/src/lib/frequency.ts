@@ -1,2 +1,8 @@
 
-export type FREQUENCY = 'LOW' | 'MEDIUM' | 'HIGH' | 'UNKNOWN'
+export type FREQUENCY =
+    'DISAPPEARED' |
+    'ENDANGERED' |
+    'SHRINKING' |
+    'RARE' |
+    'RECOVERING' |
+    'UNDEFINED'
