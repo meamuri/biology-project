@@ -23,12 +23,12 @@ sealed class Taxon: TaxonProperties {
     ) : Taxon()
 
     data class Species(
-            override val id: String,
-            override val name: String,
-            val parentId: String,
-            override val ruLocaleName: String?,
-            val frequency: Frequency? = Frequency.UNKNOWN,
-            val description: String? = null,
-            var locations: List<Location>? = null
+        override val id: String,
+        override val name: String,
+        val parentId: String,
+        override val ruLocaleName: String?,
+        val frequency: Frequency? = Frequency.UNDEFINED,
+        val description: String? = null,
+        var locations: List<Location>? = null
     ) : Taxon()
 }
