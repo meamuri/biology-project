@@ -1,10 +1,10 @@
 package edu.vsu.flora.florest.florest.taxones.shema
 
 enum class Frequency {
-    DISAPPEARED, // исчезнувшие
-    ENDANGERED,  // под угрозой исчезновения
-    SHRINKING,   // сокращающиеся
+    DISAPPEARED, // вероятно исчезнувшие
+    ENDANGERED,  // находящиеся под угрозой исчезновения
+    SHRINKING,   // сокращающиеся в численности
     RARE,        // редкие
-    RECOVERING,  // восстанавливающиеся
-    UNDEFINED,   // неопределенный
+    RECOVERING,  // неопределенные по статусу
+    UNDEFINED,   // восстанавливаемые и восстанавливающиеся
 }
