@@ -1,5 +1,6 @@
 package edu.vsu.flora.florest.florest.taxones.repository
 
+import edu.vsu.flora.florest.florest.taxones.shema.Frequency
 import edu.vsu.flora.florest.florest.taxones.shema.Record
 import edu.vsu.flora.florest.florest.taxones.shema.UpdateDTO
 import org.springframework.data.mongodb.core.FindAndModifyOptions
@@ -26,11 +27,15 @@ class TaxonRepositoryCustomImpl(private val mongoTemplate: MongoTemplate) : Taxo
         return mongoTemplate.find(query, Record::class.java)
     }
 
-    override fun updateSpecies(id: String, updateDTO: UpdateDTO): Record? {
+    override fun updateSpecies(
+        id: String,
+        frequency: Frequency,
+        description: String
+    ): Record? {
         val query = Query(Criteria.where("_id").`is`(id))
         val update = Update()
-            .set("frequency", updateDTO.frequency)
-            .set("description", updateDTO.description)
+            .set("frequency", frequency)
+            .set("description", description)
         return mongoTemplate.findAndModify(
             query,
             update,

@@ -1,6 +1,7 @@
 package edu.vsu.flora.florest.florest.taxones
 
 import edu.vsu.flora.florest.florest.taxones.repository.TaxonRepository
+import edu.vsu.flora.florest.florest.taxones.shema.Frequency
 import edu.vsu.flora.florest.florest.taxones.shema.Record
 import edu.vsu.flora.florest.florest.taxones.shema.Taxon
 import edu.vsu.flora.florest.florest.taxones.shema.UpdateDTO
@@ -38,8 +39,11 @@ class TaxonService(private val taxonRepository: TaxonRepository) : Logging {
     }
 
     fun update(id: String, dto: UpdateDTO): Taxon.Species {
-        val res = taxonRepository.updateSpecies(id, dto) ?:
-            throw ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown species id")
+        val frequency = Frequency.values()
+            .find { it.name == dto.frequency }
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown species id")
+        val res = taxonRepository.updateSpecies(id, frequency, dto.description)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown species id")
         return Taxon.Species(res.id, res.name, res.family.id, res.ruLocaleName, res.frequency, res.description, res.locations)
     }
 }
