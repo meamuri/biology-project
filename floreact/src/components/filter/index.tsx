@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {FormEvent} from 'react'
 import Card from 'react-bootstrap/Card'
 import Accordion from 'react-bootstrap/Accordion'
 import Button from 'react-bootstrap/Button'
@@ -7,6 +7,13 @@ import { signsToFrequency } from '../../lib/frequency'
 
 
 export default class Filter extends React.Component<any, any> {
+    private readonly prefix: string = 'frequency-filter'
+
+    constructor(props: any) {
+        super(props)
+        this.handleFormInput = this.handleFormInput.bind(this)
+    }
+
     render(): React.ReactElement {
         let frequenciesSigns = signsToFrequency()
         let signs = Object.keys(frequenciesSigns)
@@ -23,9 +30,11 @@ export default class Filter extends React.Component<any, any> {
                             <Form>
                                 {['ALL', ...signs].map(e =>
                                     <Form.Check
+                                        key={`${this.prefix}-key-${e}`}
                                         type='checkbox'
-                                        id={e}
+                                        id={`${this.prefix}-id-${e}`}
                                         label={`${e}`}
+                                        onChange={this.handleFormInput}
                                     />
                                 )}
                             </Form>
@@ -44,5 +53,9 @@ export default class Filter extends React.Component<any, any> {
                 </Card>
             </Accordion>
         )
+    }
+
+    handleFormInput(event: FormEvent<HTMLInputElement>) {
+        console.log("Wooosh")
     }
 }
