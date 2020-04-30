@@ -85,7 +85,10 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                 <Button variant="secondary" onClick={this.props.handleCloseEditModal}>
                     Отмена
                 </Button>
-                <Button disabled={!isFieldsChanged} variant="primary" onClick={this.handleOkButton}>
+                <Button disabled={!isFieldsChanged}
+                        style={{cursor: isFieldsChanged ? 'pointer' : 'default' }}
+                        variant="primary"
+                        onClick={this.handleOkButton}>
                     Сохранить
                 </Button>
             </Modal.Footer>

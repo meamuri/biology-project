@@ -20,7 +20,7 @@ export const Family: React.FC<FamilyComponentProps> = (props) => {
         <Table className="table-bordered table-hover">
             <thead>
                 <tr>
-                    <th scope="col" colSpan={3}>{props.name}</th>
+                    <th scope="col" colSpan={4}>{props.name}</th>
                 </tr>
             </thead>
             <tbody>

@@ -7,7 +7,14 @@ export type FREQUENCY =
     'RECOVERING' |
     'UNDEFINED'
 
-const frequencies: {[key: string]: any } = {
+type frequencyDescription = {
+    npp: number,
+    name: string,
+    digitSign: string,
+    styleLabel: string,
+}
+
+const frequencies: {[key: string]: frequencyDescription } = {
     'DISAPPEARED': {
         npp: 0,
         name: "вероятно исчезнувшие",
@@ -32,21 +39,29 @@ const frequencies: {[key: string]: any } = {
         digitSign: "III",
         styleLabel: "statusRare",
     },
-    'RECOVERING': {
-        npp: 5,
-        name: "неопределенные по статусу",
-        digitSign: "V",
-        styleLabel: "statusRecovering",
-    },
     'UNDEFINED': {
         npp: 4,
         name: "восстанавливаемые и восстанавливающиеся",
         digitSign: "IV",
         styleLabel: "statusUndefined",
+    },
+    'RECOVERING': {
+        npp: 5,
+        name: "неопределенные по статусу",
+        digitSign: "V",
+        styleLabel: "statusRecovering",
     }
 }
 
-function extractByKey(f: string, key: string) {
+export function signsToFrequency() {
+    let res: {[key: string]: string} = {}
+    for (let i in frequencies) {
+        res[frequencies[i].digitSign] = i
+    }
+    return res
+}
+
+function extractByKey(f: string, key: 'npp' | 'name' | 'digitSign' | 'styleLabel'): any {
     let expected = frequencies[f]
     let res = !expected ? frequencies['UNDEFINED'] : expected
     return res[key]
