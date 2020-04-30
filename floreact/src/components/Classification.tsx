@@ -9,10 +9,9 @@ import FloraApiClient from '../lib/api'
 import { PhylumTaxon, SpeciesRecord } from '../lib/taxon'
 import { FloraClassification, initClassification } from './classification/schema'
 import { FREQUENCY } from '../lib/frequency'
-import Col from "react-bootstrap/Col"
-import Row from "react-bootstrap/Row"
-import Card from "react-bootstrap/Card"
-import Accordion from "react-bootstrap/Accordion"
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
+import Filter from './filter'
 
 type AppState =
     { [key: string]: any } &
@@ -112,28 +111,7 @@ export default class Classification extends React.Component<any, AppState> {
                         <FloraComponent data={this.state.data} handleSelectSpecies={this.handleSelectSpecies} />
                     </Col>
                     <Col md={{offset: 9}} className="fixed-top" style={{marginTop: '62px'}}>
-                        <Accordion className="mt-3" defaultActiveKey="0">
-                            <Card>
-                                <Card.Header>
-                                    <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                                        Природоохранный статус
-                                    </Accordion.Toggle>
-                                </Card.Header>
-                                <Accordion.Collapse eventKey="0">
-                                    <Card.Body>HIGH</Card.Body>
-                                </Accordion.Collapse>
-                            </Card>
-                            <Card>
-                                <Card.Header>
-                                    <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                                        Местоположение
-                                    </Accordion.Toggle>
-                                </Card.Header>
-                                <Accordion.Collapse eventKey="1">
-                                    <Card.Body>Hello! I'm another body</Card.Body>
-                                </Accordion.Collapse>
-                            </Card>
-                        </Accordion>
+                        <Filter/>
                     </Col>
                 </Row>
 
