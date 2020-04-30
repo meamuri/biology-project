@@ -16,7 +16,11 @@ export const Species: React.FC<SpeciesComponentProps> = (props) => {
             <td style={{width: '8%'}}><span className={`badge ${label}`}>{frequencyToDigitSign(props.frequency)}</span></td>
             <td
                 onClick={e => props.handleSelectSpecies(props.id)}
-                style={{width: '8%'}}>
+                style={{
+                    width: '8%',
+                    cursor: 'pointer',
+                }}
+            >
                 <FontAwesomeIcon icon={faEdit} />
             </td>
         </tr>
