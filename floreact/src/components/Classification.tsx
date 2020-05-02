@@ -7,7 +7,7 @@ import Login from './login'
 import EditSpeciesModal from './edit-modal'
 import FloraApiClient from '../lib/api'
 import { PhylumTaxon, SpeciesRecord } from '../lib/taxon'
-import { FloraClassification, initClassification } from './classification/schema'
+import { FloraClassification, initClassification, fillClassifications } from './classification/schema'
 import { FREQUENCY } from '../lib/frequency'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
@@ -56,19 +56,14 @@ export default class Classification extends React.Component<any, AppState> {
     }
 
     async componentDidMount() {
-        let response = await this.apiClient.getSpeciesTree()
-        this.setState({data: response})
-
         let species = await this.apiClient.getSpecies()
         if (species === null) {
             return
         }
 
-        let classification: FloraClassification = initClassification()
-        for (let s of species) {
-            classification.species[s.id] = s
-        }
-        this.setState({ species: classification.species })
+        this.setState({
+            data: fillClassifications(species),
+        })
 
         let token = this.state.token
         if (token !== null && !await this.apiClient.validateToken(token)) {

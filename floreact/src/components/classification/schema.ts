@@ -27,10 +27,10 @@ export type FloraClassification = {
 
 export function fillClassifications(records: SpeciesRecord[]): PhylumTaxon[] {
     let speciesByFamily: Map<string, SpeciesTaxon[]> = records.reduce((acc, e) => {
-        if (!acc.has(e.parentId!)) {
-            acc.set(e.parentId!, [])
+        if (!acc.has(e.family.id!)) {
+            acc.set(e.family.id!, [])
         }
-        acc.get(e.parentId!)!.push({
+        acc.get(e.family.id!)!.push({
             id: e.id,
             key: e.id,
             name: e.name,
@@ -40,7 +40,6 @@ export function fillClassifications(records: SpeciesRecord[]): PhylumTaxon[] {
         })
         return acc
     }, new Map<string, SpeciesTaxon[]>())
-
 
     let groupedFamilies = records.reduce((acc: Map<string, SpeciesRecord>, e: SpeciesRecord) => {
         if (!acc.has(e.family.id!)) {
