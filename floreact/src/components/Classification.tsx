@@ -16,6 +16,7 @@ import Filter from './filter'
 type AppState =
     { [key: string]: any } &
     {
+        filters: ((record: SpeciesRecord) => boolean)[],
         data: PhylumTaxon[],
         classification: FloraClassification,
         selectedSpeciesId: string | null,
@@ -43,6 +44,7 @@ export default class Classification extends React.Component<any, AppState> {
             data: [],
             classification: initClassification(),
             species: {},
+            filters: [],
         }
         this.handleModalClose = this.handleModalClose.bind(this)
         this.handleShow = this.handleShow.bind(this)
@@ -52,6 +54,7 @@ export default class Classification extends React.Component<any, AppState> {
         this.handleSelectSpecies = this.handleSelectSpecies.bind(this)
         this.handleCloseEditModal = this.handleCloseEditModal.bind(this)
         this.handleSuccessfulUpdateSpeciesInfo = this.handleSuccessfulUpdateSpeciesInfo.bind(this)
+        this.updateFilters = this.updateFilters.bind(this)
         this.apiClient = client
     }
 
@@ -61,8 +64,10 @@ export default class Classification extends React.Component<any, AppState> {
             return
         }
 
+        // TODO: prevent duplicate logic
+        let filteredRecords = this.excludeSpecies(species, this.state.filters)
         this.setState({
-            data: fillClassifications(species),
+            data: fillClassifications(filteredRecords),
             species: species.reduce((acc: {[id :string] : SpeciesRecord}, e: SpeciesRecord) => {
                 acc[e.id!] = e
                 return acc
@@ -110,7 +115,7 @@ export default class Classification extends React.Component<any, AppState> {
                         <FloraComponent data={this.state.data} handleSelectSpecies={this.handleSelectSpecies} />
                     </Col>
                     <Col md={{offset: 9}} className="fixed-top" style={{marginTop: '62px'}}>
-                        <Filter/>
+                        <Filter handleFiltersChanged={this.updateFilters}/>
                     </Col>
                 </Row>
 
@@ -173,16 +178,35 @@ export default class Classification extends React.Component<any, AppState> {
             return
         }
 
+        // TODO: prevent duplicate logic
+        let filteredRecords = this.excludeSpecies(species, this.state.filters)
         let id = this.state.selectedSpeciesId!
         let changedRecord = { ...this.state.species[id], ...changes }
         this.setState((state, props) => ({
             selectedSpeciesId: null,
-            data: fillClassifications(species),
+            data: fillClassifications(filteredRecords),
             species: {
                 ...state.species,
                 [id]: changedRecord,
             },
         }))
+    }
+
+    private excludeSpecies(records: SpeciesRecord[], filtersSet: ((record: SpeciesRecord) => boolean)[]): SpeciesRecord[] {
+        return records.filter(e => {
+            for (let filter of filtersSet) {
+                if (filter(e)) {
+                    return false
+                }
+            }
+            return true
+        })
+    }
+
+    private updateFilters(newFilters: ((record: SpeciesRecord) => boolean)[]) {
+        this.setState({
+            filters: newFilters,
+        })
     }
 
     handleCloseEditModal() {

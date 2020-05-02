@@ -4,14 +4,18 @@ import Accordion from 'react-bootstrap/Accordion'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import { signsToFrequency } from '../../lib/frequency'
+import { SpeciesRecord } from '../../lib/taxon'
 
+type FilterProps = {
+    handleFiltersChanged: (filters: ((f: SpeciesRecord) => boolean)[]) => void,
+}
 
 type FilterState = {
     allSelected: boolean,
     selected: Set<string>,
 }
 
-export default class Filter extends React.Component<any, FilterState> {
+export default class Filter extends React.Component<FilterProps, FilterState> {
     private readonly prefix: string = 'frequency-filter'
 
     constructor(props: any) {
