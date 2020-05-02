@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card'
 import Accordion from 'react-bootstrap/Accordion'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import { signsToFrequency } from '../../lib/frequency'
+import { signsToFrequency, frequencyToDigitSign } from '../../lib/frequency'
 import { SpeciesRecord } from '../../lib/taxon'
 
 type FilterProps = {
@@ -13,6 +13,7 @@ type FilterProps = {
 type FilterState = {
     allSelected: boolean,
     selected: Set<string>,
+    frequenciesSigns: {[s: string]: string},
 }
 
 export default class Filter extends React.Component<FilterProps, FilterState> {
@@ -23,6 +24,7 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
         this.state = {
             allSelected: true,
             selected: new Set<string>(),
+            frequenciesSigns: signsToFrequency(),
         }
         this.handleAllCheckbox = this.handleAllCheckbox.bind(this)
     }
@@ -34,12 +36,11 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
                 type='checkbox'
                 id={`${this.prefix}-id-ALL`}
                 label='ВСЕ'
-                checked={this.state.allSelected}
+                checked={this.state.selected.size === 0}
                 onChange={this.handleAllCheckbox}
             />
         );
-        let frequenciesSigns = signsToFrequency()
-        let signs = Object.keys(frequenciesSigns)
+        let signs = Object.keys(this.state.frequenciesSigns)
         let checkboxes = signs.map(e =>
             <Form.Check
                 key={`${this.prefix}-key-${e}`}
@@ -86,20 +87,26 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
             selected: isChecked ? new Set<string>() : state.selected,
             allSelected: isChecked,
         }))
+        this.props.handleFiltersChanged([])
     }
 
     handleFrequencyCheckbox(event: ChangeEvent<HTMLInputElement>, n: string) {
         let isChecked = event.target.checked
+        let newSelectedSet = this.state.selected
+        if (isChecked) {
+            newSelectedSet.add(n)
+        } else {
+            newSelectedSet.delete(n)
+        }
         this.setState((state, props) => {
-            if (isChecked) {
-                state.selected.add(n)
-            } else {
-                state.selected.delete(n)
-            }
             return {
                 allSelected: state.selected.size === 0,
-                selected: state.selected,
+                selected: newSelectedSet,
             }
         })
+
+        this.props.handleFiltersChanged([
+            (e) => newSelectedSet.has(frequencyToDigitSign(e.frequency!)),
+        ])
     }
 }
