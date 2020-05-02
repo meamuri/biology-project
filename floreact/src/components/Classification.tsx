@@ -7,7 +7,7 @@ import Login from './login'
 import EditSpeciesModal from './edit-modal'
 import FloraApiClient from '../lib/api'
 import { PhylumTaxon, SpeciesRecord } from '../lib/taxon'
-import { FloraClassification, initClassification, fillClassifications } from './classification/schema'
+import { fillClassifications } from './classification/schema'
 import { FREQUENCY } from '../lib/frequency'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
@@ -18,11 +18,8 @@ type AppState =
     {
         filters: ((record: SpeciesRecord) => boolean)[],
         data: PhylumTaxon[],
-        classification: FloraClassification,
         selectedSpeciesId: string | null,
-        species: {
-            [key: string]: SpeciesRecord,
-        },
+        species: Map<string, SpeciesRecord>,
     }
 
 export default class Classification extends React.Component<any, AppState> {
@@ -42,8 +39,7 @@ export default class Classification extends React.Component<any, AppState> {
             show: false,
             selectedSpeciesId: null,
             data: [],
-            classification: initClassification(),
-            species: {},
+            species: new Map(),
             filters: [],
         }
         this.handleModalClose = this.handleModalClose.bind(this)
@@ -68,10 +64,10 @@ export default class Classification extends React.Component<any, AppState> {
         let filteredRecords = this.excludeSpecies(species, this.state.filters)
         this.setState({
             data: fillClassifications(filteredRecords),
-            species: species.reduce((acc: {[id :string] : SpeciesRecord}, e: SpeciesRecord) => {
-                acc[e.id!] = e
+            species: species.reduce((acc, e) => {
+                acc.set(e.id!, e)
                 return acc
-            }, {})
+            }, new Map<string, SpeciesRecord>())
         })
 
         let token = this.state.token
@@ -131,7 +127,7 @@ export default class Classification extends React.Component<any, AppState> {
                     handleSuccessfulUpdateSpeciesInfo={this.handleSuccessfulUpdateSpeciesInfo}
                     token={this.state.token}
                     show={this.state.selectedSpeciesId !== null}
-                    species={this.state.species[this.state.selectedSpeciesId]}
+                    species={this.state.species.get(this.state.selectedSpeciesId)!}
                     handleCloseEditModal={this.handleCloseEditModal}
                 /> }
             </>
@@ -181,7 +177,7 @@ export default class Classification extends React.Component<any, AppState> {
         // TODO: prevent duplicate logic
         let filteredRecords = this.excludeSpecies(species, this.state.filters)
         let id = this.state.selectedSpeciesId!
-        let changedRecord = { ...this.state.species[id], ...changes }
+        let changedRecord = { ...this.state.species.get(id)!, ...changes }
         this.setState((state, props) => ({
             selectedSpeciesId: null,
             data: fillClassifications(filteredRecords),
@@ -195,7 +191,7 @@ export default class Classification extends React.Component<any, AppState> {
     private excludeSpecies(records: SpeciesRecord[], filtersSet: ((record: SpeciesRecord) => boolean)[]): SpeciesRecord[] {
         return records.filter(e => {
             for (let filter of filtersSet) {
-                if (filter(e)) {
+                if (!filter(e)) {
                     return false
                 }
             }
@@ -204,8 +200,11 @@ export default class Classification extends React.Component<any, AppState> {
     }
 
     private updateFilters(newFilters: ((record: SpeciesRecord) => boolean)[]) {
+        // TODO: prevent duplicate logic
+        let filteredRecords = this.excludeSpecies(Array.from(this.state.species.values()), this.state.filters)
         this.setState({
             filters: newFilters,
+            data: fillClassifications(filteredRecords),
         })
     }
 
