@@ -63,6 +63,10 @@ export default class Classification extends React.Component<any, AppState> {
 
         this.setState({
             data: fillClassifications(species),
+            species: species.reduce((acc: {[id :string] : SpeciesRecord}, e: SpeciesRecord) => {
+                acc[e.id!] = e
+                return acc
+            }, {})
         })
 
         let token = this.state.token
@@ -163,12 +167,17 @@ export default class Classification extends React.Component<any, AppState> {
     }
 
     async handleSuccessfulUpdateSpeciesInfo(changes: { description: string, frequency: FREQUENCY }) {
-        let response = await this.apiClient.getSpeciesTree()
+        let species = await this.apiClient.getSpecies()
+        if (species === null) {
+            // TODO: something else!
+            return
+        }
+
         let id = this.state.selectedSpeciesId!
         let changedRecord = { ...this.state.species[id], ...changes }
         this.setState((state, props) => ({
             selectedSpeciesId: null,
-            data: response as PhylumTaxon[],
+            data: fillClassifications(species),
             species: {
                 ...state.species,
                 [id]: changedRecord,
