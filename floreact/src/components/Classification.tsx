@@ -201,7 +201,7 @@ export default class Classification extends React.Component<any, AppState> {
 
     private updateFilters(newFilters: ((record: SpeciesRecord) => boolean)[]) {
         // TODO: prevent duplicate logic
-        let filteredRecords = this.excludeSpecies(Array.from(this.state.species.values()), this.state.filters)
+        let filteredRecords = this.excludeSpecies(Array.from(this.state.species.values()), newFilters)
         this.setState({
             filters: newFilters,
             data: fillClassifications(filteredRecords),
