@@ -85,7 +85,7 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
         let isChecked = event.target.checked
         this.setState((state, props) => ({
             selected: isChecked ? new Set<string>() : state.selected,
-            allSelected: isChecked,
+            allSelected: true,
         }))
         this.props.handleFiltersChanged([])
     }
@@ -100,13 +100,14 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
         }
         this.setState((state, props) => {
             return {
-                allSelected: state.selected.size === 0,
+                allSelected: newSelectedSet.size === 0,
                 selected: newSelectedSet,
             }
         })
 
-        this.props.handleFiltersChanged([
-            (e) => newSelectedSet.has(frequencyToDigitSign(e.frequency!)),
-        ])
+        let handlers = newSelectedSet.size === 0 ? [] : [
+            (e: SpeciesRecord) => newSelectedSet.has(frequencyToDigitSign(e.frequency!)),
+        ]
+        this.props.handleFiltersChanged(handlers)
     }
 }
