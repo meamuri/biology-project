@@ -61,9 +61,9 @@ export function fillClassifications(records: SpeciesRecord[]): PhylumTaxon[] {
         }
 
         let family: FamilyTaxon = {
-            id: e.id,
-            key: e.id,
-            name: e.name,
+            id: e.family.id,
+            key: e.family.id,
+            name: e.family.name,
             ruLocaleName: e.ruLocaleName,
             children: speciesByFamily.get(e.family.id!) || [],
         }
