@@ -1,8 +1,7 @@
 package edu.vsu.flora.florest.florest.taxones.repository
 
-import edu.vsu.flora.florest.florest.taxones.shema.Frequency
-import edu.vsu.flora.florest.florest.taxones.shema.Record
-import edu.vsu.flora.florest.florest.taxones.shema.UpdateDTO
+import edu.vsu.flora.florest.florest.taxones.schema.Frequency
+import edu.vsu.flora.florest.florest.taxones.schema.Record
 
 interface TaxonRepositoryCustom {
     fun findWithFilters(phylumName: String?, familyName: String?, speciesName: String?): List<Record>

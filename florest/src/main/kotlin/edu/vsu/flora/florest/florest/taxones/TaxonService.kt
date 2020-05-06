@@ -1,10 +1,10 @@
 package edu.vsu.flora.florest.florest.taxones
 
 import edu.vsu.flora.florest.florest.taxones.repository.TaxonRepository
-import edu.vsu.flora.florest.florest.taxones.shema.Frequency
-import edu.vsu.flora.florest.florest.taxones.shema.Record
-import edu.vsu.flora.florest.florest.taxones.shema.Taxon
-import edu.vsu.flora.florest.florest.taxones.shema.UpdateDTO
+import edu.vsu.flora.florest.florest.taxones.schema.Frequency
+import edu.vsu.flora.florest.florest.taxones.schema.Record
+import edu.vsu.flora.florest.florest.taxones.schema.Taxon
+import edu.vsu.flora.florest.florest.taxones.schema.UpdateDTO
 import edu.vsu.flora.florest.florest.tools.Logging
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service

@@ -1,4 +1,4 @@
-package edu.vsu.flora.florest.florest.taxones.shema
+package edu.vsu.flora.florest.florest.taxones.schema
 
 interface TaxonProperties {
     val id: String
