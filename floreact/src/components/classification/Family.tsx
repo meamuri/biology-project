@@ -1,7 +1,7 @@
-import React from 'react';
-import { Species } from './Species';
-import { TaxonProps } from './taxon-props';
-import { SpeciesTaxon } from '../../lib/taxon';
+import React from 'react'
+import { Species } from './Species'
+import { TaxonProps } from './taxon-props'
+import { SpeciesTaxon } from '../../lib/taxon'
 import Table from 'react-bootstrap/Table'
 
 type FamilyComponentProps = TaxonProps & { handleSelectSpecies: (id: string) => void }
@@ -20,7 +20,7 @@ export const Family: React.FC<FamilyComponentProps> = (props) => {
         <Table className="table-bordered table-hover">
             <thead>
                 <tr>
-                    <th scope="col" colSpan={4}>{props.name}</th>
+                    <th scope="col" colSpan={5}>{props.name}</th>
                 </tr>
             </thead>
             <tbody>
