@@ -79,6 +79,19 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                         </Form.Control>
                         </Col>
                     </Form.Group>
+
+                    <Form.Group as={Row} controlId="formSelectBiomorph">
+                        <Form.Label column sm="4">
+                            Биологическая форма
+                        </Form.Label>
+                        <Col sm="8">
+                        <Form.Control as="select" onChange={this.handleFrequencyChange} defaultValue={this.state.currentFrequency}>
+                            {['PERENNIAL_HERBS', 'HERBS', 'HALF_TREES', 'TREES'].map((biomorph, i) =>
+                                <option value={biomorph} key={i}>{biomorph}</option>
+                            )}
+                        </Form.Control>
+                        </Col>
+                    </Form.Group>
                 </Form>
             </Modal.Body>
             <Modal.Footer>

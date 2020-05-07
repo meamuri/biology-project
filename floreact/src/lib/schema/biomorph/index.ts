@@ -1,0 +1,2 @@
+
+export { Biomorph } from './biomorph'
