@@ -20,6 +20,7 @@ export const Species: React.FC<SpeciesComponentProps> = (props) => {
                     width: '5%',
                     cursor: 'pointer',
                 }}
+                title='редактировать'
             >
                 <FontAwesomeIcon icon={faEdit} />
             </td>
@@ -28,6 +29,7 @@ export const Species: React.FC<SpeciesComponentProps> = (props) => {
                     width: '5%',
                     cursor: 'pointer',
                 }}
+                title='подробности'
             >
                 <FontAwesomeIcon icon={faEye} />
             </td>
