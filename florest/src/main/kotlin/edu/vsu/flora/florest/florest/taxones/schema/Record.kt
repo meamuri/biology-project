@@ -12,7 +12,8 @@ data class Record(
     var ruLocaleName: String? = null,
     var frequency: Frequency = Frequency.UNDEFINED,
     var description: String? = null,
-    var locations: List<Location>? = null
+    var locations: List<Location>? = null,
+    var biomorph: Biomorph? = null
 )
 
 data class SubRecord(
