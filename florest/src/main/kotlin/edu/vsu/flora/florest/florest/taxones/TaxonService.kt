@@ -23,7 +23,7 @@ class TaxonService(private val taxonRepository: TaxonRepository) : Logging {
     fun format(records: List<Record>): List<Taxon.Phylum> {
         val species = records
                 .map {
-                    Taxon.Species(it.id, it.name, it.family.id, it.ruLocaleName, it.frequency)
+                    Taxon.Species(it.id, it.name, it.family.id, it.ruLocaleName, it.frequency, it.biomorph)
                 }
                 .groupBy { it.parentId }
 
@@ -44,6 +44,6 @@ class TaxonService(private val taxonRepository: TaxonRepository) : Logging {
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown species id")
         val res = taxonRepository.updateSpecies(id, frequency, dto.description)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown species id")
-        return Taxon.Species(res.id, res.name, res.family.id, res.ruLocaleName, res.frequency, res.description, res.locations)
+        return Taxon.Species(res.id, res.name, res.family.id, res.ruLocaleName, res.frequency, res.biomorph, res.description, res.locations)
     }
 }

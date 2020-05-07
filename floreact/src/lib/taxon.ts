@@ -1,5 +1,6 @@
-import { FREQUENCY } from './frequency';
-import {Area} from "./location";
+import { FREQUENCY } from './frequency'
+import { Area } from './location'
+import { Biomorph } from './biomorph'
 
 export abstract class Taxon<T extends Taxon<any>[] | void> {
     id: string;
@@ -45,6 +46,7 @@ export type ParentTaxon = {
 }
 
 export type SpeciesRecord = ParentTaxon & {
+    biomorph?: Biomorph
     frequency?: FREQUENCY
     description: string | null
     family: ParentTaxon
