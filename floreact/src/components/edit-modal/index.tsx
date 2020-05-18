@@ -6,7 +6,8 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import { SpeciesRecord } from '../../lib/taxon'
 import FloraApiClient from '../../lib/api'
-import { describeFrequency, FREQUENCY } from '../../lib/frequency'
+import { describeFrequency, FREQUENCY, toFrequency } from '../../lib/frequency'
+import Biomorph, { formToName, stringToBiomorph } from '../../lib/schema/biomorph'
 
 type EditSpeciesModalProps = {
     species: SpeciesRecord,
@@ -17,16 +18,25 @@ type EditSpeciesModalProps = {
     httpClient: FloraApiClient,
 }
 
-export default class EditSpeciesModal extends React.Component<EditSpeciesModalProps, any> {
+type EditSpeciesState = {
+    currentBiomorph: Biomorph | undefined,
+    currentFrequency: FREQUENCY,
+    description: string,
+    initialDescription: string,
+}
+
+export default class EditSpeciesModal extends React.Component<EditSpeciesModalProps, EditSpeciesState> {
     constructor(props: EditSpeciesModalProps) {
         super(props)
         this.state = {
+            currentBiomorph: props.species.biomorph,
             currentFrequency: props.species.frequency || 'UNDEFINED',
             initialDescription: props.species.description || '',
             description: props.species.description || '',
         }
         this.handleFormInput = this.handleFormInput.bind(this)
         this.handleFrequencyChange = this.handleFrequencyChange.bind(this)
+        this.handleBiomorphChange = this.handleBiomorphChange.bind(this)
         this.handleOkButton = this.handleOkButton.bind(this)
     }
 
@@ -85,9 +95,9 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                             Биологическая форма
                         </Form.Label>
                         <Col sm="8">
-                        <Form.Control as="select" onChange={this.handleFrequencyChange} defaultValue={this.state.currentFrequency}>
-                            {['PERENNIAL_HERBS', 'HERBS', 'HALF_TREES', 'TREES'].map((biomorph, i) =>
-                                <option value={biomorph} key={i}>{biomorph}</option>
+                        <Form.Control as="select" onChange={this.handleBiomorphChange} defaultValue={this.state.currentBiomorph}>
+                            {['Неизвестная форма', 'PERENNIAL_HERBS', 'HERBS', 'HALF_TREES', 'TREES'].map((biomorph, i) =>
+                                <option value={biomorph} key={i}>{formToName(biomorph) || biomorph}</option>
                             )}
                         </Form.Control>
                         </Col>
@@ -110,7 +120,13 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
 
     handleFrequencyChange(event: FormEvent<HTMLInputElement>) {
         this.setState({
-            currentFrequency: event.currentTarget.value,
+            currentFrequency: toFrequency(event.currentTarget.value),
+        })
+    }
+
+    handleBiomorphChange(event: FormEvent<HTMLInputElement>) {
+        this.setState({
+            currentBiomorph: stringToBiomorph(event.currentTarget.value) || undefined,
         })
     }
 

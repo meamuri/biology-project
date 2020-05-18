@@ -1,6 +1,6 @@
 import { FREQUENCY } from './frequency'
 import { Area } from './location'
-import { Biomorph } from './schema/biomorph'
+import Biomorph from './schema/biomorph'
 
 export abstract class Taxon<T extends Taxon<any>[] | void> {
     id: string;
