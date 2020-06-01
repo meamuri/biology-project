@@ -1,8 +1,8 @@
 package edu.vsu.flora.florest.florest.taxones
 
 import edu.vsu.flora.florest.florest.taxones.exceptions.TaxonNotFoundException
-import edu.vsu.flora.florest.florest.taxones.shema.Taxon
-import edu.vsu.flora.florest.florest.taxones.shema.UpdateDTO
+import edu.vsu.flora.florest.florest.taxones.schema.Taxon
+import edu.vsu.flora.florest.florest.taxones.schema.UpdateDTO
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

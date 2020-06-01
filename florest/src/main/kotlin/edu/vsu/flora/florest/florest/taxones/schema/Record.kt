@@ -1,4 +1,4 @@
-package edu.vsu.flora.florest.florest.taxones.shema
+package edu.vsu.flora.florest.florest.taxones.schema
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
@@ -12,7 +12,8 @@ data class Record(
     var ruLocaleName: String? = null,
     var frequency: Frequency = Frequency.UNDEFINED,
     var description: String? = null,
-    var locations: List<Location>? = null
+    var locations: List<Location>? = null,
+    var biomorph: Biomorph? = null
 )
 
 data class SubRecord(

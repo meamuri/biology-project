@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faEye } from '@fortawesome/free-solid-svg-icons'
 
 
-type SpeciesComponentProps = SpeciesProps & { handleSelectSpecies: (id: string) => void }
+type SpeciesComponentProps = SpeciesProps & { handleSelectSpecies: (id: string, forAction: 'show' | 'edit') => void }
 
 export const Species: React.FC<SpeciesComponentProps> = (props) => {
     let label = frequencyToLabel(props.frequency)
@@ -15,19 +15,22 @@ export const Species: React.FC<SpeciesComponentProps> = (props) => {
             <td style={{width: '48%'}}>{props.ruLocaleName}</td>
             <td style={{width: '4%'}}><span className={`badge ${label}`}>{frequencyToDigitSign(props.frequency)}</span></td>
             <td
-                onClick={e => props.handleSelectSpecies(props.id)}
+                onClick={e => props.handleSelectSpecies(props.id, 'edit')}
                 style={{
                     width: '5%',
                     cursor: 'pointer',
                 }}
+                title='редактировать'
             >
                 <FontAwesomeIcon icon={faEdit} />
             </td>
             <td
+                onClick={e => props.handleSelectSpecies(props.id, 'show')}
                 style={{
                     width: '5%',
                     cursor: 'pointer',
                 }}
+                title='подробности'
             >
                 <FontAwesomeIcon icon={faEye} />
             </td>

@@ -1,10 +1,11 @@
 package edu.vsu.flora.florest.florest.taxones
 
 import edu.vsu.flora.florest.florest.taxones.repository.TaxonRepository
-import edu.vsu.flora.florest.florest.taxones.shema.Frequency
-import edu.vsu.flora.florest.florest.taxones.shema.Record
-import edu.vsu.flora.florest.florest.taxones.shema.Taxon
-import edu.vsu.flora.florest.florest.taxones.shema.UpdateDTO
+import edu.vsu.flora.florest.florest.taxones.schema.Biomorph
+import edu.vsu.flora.florest.florest.taxones.schema.Frequency
+import edu.vsu.flora.florest.florest.taxones.schema.Record
+import edu.vsu.flora.florest.florest.taxones.schema.Taxon
+import edu.vsu.flora.florest.florest.taxones.schema.UpdateDTO
 import edu.vsu.flora.florest.florest.tools.Logging
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -23,7 +24,7 @@ class TaxonService(private val taxonRepository: TaxonRepository) : Logging {
     fun format(records: List<Record>): List<Taxon.Phylum> {
         val species = records
                 .map {
-                    Taxon.Species(it.id, it.name, it.family.id, it.ruLocaleName, it.frequency)
+                    Taxon.Species(it.id, it.name, it.family.id, it.ruLocaleName, it.frequency, it.biomorph)
                 }
                 .groupBy { it.parentId }
 
@@ -39,11 +40,18 @@ class TaxonService(private val taxonRepository: TaxonRepository) : Logging {
     }
 
     fun update(id: String, dto: UpdateDTO): Taxon.Species {
-        val frequency = Frequency.values()
-            .find { it.name == dto.frequency }
+        val frequency = dto.frequency?.let { dtoFrequency ->
+            Frequency.values()
+                .find { it.name == dtoFrequency }
+                ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown frequency field")
+        }
+        val biomorph = dto.biomorph?.let { biomorph ->
+            Biomorph.values()
+                .find { it.name == biomorph }
+                ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown biomorph")
+        }
+        val res = taxonRepository.updateSpecies(id, frequency, biomorph, dto.description)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown species id")
-        val res = taxonRepository.updateSpecies(id, frequency, dto.description)
-            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown species id")
-        return Taxon.Species(res.id, res.name, res.family.id, res.ruLocaleName, res.frequency, res.description, res.locations)
+        return Taxon.Species(res.id, res.name, res.family.id, res.ruLocaleName, res.frequency, res.biomorph, res.description, res.locations)
     }
 }

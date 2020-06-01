@@ -6,7 +6,8 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import { SpeciesRecord } from '../../lib/taxon'
 import FloraApiClient from '../../lib/api'
-import { describeFrequency, FREQUENCY } from '../../lib/frequency'
+import { describeFrequency, FREQUENCY, toFrequency } from '../../lib/frequency'
+import Biomorph, { formToName, stringToBiomorph } from '../../lib/schema/biomorph'
 
 type EditSpeciesModalProps = {
     species: SpeciesRecord,
@@ -17,22 +18,35 @@ type EditSpeciesModalProps = {
     httpClient: FloraApiClient,
 }
 
-export default class EditSpeciesModal extends React.Component<EditSpeciesModalProps, any> {
+type EditSpeciesState = {
+    currentBiomorph: Biomorph | undefined,
+    currentFrequency: FREQUENCY,
+    description: string,
+    initialDescription: string,
+}
+
+export default class EditSpeciesModal extends React.Component<EditSpeciesModalProps, EditSpeciesState> {
+
+    private readonly ifBiomorphEmpty = 'Неизвестная форма'
+
     constructor(props: EditSpeciesModalProps) {
         super(props)
         this.state = {
+            currentBiomorph: props.species.biomorph,
             currentFrequency: props.species.frequency || 'UNDEFINED',
             initialDescription: props.species.description || '',
             description: props.species.description || '',
         }
         this.handleFormInput = this.handleFormInput.bind(this)
         this.handleFrequencyChange = this.handleFrequencyChange.bind(this)
+        this.handleBiomorphChange = this.handleBiomorphChange.bind(this)
         this.handleOkButton = this.handleOkButton.bind(this)
     }
 
     render() {
         let isFieldsChanged = this.state.currentFrequency !== this.props.species.frequency ||
-            this.state.initialDescription !== this.state.description
+            this.state.initialDescription !== this.state.description ||
+            this.state.currentBiomorph !== this.props.species.biomorph
         return <Modal show={this.props.show} size="lg"
             onHide={this.props.handleCloseEditModal}
         >
@@ -79,6 +93,19 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                         </Form.Control>
                         </Col>
                     </Form.Group>
+
+                    <Form.Group as={Row} controlId="formSelectBiomorph">
+                        <Form.Label column sm="4">
+                            Биологическая форма
+                        </Form.Label>
+                        <Col sm="8">
+                        <Form.Control as="select" onChange={this.handleBiomorphChange} defaultValue={this.state.currentBiomorph ? this.state.currentBiomorph : this.ifBiomorphEmpty }>
+                            {[this.ifBiomorphEmpty, 'PERENNIAL_HERBS', 'HERBS', 'HALF_TREES', 'TREES'].map((biomorph, i) =>
+                                <option value={biomorph} key={i}>{formToName(biomorph) || biomorph}</option>
+                            )}
+                        </Form.Control>
+                        </Col>
+                    </Form.Group>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
@@ -97,7 +124,13 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
 
     handleFrequencyChange(event: FormEvent<HTMLInputElement>) {
         this.setState({
-            currentFrequency: event.currentTarget.value,
+            currentFrequency: toFrequency(event.currentTarget.value),
+        })
+    }
+
+    handleBiomorphChange(event: FormEvent<HTMLInputElement>) {
+        this.setState({
+            currentBiomorph: stringToBiomorph(event.currentTarget.value) || undefined,
         })
     }
 
@@ -112,7 +145,9 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
         let changes = {
             description: this.state.description,
             frequency: this.state.currentFrequency,
+            biomorph: this.state.currentBiomorph
         }
+        console.log(changes)
         await this.props.httpClient.updateSpecies(
             this.props.species.id,
             changes)
