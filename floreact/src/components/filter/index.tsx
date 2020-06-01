@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import { signsToFrequency, frequencyToDigitSign } from '../../lib/frequency'
 import { SpeciesRecord } from '../../lib/taxon'
+import { BiomorphFilter } from './biomorph'
 
 type FilterProps = {
     handleFiltersChanged: (filters: ((f: SpeciesRecord) => boolean)[]) => void,
@@ -52,32 +53,28 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
             />
         )
         return (
-            <Accordion className="mt-3" defaultActiveKey="0">
+            <>
                 <Card>
                     <Card.Header>
-                        <Accordion.Toggle as={Button} variant="link" eventKey="0">
                             Природоохранный статус
-                        </Accordion.Toggle>
                     </Card.Header>
-                    <Accordion.Collapse eventKey="0">
-                        <Card.Body>
-                            <Form>
-                                {[allCheckbox, ...checkboxes]}
-                            </Form>
-                        </Card.Body>
-                    </Accordion.Collapse>
+                    <Card.Body>
+                        <Form>
+                            {[allCheckbox, ...checkboxes]}
+                        </Form>
+                    </Card.Body>
                 </Card>
                 <Card>
                     <Card.Header>
-                        <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                            Местоположение
-                        </Accordion.Toggle>
+                            Биологическая форма
                     </Card.Header>
-                    <Accordion.Collapse eventKey="1">
-                        <Card.Body>Hello! I'm another body</Card.Body>
-                    </Accordion.Collapse>
+                    <Card.Body>
+                        <BiomorphFilter
+                            handleFiltersChanged={(e) => {}}
+                        />
+                    </Card.Body>
                 </Card>
-            </Accordion>
+            </>
         )
     }
 
