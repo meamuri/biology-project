@@ -6,7 +6,7 @@ type FloraComponentState = { }
 
 type FloraComponentProps = {
     data: PhylumData[],
-    handleSelectSpecies: (id: string) => void,
+    handleSelectSpecies: (id: string, forAction: 'show' | 'edit') => void,
 }
 
 export class FloraComponent extends React.Component<FloraComponentProps, FloraComponentState> {

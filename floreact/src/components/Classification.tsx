@@ -9,6 +9,7 @@ import FloraApiClient from '../lib/api'
 import { PhylumTaxon, SpeciesRecord } from '../lib/taxon'
 import { fillClassifications } from './classification/schema'
 import { FREQUENCY } from '../lib/frequency'
+import SpeciesView from './species'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Filter from './filter'
@@ -20,6 +21,7 @@ type AppState =
         data: PhylumTaxon[],
         selectedSpeciesId: string | null,
         species: Map<string, SpeciesRecord>,
+        showDetails: boolean,
     }
 
 export default class Classification extends React.Component<any, AppState> {
@@ -37,6 +39,8 @@ export default class Classification extends React.Component<any, AppState> {
             token,
             showErrorBlock: false,
             show: false,
+            showDetails: false,
+            showEdit: false,
             selectedSpeciesId: null,
             data: [],
             species: new Map(),
@@ -49,6 +53,7 @@ export default class Classification extends React.Component<any, AppState> {
 
         this.handleSelectSpecies = this.handleSelectSpecies.bind(this)
         this.handleCloseEditModal = this.handleCloseEditModal.bind(this)
+        this.handleCloseViewModal = this.handleCloseViewModal.bind(this)
         this.handleSuccessfulUpdateSpeciesInfo = this.handleSuccessfulUpdateSpeciesInfo.bind(this)
         this.updateFilters = this.updateFilters.bind(this)
         this.apiClient = client
@@ -121,15 +126,20 @@ export default class Classification extends React.Component<any, AppState> {
                        handleSuccessfulLogin={this.handleSuccessfulLogin}
                        httpClient={this.apiClient}
                 /> }
-                {this.state.selectedSpeciesId &&
+                {this.state.showEdit &&
                 <EditSpeciesModal
                     httpClient={this.apiClient}
                     handleSuccessfulUpdateSpeciesInfo={this.handleSuccessfulUpdateSpeciesInfo}
                     token={this.state.token}
                     show={this.state.selectedSpeciesId !== null}
-                    species={this.state.species.get(this.state.selectedSpeciesId)!}
+                    species={this.state.species.get(this.state.selectedSpeciesId!)!}
                     handleCloseEditModal={this.handleCloseEditModal}
                 /> }
+                {this.state.showDetails && <SpeciesView
+                    data={this.state.species.get(this.state.selectedSpeciesId!)!}
+                    show={this.state.showDetails}
+                    handleCloseModal={this.handleCloseViewModal}
+                />}
             </>
         )
     }
@@ -161,8 +171,10 @@ export default class Classification extends React.Component<any, AppState> {
         })
     }
 
-    handleSelectSpecies(id: string) {
+    handleSelectSpecies(id: string, forAction: 'edit' | 'show') {
+        let key = forAction === 'edit' ? 'showEdit' : 'showDetails'
         this.setState({
+            [key]: true,
             selectedSpeciesId: id,
         })
     }
@@ -177,8 +189,9 @@ export default class Classification extends React.Component<any, AppState> {
         // TODO: prevent duplicate logic
         let filteredRecords = this.excludeSpecies(species, this.state.filters)
         let id = this.state.selectedSpeciesId!
-        let changedRecord = { ...this.state.species.get(id)!, ...changes }
+        let changedRecord = { ...this.state.species.get(id)!, ...changes } // TODO: why species.get is not a function?
         this.setState((state, props) => ({
+            showEdit: false,
             selectedSpeciesId: null,
             data: fillClassifications(filteredRecords),
             species: {
@@ -208,8 +221,16 @@ export default class Classification extends React.Component<any, AppState> {
         })
     }
 
+    handleCloseViewModal() {
+        this.setState({
+            showDetails: false,
+            selectedSpeciesId: null,
+        })
+    }
+
     handleCloseEditModal() {
         this.setState({
+            showEdit: false,
             selectedSpeciesId: null,
         })
     }

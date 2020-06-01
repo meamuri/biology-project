@@ -4,7 +4,7 @@ import { TaxonProps } from './taxon-props'
 import { SpeciesTaxon } from '../../lib/taxon'
 import Table from 'react-bootstrap/Table'
 
-type FamilyComponentProps = TaxonProps & { handleSelectSpecies: (id: string) => void }
+type FamilyComponentProps = TaxonProps & { handleSelectSpecies: (id: string, forAction: 'show' | 'edit') => void }
 
 export const Family: React.FC<FamilyComponentProps> = (props) => {
     let species = props.children.map(e => <Species

@@ -2,7 +2,7 @@ import React from 'react';
 import { Family } from './Family';
 import { TaxonProps } from './taxon-props';
 
-type PhylumComponentProps = TaxonProps & { handleSelectSpecies: (id: string) => void }
+type PhylumComponentProps = TaxonProps & { handleSelectSpecies: (id: string, forAction: 'show' | 'edit') => void }
 
 export const Phylum: React.FC<PhylumComponentProps> = (props) => {
     let families = props.children.map(e => <Family
