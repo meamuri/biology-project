@@ -1,5 +1,6 @@
 package edu.vsu.flora.florest.florest.taxones.repository
 
+import edu.vsu.flora.florest.florest.taxones.schema.Biomorph
 import edu.vsu.flora.florest.florest.taxones.schema.Frequency
 import edu.vsu.flora.florest.florest.taxones.schema.Record
 import org.springframework.data.mongodb.core.FindAndModifyOptions
@@ -28,13 +29,21 @@ class TaxonRepositoryCustomImpl(private val mongoTemplate: MongoTemplate) : Taxo
 
     override fun updateSpecies(
         id: String,
-        frequency: Frequency,
+        frequency: Frequency?,
+        biomorph: Biomorph?,
         description: String
     ): Record? {
         val query = Query(Criteria.where("_id").`is`(id))
         val update = Update()
-            .set("frequency", frequency)
             .set("description", description)
+
+        frequency?.let {
+            update.set("frequency", frequency)
+        }
+        biomorph?.let {
+            update.set("biomorph", biomorph)
+        }
+
         return mongoTemplate.findAndModify(
             query,
             update,
