@@ -190,15 +190,16 @@ export default class Classification extends React.Component<any, AppState> {
         let filteredRecords = this.excludeSpecies(species, this.state.filters)
         let id = this.state.selectedSpeciesId!
         let changedRecord = { ...this.state.species.get(id)!, ...changes } // TODO: why species.get is not a function?
-        this.setState((state, props) => ({
-            showEdit: false,
-            selectedSpeciesId: null,
-            data: fillClassifications(filteredRecords),
-            species: {
-                ...state.species,
-                [id]: changedRecord,
-            },
-        }))
+        this.setState((state, props) => {
+            let { species } = state
+            species.set(id, changedRecord)
+            return {
+                showEdit: false,
+                selectedSpeciesId: null,
+                data: fillClassifications(filteredRecords),
+                species,
+            }
+        })
     }
 
     private excludeSpecies(records: SpeciesRecord[], filtersSet: ((record: SpeciesRecord) => boolean)[]): SpeciesRecord[] {
