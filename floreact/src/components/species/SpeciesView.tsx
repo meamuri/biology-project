@@ -4,6 +4,8 @@ import { SpeciesRecord } from '../../lib/taxon'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import { describeFrequency, } from '../../lib/frequency'
+import { formToName } from '../../lib/schema/biomorph'
 
 type ViewProps = {
     data: SpeciesRecord,
@@ -22,33 +24,23 @@ export const SpeciesView: React.FC<ViewProps> = (props: ViewProps) => {
             </Modal.Header>
             <Modal.Body>
                 <Container>
-                    <Row>
-                        <Col sm={4}>
-                            Биологическая форма:
-                        </Col>
-                        <Col sm={8}>
-                            {data.biomorph}
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col sm={4}>
-                            Природоохранный статус:
-                        </Col>
-                        <Col sm={8}>
-                            {data.frequency}
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col sm={4}>
-                            Описание:
-                        </Col>
-                        <Col sm={8}>
-                            {data.description}
-                        </Col>
-                    </Row>
+                    {computeRow('Название', data.ruLocaleName)}
+                    {data.biomorph && computeRow('Биологическая форма', formToName(data.biomorph))}
+                    {data.frequency && computeRow('Природоохранный статус', describeFrequency(data.frequency))}
+                    {computeRow('Описание', data.description)}
                 </Container>
-                <p></p>
             </Modal.Body>
         </Modal>
     )
+}
+
+function computeRow(label: string, val: any) {
+    return <Row>
+        <Col sm={4}>
+            {label}:
+        </Col>
+        <Col sm={8}>
+            {val}
+        </Col>
+    </Row>
 }

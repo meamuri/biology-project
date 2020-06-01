@@ -1,4 +1,4 @@
-import {Biomorph} from './biomorph'
+import { Biomorph } from './biomorph'
 
 const mappings = {
     [Biomorph.HERBS]: {
