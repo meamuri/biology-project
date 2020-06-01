@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react'
 import Form from 'react-bootstrap/Form'
 import { SpeciesRecord } from '../../lib/taxon'
-import { Biomorph } from '../../lib/schema/biomorph/biomorph'
+import Biomorph, { formToName } from '../../lib/schema/biomorph'
 
 type FilterProps = {
     handleFiltersChanged: (filter: (f: SpeciesRecord) => boolean) => void,
@@ -38,7 +38,7 @@ export class BiomorphFilter extends React.Component<FilterProps, FilterState> {
                 key={`${this.prefix}-key-${e}`}
                 type='checkbox'
                 id={`${this.prefix}-id-${e}`}
-                label={`${e}`}
+                label={`${formToName(e)}`}
                 checked={this.state.selected.has(e)}
                 onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleCheckbox(event, e)}
             />
@@ -51,7 +51,27 @@ export class BiomorphFilter extends React.Component<FilterProps, FilterState> {
     }
 
     handleCheckbox(event: ChangeEvent<HTMLInputElement>, biomorph: Biomorph) {
+        let isChecked = event.target.checked
+        let newSelectedSet = this.state.selected
+        if (isChecked) {
+            newSelectedSet.add(biomorph)
+        } else {
+            newSelectedSet.delete(biomorph)
+        }
 
+        let allSelected = newSelectedSet.size === 0
+        this.setState((state, props) => {
+            return {
+                allSelected,
+                selected: newSelectedSet,
+            }
+        })
+        this.props.handleFiltersChanged((f) => {
+            if (allSelected) {
+                return true
+            }
+            return f.biomorph ? new Set<Biomorph>(newSelectedSet.keys()).has(f.biomorph) : false
+        })
     }
 
     handleAllCheckbox(event: ChangeEvent<HTMLInputElement>) {
