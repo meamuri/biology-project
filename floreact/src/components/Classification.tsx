@@ -163,6 +163,7 @@ export default class Classification extends React.Component<any, AppState> {
 
     handleSuccessfulLogin(token: string, username: string) {
         let jwtToken = `Bearer ${token}`
+        this.apiClient.setToken(jwtToken)
         localStorage.setItem("token", jwtToken)
         localStorage.setItem("user", username)
         this.setState({

@@ -1,19 +1,22 @@
 import React, { ChangeEvent } from 'react'
 import Card from 'react-bootstrap/Card'
-import Accordion from 'react-bootstrap/Accordion'
-import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import { signsToFrequency, frequencyToDigitSign } from '../../lib/frequency'
 import { SpeciesRecord } from '../../lib/taxon'
+import { BiomorphFilter } from './biomorph'
 
 type FilterProps = {
     handleFiltersChanged: (filters: ((f: SpeciesRecord) => boolean)[]) => void,
 }
 
+type FilterPredicate = (s: SpeciesRecord) => boolean
+
 type FilterState = {
     allSelected: boolean,
     selected: Set<string>,
     frequenciesSigns: {[s: string]: string},
+    frequencyFilter: FilterPredicate,
+    biomorphFilter: FilterPredicate,
 }
 
 export default class Filter extends React.Component<FilterProps, FilterState> {
@@ -25,8 +28,11 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
             allSelected: true,
             selected: new Set<string>(),
             frequenciesSigns: signsToFrequency(),
+            frequencyFilter: () => true,
+            biomorphFilter: () => true,
         }
         this.handleAllCheckbox = this.handleAllCheckbox.bind(this)
+        this.handleBiomorphFilter = this.handleBiomorphFilter.bind(this)
     }
 
     render(): React.ReactElement {
@@ -52,42 +58,47 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
             />
         )
         return (
-            <Accordion className="mt-3" defaultActiveKey="0">
+            <>
                 <Card>
                     <Card.Header>
-                        <Accordion.Toggle as={Button} variant="link" eventKey="0">
                             Природоохранный статус
-                        </Accordion.Toggle>
                     </Card.Header>
-                    <Accordion.Collapse eventKey="0">
-                        <Card.Body>
-                            <Form>
-                                {[allCheckbox, ...checkboxes]}
-                            </Form>
-                        </Card.Body>
-                    </Accordion.Collapse>
+                    <Card.Body>
+                        <Form>
+                            {[allCheckbox, ...checkboxes]}
+                        </Form>
+                    </Card.Body>
                 </Card>
                 <Card>
                     <Card.Header>
-                        <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                            Местоположение
-                        </Accordion.Toggle>
+                            Биологическая форма
                     </Card.Header>
-                    <Accordion.Collapse eventKey="1">
-                        <Card.Body>Hello! I'm another body</Card.Body>
-                    </Accordion.Collapse>
+                    <Card.Body>
+                        <BiomorphFilter
+                            handleFiltersChanged={this.handleBiomorphFilter}
+                        />
+                    </Card.Body>
                 </Card>
-            </Accordion>
+            </>
         )
+    }
+
+    private handleBiomorphFilter(f: (s: SpeciesRecord) => boolean) {
+        this.setState({
+            biomorphFilter: f,
+        })
+        this.updateFilters(f, this.state.frequencyFilter)
     }
 
     handleAllCheckbox(event: ChangeEvent<HTMLInputElement>) {
         let isChecked = event.target.checked
+        let frequencyFilter = () => true
         this.setState((state, props) => ({
             selected: isChecked ? new Set<string>() : state.selected,
             allSelected: true,
+            frequencyFilter,
         }))
-        this.props.handleFiltersChanged([])
+        this.updateFilters(this.state.biomorphFilter, frequencyFilter)
     }
 
     handleFrequencyCheckbox(event: ChangeEvent<HTMLInputElement>, n: string) {
@@ -98,16 +109,29 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
         } else {
             newSelectedSet.delete(n)
         }
+
+        let handler = newSelectedSet.size === 0 ?
+            () => true :
+            (e: SpeciesRecord) => {
+                let copyOfState = new Set<string>(newSelectedSet.keys())
+                return copyOfState.has(frequencyToDigitSign(e.frequency!))
+            }
+
         this.setState((state, props) => {
             return {
                 allSelected: newSelectedSet.size === 0,
                 selected: newSelectedSet,
+                frequencyFilter: handler,
             }
         })
 
-        let handlers = newSelectedSet.size === 0 ? [] : [
-            (e: SpeciesRecord) => newSelectedSet.has(frequencyToDigitSign(e.frequency!)),
-        ]
-        this.props.handleFiltersChanged(handlers)
+        this.updateFilters(this.state.biomorphFilter, handler)
+    }
+
+    private updateFilters(biomorphFilter: FilterPredicate, frequencyFilter: FilterPredicate) {
+        this.props.handleFiltersChanged([
+            biomorphFilter,
+            frequencyFilter,
+        ])
     }
 }
