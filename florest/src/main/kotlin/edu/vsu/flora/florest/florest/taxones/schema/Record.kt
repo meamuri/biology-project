@@ -13,8 +13,11 @@ data class Record(
     var frequency: Frequency = Frequency.UNDEFINED,
     var description: String? = null,
     var locations: List<Location>? = null,
-    var biomorph: Biomorph? = null
+    var biomorph: Biomorph? = null,
+    var classTaxon: ClassTaxon? = null
 )
+
+data class ClassTaxon(var name: String?, var ruLocaleName: String? = null)
 
 data class SubRecord(
         // https://docs.spring.io/spring-data/data-mongo/docs/1.5.1.RELEASE/reference/html/mapping-chapter.html

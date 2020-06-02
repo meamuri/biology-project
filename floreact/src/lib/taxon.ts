@@ -45,6 +45,11 @@ export type ParentTaxon = {
     parentId?: string
 }
 
+export type ClassTaxon = {
+    name?: string
+    ruLocaleName?: string
+}
+
 export type SpeciesRecord = ParentTaxon & {
     biomorph?: Biomorph
     frequency?: FREQUENCY
@@ -52,6 +57,7 @@ export type SpeciesRecord = ParentTaxon & {
     family: ParentTaxon
     phylum: ParentTaxon
     locations?: Area[]
+    classTaxon?: ClassTaxon
 }
 
 export type BaseTaxon = ParentTaxon & {children: ParentTaxon[]}

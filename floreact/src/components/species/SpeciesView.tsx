@@ -25,6 +25,7 @@ export const SpeciesView: React.FC<ViewProps> = (props: ViewProps) => {
             <Modal.Body>
                 <Container>
                     {computeRow('Название', data.ruLocaleName)}
+                    {computeRow('Класс', data.classTaxon ? data.classTaxon.name : 'Нет описания класса' )}
                     {data.biomorph && computeRow('Биологическая форма', formToName(data.biomorph))}
                     {data.frequency && computeRow('Природоохранный статус', describeFrequency(data.frequency))}
                     {computeRow('Описание', data.description)}
