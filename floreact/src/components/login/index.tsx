@@ -5,7 +5,6 @@ import Form from 'react-bootstrap/Form'
 import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'
 import FloraApiClient from '../../lib/api'
-import FormControl from 'react-bootstrap/FormControl'
 
 type LoginProps = {
     show: boolean,
