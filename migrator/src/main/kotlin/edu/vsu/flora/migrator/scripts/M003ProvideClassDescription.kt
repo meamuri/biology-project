@@ -1,12 +1,11 @@
 package edu.vsu.flora.migrator.scripts
 
-import com.mongodb.client.model.Filters
 import edu.vsu.flora.migrator.process.Migration
 import edu.vsu.flora.migrator.schema.MigrationDescription
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.eq
 import org.litote.kmongo.setTo
-import java.io.File
+import java.io.BufferedReader
 
 class M003ProvideClassDescription(database: CoroutineDatabase) : Migration(
     database, 3, listOf(
@@ -16,8 +15,8 @@ class M003ProvideClassDescription(database: CoroutineDatabase) : Migration(
     companion object {
         data class Species(val name: String, val classTaxon: ClassTaxon)
         val migrationDescription = MigrationDescription("read initial csv and fill classname if present") { db ->
-            val resource = this::class.java.getResource("/Classification.csv")
-            val fileContent = File(resource.toURI()).readLines()
+            val resource = this::class.java.getResourceAsStream("/Classification.csv")
+            val fileContent = BufferedReader(resource.reader()).readLines()
             val withClasses = fileContent
                 .filter { line ->
                     line.filter { char -> char == ',' }.count() == 7
