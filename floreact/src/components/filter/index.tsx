@@ -64,7 +64,7 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
         return (
             <>
                 <Card>
-                    <Card.Header onClick={() => {this.toggleFrequency()}}>
+                    <Card.Header style={{cursor: 'pointer'}} onClick={() => {this.toggleFrequency()}}>
                             Природоохранный статус
                     </Card.Header>
                     { this.state.showFrequency && <Card.Body>
@@ -74,7 +74,7 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
                     </Card.Body> }
                 </Card>
                 <Card>
-                    <Card.Header onClick={() => {this.toggleBiomorph()}}>
+                    <Card.Header style={{cursor: 'pointer'}} onClick={() => {this.toggleBiomorph()}}>
                             Биологическая форма
                     </Card.Header>
                     { this.state.showBiomorph && <Card.Body>
