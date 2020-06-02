@@ -12,6 +12,8 @@ type FilterProps = {
 type FilterPredicate = (s: SpeciesRecord) => boolean
 
 type FilterState = {
+    showFrequency: boolean,
+    showBiomorph: boolean,
     allSelected: boolean,
     selected: Set<string>,
     frequenciesSigns: {[s: string]: string},
@@ -25,6 +27,8 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
     constructor(props: any) {
         super(props)
         this.state = {
+            showFrequency: true,
+            showBiomorph: true,
             allSelected: true,
             selected: new Set<string>(),
             frequenciesSigns: signsToFrequency(),
@@ -60,27 +64,43 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
         return (
             <>
                 <Card>
-                    <Card.Header>
+                    <Card.Header onClick={() => {this.toggleFrequency()}}>
                             Природоохранный статус
                     </Card.Header>
-                    <Card.Body>
+                    { this.state.showFrequency && <Card.Body>
                         <Form>
                             {[allCheckbox, ...checkboxes]}
                         </Form>
-                    </Card.Body>
+                    </Card.Body> }
                 </Card>
                 <Card>
-                    <Card.Header>
+                    <Card.Header onClick={() => {this.toggleBiomorph()}}>
                             Биологическая форма
                     </Card.Header>
-                    <Card.Body>
+                    { this.state.showBiomorph && <Card.Body>
                         <BiomorphFilter
                             handleFiltersChanged={this.handleBiomorphFilter}
                         />
-                    </Card.Body>
+                    </Card.Body> }
                 </Card>
             </>
         )
+    }
+
+    private toggleBiomorph() {
+        this.setState((state, e) => {
+            return {
+                showBiomorph: !state.showBiomorph,
+            }
+        })
+    }
+
+    private toggleFrequency() {
+        this.setState((state, e) => {
+            return {
+                showFrequency: !state.showFrequency,
+            }
+        })
     }
 
     private handleBiomorphFilter(f: (s: SpeciesRecord) => boolean) {
