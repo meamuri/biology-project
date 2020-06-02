@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form'
 import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'
 import FloraApiClient from '../../lib/api'
+import FormControl from 'react-bootstrap/FormControl'
 
 type LoginProps = {
     show: boolean,
@@ -27,6 +28,7 @@ export default class Login extends React.Component<LoginProps, LoginState> {
         }
         this.handleLogin = this.handleLogin.bind(this)
         this.handleClose = this.handleClose.bind(this)
+        this.handleKeyPress = this.handleKeyPress.bind(this)
     }
 
     render() {
@@ -41,6 +43,7 @@ export default class Login extends React.Component<LoginProps, LoginState> {
                             <Form.Label>Логин</Form.Label>
                             <Form.Control value={ this.state.username }
                                           onChange={ this.handleFormInput.bind(this, 'username') }
+                                          onKeyPress={this.handleKeyPress}
                                           type="email"
                                           placeholder="логин" />
                         </Form.Group>
@@ -49,6 +52,7 @@ export default class Login extends React.Component<LoginProps, LoginState> {
                             <Form.Label>Пароль</Form.Label>
                             <Form.Control value={this.state.password}
                                           onChange={this.handleFormInput.bind(this, 'password')}
+                                          onKeyPress={this.handleKeyPress}
                                           type="password"
                                           placeholder="пароль" />
                         </Form.Group>
@@ -68,6 +72,12 @@ export default class Login extends React.Component<LoginProps, LoginState> {
                 </Modal.Footer>
             </Modal>
         )
+    }
+
+    private async handleKeyPress(target: React.KeyboardEvent<HTMLInputElement>) {
+        if (target.key === 'Enter') {
+            await this.handleLogin()
+        }
     }
 
     async handleLogin() {
