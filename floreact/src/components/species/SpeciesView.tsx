@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { describeFrequency, } from '../../lib/frequency'
 import { formToName } from '../../lib/schema/biomorph'
+import './SpeciesView.css'
 
 type ViewProps = {
     data: SpeciesRecord,
@@ -28,19 +29,19 @@ export const SpeciesView: React.FC<ViewProps> = (props: ViewProps) => {
                     {computeRow('Класс', data.classTaxon ? data.classTaxon.name : 'Нет описания класса' )}
                     {data.biomorph && computeRow('Биологическая форма', formToName(data.biomorph))}
                     {data.frequency && computeRow('Природоохранный статус', describeFrequency(data.frequency))}
-                    {computeRow('Описание', data.description)}
+                    {computeRow('Описание', data.description, 'description')}
                 </Container>
             </Modal.Body>
         </Modal>
     )
 }
 
-function computeRow(label: string, val: any) {
+function computeRow(label: string, val: any, className?: string) {
     return <Row>
         <Col sm={4}>
             {label}:
         </Col>
-        <Col sm={8}>
+        <Col sm={8} className={className}>
             {val}
         </Col>
     </Row>
