@@ -46,14 +46,14 @@ const frequencies: {[key: string]: frequencyDescription } = {
     },
     'UNDEFINED': {
         npp: 4,
-        name: "восстанавливаемые и восстанавливающиеся",
+        name: "неопределенные по статусу",
         digitSign: "IV",
         styleLabel: "statusUndefined",
         frequency: "UNDEFINED",
     },
     'RECOVERING': {
         npp: 5,
-        name: "неопределенные по статусу",
+        name: "восстанавливаемые и восстанавливающиеся",
         digitSign: "V",
         styleLabel: "statusRecovering",
         frequency: "RECOVERING",
