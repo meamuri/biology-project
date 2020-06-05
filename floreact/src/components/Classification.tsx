@@ -128,6 +128,7 @@ export default class Classification extends React.Component<any, AppState> {
                 /> }
                 {this.state.showEdit &&
                 <EditSpeciesModal
+                    user={this.state.user}
                     httpClient={this.apiClient}
                     handleSuccessfulUpdateSpeciesInfo={this.handleSuccessfulUpdateSpeciesInfo}
                     token={this.state.token}

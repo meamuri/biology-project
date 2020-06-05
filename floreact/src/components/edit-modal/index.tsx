@@ -1,4 +1,5 @@
 import React, { FormEvent } from 'react'
+import Alert from 'react-bootstrap/Alert'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
@@ -10,6 +11,7 @@ import { describeFrequency, FREQUENCY, toFrequency } from '../../lib/frequency'
 import Biomorph, { formToName, stringToBiomorph } from '../../lib/schema/biomorph'
 
 type EditSpeciesModalProps = {
+    user?: string,
     species: SpeciesRecord,
     show: boolean,
     handleCloseEditModal: () => void,
@@ -47,6 +49,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
         let isFieldsChanged = this.state.currentFrequency !== this.props.species.frequency ||
             this.state.initialDescription !== this.state.description ||
             this.state.currentBiomorph !== this.props.species.biomorph
+        let editingDisabled = !isFieldsChanged || !this.props.user
         return <Modal show={this.props.show} size="lg"
             onHide={this.props.handleCloseEditModal}
         >
@@ -107,13 +110,16 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                         </Col>
                     </Form.Group>
                 </Form>
+                {!this.props.user && <Alert variant="danger">
+                    Пожалуйста, войдите в систему чтобы осуществлять редактирование данных
+                </Alert>}
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={this.props.handleCloseEditModal}>
                     Отмена
                 </Button>
-                <Button disabled={!isFieldsChanged}
-                        style={{cursor: isFieldsChanged ? 'pointer' : 'default' }}
+                <Button disabled={editingDisabled}
+                        style={{cursor: editingDisabled ? 'default' : 'pointer' }}
                         variant="primary"
                         onClick={this.handleOkButton}>
                     Сохранить
