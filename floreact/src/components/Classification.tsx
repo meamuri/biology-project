@@ -115,7 +115,7 @@ export default class Classification extends React.Component<any, AppState> {
                     <Col xs={8} >
                         <FloraComponent data={this.state.data} handleSelectSpecies={this.handleSelectSpecies} />
                     </Col>
-                    <Col md={{offset: 9}} className="fixed-top" style={{marginTop: '62px'}}>
+                    <Col xs={2} style={{marginTop: '62px'}}>
                         <Filter handleFiltersChanged={this.updateFilters}/>
                     </Col>
                 </Row>
