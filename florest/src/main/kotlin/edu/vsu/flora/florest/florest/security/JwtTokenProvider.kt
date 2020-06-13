@@ -43,8 +43,9 @@ class JwtTokenProvider(securityConfigProperties: SecurityConfigProperties) {
 
     fun isValidToken(token: String) : Boolean {
         try {
-            jwtParser.parse(token)
-            return true
+            val jwt = jwtParser.parse(token).body as Claims
+            val now = Date.from(Instant.now())
+            return jwt.expiration.after(now)
         } catch (e: SignatureException) {
             // a bit logging here
         }
