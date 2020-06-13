@@ -1,6 +1,6 @@
-import React, { ChangeEvent } from 'react'
-import { SpeciesRecord } from '../../lib/taxon'
-import { Complexes } from '../../lib/schema/complexes/core'
+import React, {ChangeEvent} from 'react'
+import {SpeciesRecord} from '../../lib/taxon'
+import {Complexes} from '../../lib/schema/complexes/core'
 import Form from 'react-bootstrap/Form'
 
 type ComplexesFilterProps = {
@@ -23,18 +23,27 @@ export class ComplexesFilter extends React.Component<ComplexesFilterProps, Compl
     private readonly prefix: string = 'biomorphFilter'
 
     render() {
+        let allCheckbox = (<Form.Check
+            key={`${this.prefix}-key-ALL`}
+            type='checkbox'
+            id={`${this.prefix}-id-ALL`}
+            label='ВСЕ'
+            checked={this.state.selected.size === 0}
+            onChange={this.handleAllCheckbox}
+        />)
+        let checkboxes = [Complexes.UNKNOWN, Complexes.CALCIPHILES, Complexes.HALOPHILES, Complexes.STEPPE, Complexes.PSAMOPHILES, ].map(e =>
+            <Form.Check
+                key={`${this.prefix}-key-${e}`}
+                type='checkbox'
+                id={`${this.prefix}-id-${e}`}
+                label={e}
+                checked={this.state.selected.has(e)}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleCheckbox(event, e)}
+            />
+        )
         return <Form>
             {
-                [Complexes.UNKNOWN].map(e =>
-                    <Form.Check
-                        key={`${this.prefix}-key-${e}`}
-                        type='checkbox'
-                        id={`${this.prefix}-id-${e}`}
-                        label={e}
-                        checked={this.state.selected.has(e)}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleCheckbox(event, e)}
-                    />
-                )
+                [allCheckbox, ...checkboxes]
             }
         </Form>;
     }
