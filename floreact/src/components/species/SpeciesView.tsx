@@ -5,6 +5,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { describeFrequency, } from '../../lib/frequency'
+import { toLocaleName, } from '../../lib/schema/complexes'
 import { formToName } from '../../lib/schema/biomorph'
 import './SpeciesView.css'
 
@@ -29,6 +30,7 @@ export const SpeciesView: React.FC<ViewProps> = (props: ViewProps) => {
                     {computeRow('Класс', data.classTaxon ? data.classTaxon.name : 'Нет описания класса' )}
                     {data.biomorph && computeRow('Жизненная форма', formToName(data.biomorph))}
                     {data.frequency && computeRow('Природоохранный статус', describeFrequency(data.frequency))}
+                    {data.complex && computeRow('Эколого-флористический комплекс', toLocaleName(data.complex))}
                     {computeRow('Описание', data.description, 'description')}
                 </Container>
             </Modal.Body>

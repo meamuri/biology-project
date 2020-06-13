@@ -4,6 +4,7 @@ import { PhylumTaxon, SpeciesRecord } from '../taxon'
 import { FREQUENCY } from '../frequency'
 import { FloraApiException } from './exception'
 import { Biomorph } from '../schema/biomorph/biomorph'
+import Complexes from '../schema/complexes'
 
 
 const httpClient = axios.create({
@@ -44,7 +45,12 @@ export class FloraApiClient {
         return await this.call('/species', 'get', )
     }
 
-    async updateSpecies(id: string, change:  {description: string, frequency: FREQUENCY | undefined, biomorph: Biomorph | undefined}): Promise<number> {
+    async updateSpecies(id: string, change: {
+        description: string,
+        frequency: FREQUENCY | undefined,
+        biomorph: Biomorph | undefined,
+        complex: Complexes,
+    }): Promise<number> {
         return await this.call(`/species/${id}`, 'put', { authorization: this.token }, change)
     }
 

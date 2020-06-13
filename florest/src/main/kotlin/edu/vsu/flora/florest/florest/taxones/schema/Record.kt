@@ -1,5 +1,6 @@
 package edu.vsu.flora.florest.florest.taxones.schema
 
+import edu.vsu.flora.florest.florest.taxones.Complexes
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
@@ -14,6 +15,7 @@ data class Record(
     var description: String? = null,
     var locations: List<Location>? = null,
     var biomorph: Biomorph? = null,
+    var complex: Complexes? = null,
     var classTaxon: ClassTaxon? = null
 )
 

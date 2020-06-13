@@ -5,6 +5,7 @@ import { signsToFrequency, frequencyToDigitSign } from '../../lib/frequency'
 import { SpeciesRecord } from '../../lib/taxon'
 import { BiomorphFilter } from './biomorph'
 import { FamiliesFilter } from './FamiliesFilter'
+import { ComplexesFilter } from './ComplexesFilter'
 
 type FilterProps = {
     handleFiltersChanged: (filters: ((f: SpeciesRecord) => boolean)[]) => void,
@@ -16,12 +17,14 @@ type FilterPredicate = (s: SpeciesRecord) => boolean
 type FilterState = {
     showFrequency: boolean,
     showBiomorph: boolean,
+    showComplexesFilter: boolean,
     allSelected: boolean,
     selected: Set<string>,
     frequenciesSigns: {[s: string]: string},
     frequencyFilter: FilterPredicate,
     biomorphFilter: FilterPredicate,
     familiesFilter: FilterPredicate,
+    complexesFilter: FilterPredicate,
     showFamiliesFilter: boolean,
 }
 
@@ -35,11 +38,13 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
             showBiomorph: true,
             showFamiliesFilter: true,
             allSelected: true,
+            showComplexesFilter: true,
             selected: new Set<string>(),
             frequenciesSigns: signsToFrequency(),
             frequencyFilter: () => true,
             biomorphFilter: () => true,
             familiesFilter: () => true,
+            complexesFilter: () => true,
         }
         this.handleAllCheckbox = this.handleAllCheckbox.bind(this)
         this.handleBiomorphFilter = this.handleBiomorphFilter.bind(this)
@@ -91,6 +96,16 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
                     </Card.Body> }
                 </Card>
                 <Card>
+                    <Card.Header style={{cursor: 'pointer'}} onClick={() => {this.toggleComplexes()}}>
+                        Эколого-флористический комплекс
+                    </Card.Header>
+                    { this.state.showComplexesFilter && <Card.Body>
+                        <ComplexesFilter
+                            handleFiltersChanged={this.handleFamiliesFilter}
+                        />
+                    </Card.Body> }
+                </Card>
+                <Card>
                     <Card.Header style={{cursor: 'pointer'}} onClick={() => {this.toggleFamilies()}}>
                             Семейство
                     </Card.Header>
@@ -121,6 +136,14 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
         })
     }
 
+    private toggleComplexes() {
+        this.setState((state, e) => {
+            return {
+                showComplexesFilter: !state.showComplexesFilter,
+            }
+        })
+    }
+
     private toggleFamilies() {
         this.setState((state, e) => {
             return {
@@ -133,14 +156,21 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
         this.setState({
             biomorphFilter: f,
         })
-        this.updateFilters(f, this.state.frequencyFilter, this.state.familiesFilter)
+        this.updateFilters(f, this.state.frequencyFilter, this.state.familiesFilter, this.state.complexesFilter)
     }
 
     private handleFamiliesFilter(f: (s: SpeciesRecord) => boolean) {
         this.setState({
             familiesFilter: f,
         })
-        this.updateFilters(this.state.biomorphFilter, this.state.frequencyFilter, f)
+        this.updateFilters(this.state.biomorphFilter, this.state.frequencyFilter, f, this.state.complexesFilter)
+    }
+
+    private handleComplexesFilter(f: (s: SpeciesRecord) => boolean) {
+        this.setState({
+            complexesFilter: f,
+        })
+        this.updateFilters(this.state.biomorphFilter, this.state.frequencyFilter, this.state.familiesFilter, f)
     }
 
     handleAllCheckbox(event: ChangeEvent<HTMLInputElement>) {
@@ -151,7 +181,7 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
             allSelected: true,
             frequencyFilter,
         }))
-        this.updateFilters(this.state.biomorphFilter, frequencyFilter, this.state.familiesFilter)
+        this.updateFilters(this.state.biomorphFilter, frequencyFilter, this.state.familiesFilter, this.state.complexesFilter)
     }
 
     handleFrequencyCheckbox(event: ChangeEvent<HTMLInputElement>, n: string) {
@@ -178,16 +208,18 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
             }
         })
 
-        this.updateFilters(this.state.biomorphFilter, handler, this.state.familiesFilter)
+        this.updateFilters(this.state.biomorphFilter, handler, this.state.familiesFilter, this.state.complexesFilter)
     }
 
     private updateFilters(biomorphFilter: FilterPredicate,
                           frequencyFilter: FilterPredicate,
-                          familiesFilter: FilterPredicate) {
+                          familiesFilter: FilterPredicate,
+                          complexesFilter: FilterPredicate) {
         this.props.handleFiltersChanged([
             biomorphFilter,
             frequencyFilter,
             familiesFilter,
+            complexesFilter
         ])
     }
 }
