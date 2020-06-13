@@ -30,7 +30,7 @@ export const SpeciesView: React.FC<ViewProps> = (props: ViewProps) => {
                     {computeRow('Класс', data.classTaxon ? data.classTaxon.name : 'Нет описания класса' )}
                     {data.biomorph && computeRow('Жизненная форма', formToName(data.biomorph))}
                     {data.frequency && computeRow('Природоохранный статус', describeFrequency(data.frequency))}
-                    {data.complex && computeRow('эколого-флористический комплекс', toLocaleName(data.complex))}
+                    {data.complex && computeRow('Эколого-флористический комплекс', toLocaleName(data.complex))}
                     {computeRow('Описание', data.description, 'description')}
                 </Container>
             </Modal.Body>

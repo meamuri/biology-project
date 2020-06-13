@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react'
+import React, { ChangeEvent } from 'react'
 import Form from 'react-bootstrap/Form'
 import { SpeciesRecord } from '../../lib/taxon'
 
