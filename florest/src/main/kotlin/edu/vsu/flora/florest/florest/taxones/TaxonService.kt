@@ -50,7 +50,12 @@ class TaxonService(private val taxonRepository: TaxonRepository) : Logging {
                 .find { it.name == biomorph }
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown biomorph")
         }
-        val res = taxonRepository.updateSpecies(id, frequency, biomorph, dto.description)
+        val complex = dto.complex?.let { complex ->
+            Complexes.values()
+                .find { it.name == complex }
+                ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown complex")
+        }
+        val res = taxonRepository.updateSpecies(id, frequency, biomorph, complex, dto.description)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown species id")
         return Taxon.Species(res.id, res.name, res.family.id, res.ruLocaleName, res.frequency, res.biomorph, res.description, res.locations)
     }

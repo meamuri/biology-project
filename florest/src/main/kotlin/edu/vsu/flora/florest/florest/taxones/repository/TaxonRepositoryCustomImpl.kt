@@ -1,5 +1,6 @@
 package edu.vsu.flora.florest.florest.taxones.repository
 
+import edu.vsu.flora.florest.florest.taxones.Complexes
 import edu.vsu.flora.florest.florest.taxones.schema.Biomorph
 import edu.vsu.flora.florest.florest.taxones.schema.Frequency
 import edu.vsu.flora.florest.florest.taxones.schema.Record
@@ -31,6 +32,7 @@ class TaxonRepositoryCustomImpl(private val mongoTemplate: MongoTemplate) : Taxo
         id: String,
         frequency: Frequency?,
         biomorph: Biomorph?,
+        complex: Complexes?,
         description: String
     ): Record? {
         val query = Query(Criteria.where("_id").`is`(id))
@@ -42,6 +44,9 @@ class TaxonRepositoryCustomImpl(private val mongoTemplate: MongoTemplate) : Taxo
         }
         biomorph?.let {
             update.set("biomorph", biomorph)
+        }
+        complex?.let {
+            update.set("complex", complex)
         }
 
         return mongoTemplate.findAndModify(

@@ -1,6 +1,7 @@
 import { FREQUENCY } from './frequency'
 import { Area } from './location'
 import Biomorph from './schema/biomorph'
+import Complexes from './schema/complexes/'
 
 export abstract class Taxon<T extends Taxon<any>[] | void> {
     id: string;
@@ -53,6 +54,7 @@ export type ClassTaxon = {
 export type SpeciesRecord = ParentTaxon & {
     biomorph?: Biomorph
     frequency?: FREQUENCY
+    complex?: Complexes
     description: string | null
     family: ParentTaxon
     phylum: ParentTaxon
