@@ -1,15 +1,15 @@
-import React, { FormEvent } from 'react'
+import React, {FormEvent} from 'react'
 import Alert from 'react-bootstrap/Alert'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
-import { SpeciesRecord } from '../../lib/taxon'
+import {SpeciesRecord} from '../../lib/taxon'
 import FloraApiClient from '../../lib/api'
-import { describeFrequency, FREQUENCY, toFrequency } from '../../lib/frequency'
-import Biomorph, { formToName, stringToBiomorph } from '../../lib/schema/biomorph'
-import Complexes, { toComplex, toLocaleName } from '../../lib/schema/complexes'
+import {describeFrequency, FREQUENCY, toFrequency} from '../../lib/frequency'
+import Biomorph, {formToName, stringToBiomorph} from '../../lib/schema/biomorph'
+import Complexes, {toComplex, toLocaleName} from '../../lib/schema/complexes'
 
 type EditSpeciesModalProps = {
     user?: string,
@@ -24,7 +24,7 @@ type EditSpeciesModalProps = {
 type EditSpeciesState = {
     currentBiomorph: Biomorph | undefined,
     currentFrequency: FREQUENCY,
-    currentComplex: Complexes | undefined,
+    currentComplex: Complexes,
     description: string,
     initialDescription: string,
 }
@@ -32,14 +32,13 @@ type EditSpeciesState = {
 export default class EditSpeciesModal extends React.Component<EditSpeciesModalProps, EditSpeciesState> {
 
     private readonly ifBiomorphEmpty = 'Неизвестная форма'
-    private readonly ifComplexEmpty = 'Неизвестный комплекс'
 
     constructor(props: EditSpeciesModalProps) {
         super(props)
         this.state = {
             currentBiomorph: props.species.biomorph,
             currentFrequency: props.species.frequency || 'UNDEFINED',
-            currentComplex: props.species.complex,
+            currentComplex: props.species.complex || Complexes.UNKNOWN,
             initialDescription: props.species.description || '',
             description: props.species.description || '',
         }
@@ -121,8 +120,8 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                             Эколого-флористический комплекс
                         </Form.Label>
                         <Col sm="8">
-                        <Form.Control as="select" onChange={this.handleComplexChanged} defaultValue={this.state.currentComplex ? this.state.currentComplex : this.ifComplexEmpty }>
-                            {[this.ifComplexEmpty, Complexes.CALCIPHILES, Complexes.HALOPHILES, Complexes.PSAMOPHILES, Complexes.STEPPE].map((complex, i) =>
+                        <Form.Control as="select" onChange={this.handleComplexChanged} defaultValue={this.state.currentComplex ? this.state.currentComplex : Complexes.UNKNOWN }>
+                            {[Complexes.UNKNOWN, Complexes.CALCIPHILES, Complexes.HALOPHILES, Complexes.PSAMOPHILES, Complexes.STEPPE].map((complex, i) =>
                                 <option value={complex} key={complex}>{toLocaleName(complex)}</option>
                             )}
                         </Form.Control>
@@ -177,7 +176,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
             description: this.state.description,
             frequency: this.state.currentFrequency,
             biomorph: this.state.currentBiomorph,
-            complex: this.state.currentComplex
+            complex: this.state.currentComplex || Complexes.UNKNOWN,
         }
         console.log(changes)
         await this.props.httpClient.updateSpecies(

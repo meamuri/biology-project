@@ -49,7 +49,7 @@ export class FloraApiClient {
         description: string,
         frequency: FREQUENCY | undefined,
         biomorph: Biomorph | undefined,
-        complex: Complexes | undefined,
+        complex: Complexes,
     }): Promise<number> {
         return await this.call(`/species/${id}`, 'put', { authorization: this.token }, change)
     }
