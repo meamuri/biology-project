@@ -5,4 +5,5 @@ enum class Complexes {
     CALCIPHILES,    // кальцефильный (A calcicole, calciphyte or calciphile)
     PSAMOPHILES,    // псаммофил
     HALOPHILES,     // галофильный
+    UNKNOWN,        // неизвестный
 }
