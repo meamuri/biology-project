@@ -9,7 +9,7 @@ import { SpeciesRecord } from '../../lib/taxon'
 import FloraApiClient from '../../lib/api'
 import { describeFrequency, FREQUENCY, toFrequency } from '../../lib/frequency'
 import Biomorph, { formToName, stringToBiomorph } from '../../lib/schema/biomorph'
-import Complexes, { toComplex } from '../../lib/schema/complexes'
+import Complexes, { toComplex, toLocaleName } from '../../lib/schema/complexes'
 
 type EditSpeciesModalProps = {
     user?: string,
@@ -122,8 +122,8 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                         </Form.Label>
                         <Col sm="8">
                         <Form.Control as="select" onChange={this.handleComplexChanged} defaultValue={this.state.currentComplex ? this.state.currentComplex : this.ifComplexEmpty }>
-                            {[this.ifComplexEmpty, Complexes.Calciphile, Complexes.Halophiles, Complexes.Psamophilies, Complexes.Steppe].map((complex, i) =>
-                                <option value={complex} key={complex}>{complex}</option>
+                            {[this.ifComplexEmpty, Complexes.CALCIPHILES, Complexes.HALOPHILES, Complexes.PSAMOPHILES, Complexes.STEPPE].map((complex, i) =>
+                                <option value={complex} key={complex}>{toLocaleName(complex)}</option>
                             )}
                         </Form.Control>
                         </Col>
