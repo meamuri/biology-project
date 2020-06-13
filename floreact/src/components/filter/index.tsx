@@ -4,9 +4,11 @@ import Form from 'react-bootstrap/Form'
 import { signsToFrequency, frequencyToDigitSign } from '../../lib/frequency'
 import { SpeciesRecord } from '../../lib/taxon'
 import { BiomorphFilter } from './biomorph'
+import {FamiliesFilter} from "./FamiliesFilter";
 
 type FilterProps = {
     handleFiltersChanged: (filters: ((f: SpeciesRecord) => boolean)[]) => void,
+    familiesList: Set<string>,
 }
 
 type FilterPredicate = (s: SpeciesRecord) => boolean
@@ -80,6 +82,17 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
                     { this.state.showBiomorph && <Card.Body>
                         <BiomorphFilter
                             handleFiltersChanged={this.handleBiomorphFilter}
+                        />
+                    </Card.Body> }
+                </Card>
+                <Card>
+                    <Card.Header style={{cursor: 'pointer'}} onClick={() => {this.toggleBiomorph()}}>
+                            Семейство
+                    </Card.Header>
+                    { this.state.showBiomorph && <Card.Body>
+                        <FamiliesFilter
+                            handleFiltersChanged={this.handleBiomorphFilter}
+                            families={this.props.familiesList}
                         />
                     </Card.Body> }
                 </Card>

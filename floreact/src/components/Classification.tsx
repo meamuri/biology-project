@@ -116,7 +116,10 @@ export default class Classification extends React.Component<any, AppState> {
                         <FloraComponent data={this.state.data} handleSelectSpecies={this.handleSelectSpecies} />
                     </Col>
                     <Col xs={2} style={{marginTop: '62px'}}>
-                        <Filter handleFiltersChanged={this.updateFilters}/>
+                        <Filter
+                            handleFiltersChanged={this.updateFilters}
+                            familiesList={this.extractFamilies()}
+                        />
                     </Col>
                 </Row>
 
@@ -143,6 +146,12 @@ export default class Classification extends React.Component<any, AppState> {
                 />}
             </>
         )
+    }
+
+    private extractFamilies(): Set<string> {
+        let records = Array.from(this.state.species.values());
+        let res = records.map(e => e.family.name)
+        return new Set<string>(res)
     }
 
     handleLogout() {
