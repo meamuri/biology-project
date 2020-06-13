@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form'
 import { signsToFrequency, frequencyToDigitSign } from '../../lib/frequency'
 import { SpeciesRecord } from '../../lib/taxon'
 import { BiomorphFilter } from './biomorph'
-import {FamiliesFilter} from "./FamiliesFilter";
+import { FamiliesFilter } from './FamiliesFilter'
 
 type FilterProps = {
     handleFiltersChanged: (filters: ((f: SpeciesRecord) => boolean)[]) => void,
@@ -21,6 +21,8 @@ type FilterState = {
     frequenciesSigns: {[s: string]: string},
     frequencyFilter: FilterPredicate,
     biomorphFilter: FilterPredicate,
+    familiesFilter: FilterPredicate,
+    showFamiliesFilter: boolean,
 }
 
 export default class Filter extends React.Component<FilterProps, FilterState> {
@@ -31,14 +33,17 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
         this.state = {
             showFrequency: true,
             showBiomorph: true,
+            showFamiliesFilter: true,
             allSelected: true,
             selected: new Set<string>(),
             frequenciesSigns: signsToFrequency(),
             frequencyFilter: () => true,
             biomorphFilter: () => true,
+            familiesFilter: () => true,
         }
         this.handleAllCheckbox = this.handleAllCheckbox.bind(this)
         this.handleBiomorphFilter = this.handleBiomorphFilter.bind(this)
+        this.handleFamiliesFilter = this.handleFamiliesFilter.bind(this)
     }
 
     render(): React.ReactElement {
@@ -86,12 +91,12 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
                     </Card.Body> }
                 </Card>
                 <Card>
-                    <Card.Header style={{cursor: 'pointer'}} onClick={() => {this.toggleBiomorph()}}>
+                    <Card.Header style={{cursor: 'pointer'}} onClick={() => {this.toggleFamilies()}}>
                             Семейство
                     </Card.Header>
-                    { this.state.showBiomorph && <Card.Body>
+                    { this.state.showFamiliesFilter && <Card.Body>
                         <FamiliesFilter
-                            handleFiltersChanged={this.handleBiomorphFilter}
+                            handleFiltersChanged={this.handleFamiliesFilter}
                             families={this.props.familiesList}
                         />
                     </Card.Body> }
@@ -116,11 +121,26 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
         })
     }
 
+    private toggleFamilies() {
+        this.setState((state, e) => {
+            return {
+                showFamiliesFilter: !state.showFamiliesFilter,
+            }
+        })
+    }
+
     private handleBiomorphFilter(f: (s: SpeciesRecord) => boolean) {
         this.setState({
             biomorphFilter: f,
         })
-        this.updateFilters(f, this.state.frequencyFilter)
+        this.updateFilters(f, this.state.frequencyFilter, this.state.familiesFilter)
+    }
+
+    private handleFamiliesFilter(f: (s: SpeciesRecord) => boolean) {
+        this.setState({
+            familiesFilter: f,
+        })
+        this.updateFilters(this.state.biomorphFilter, this.state.frequencyFilter, f)
     }
 
     handleAllCheckbox(event: ChangeEvent<HTMLInputElement>) {
@@ -131,7 +151,7 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
             allSelected: true,
             frequencyFilter,
         }))
-        this.updateFilters(this.state.biomorphFilter, frequencyFilter)
+        this.updateFilters(this.state.biomorphFilter, frequencyFilter, this.state.familiesFilter)
     }
 
     handleFrequencyCheckbox(event: ChangeEvent<HTMLInputElement>, n: string) {
@@ -158,13 +178,16 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
             }
         })
 
-        this.updateFilters(this.state.biomorphFilter, handler)
+        this.updateFilters(this.state.biomorphFilter, handler, this.state.familiesFilter)
     }
 
-    private updateFilters(biomorphFilter: FilterPredicate, frequencyFilter: FilterPredicate) {
+    private updateFilters(biomorphFilter: FilterPredicate,
+                          frequencyFilter: FilterPredicate,
+                          familiesFilter: FilterPredicate) {
         this.props.handleFiltersChanged([
             biomorphFilter,
             frequencyFilter,
+            familiesFilter,
         ])
     }
 }

@@ -11,7 +11,7 @@ type FamiliesFilterState = {
     selected: Set<string>,
 }
 
-export class FamiliesFilter extends React.Component<FamiliesFilterProps, any>{
+export class FamiliesFilter extends React.Component<FamiliesFilterProps, FamiliesFilterState>{
     constructor(props: FamiliesFilterProps) {
         super(props);
         this.state = {
@@ -49,10 +49,28 @@ export class FamiliesFilter extends React.Component<FamiliesFilterProps, any>{
     }
 
     handleCheckbox(event: ChangeEvent<HTMLInputElement>, familyName: string) {
-
+        let isChecked = event.target.checked
+        let newSelectedSet = this.state.selected
+        if (isChecked) {
+            newSelectedSet.add(familyName)
+        } else {
+            newSelectedSet.delete(familyName)
+        }
+        this.setState({
+            selected: newSelectedSet,
+        })
+        this.props.handleFiltersChanged(e => {
+            if (newSelectedSet.size === 0) {
+                return true
+            }
+            return new Set<string>(newSelectedSet.values()).has(e.family.name)
+        })
     }
 
     handleAllCheckbox(event: ChangeEvent<HTMLInputElement>) {
-
+        this.setState((state, props) => ({
+            selected: new Set<string>()
+        }))
+        this.props.handleFiltersChanged(() => true)
     }
 }
