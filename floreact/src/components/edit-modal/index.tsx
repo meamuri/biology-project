@@ -99,7 +99,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
 
                     <Form.Group as={Row} controlId="formSelectBiomorph">
                         <Form.Label column sm="4">
-                            Биологическая форма
+                            Жизненная форма
                         </Form.Label>
                         <Col sm="8">
                         <Form.Control as="select" onChange={this.handleBiomorphChange} defaultValue={this.state.currentBiomorph ? this.state.currentBiomorph : this.ifBiomorphEmpty }>
