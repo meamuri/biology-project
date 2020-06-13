@@ -1,26 +1,26 @@
-import React, { ChangeEvent } from 'react'
+import React, {ChangeEvent} from 'react'
+import {SpeciesRecord} from '../../lib/taxon'
+import {Complexes} from '../../lib/schema/complexes/core'
 import Form from 'react-bootstrap/Form'
-import { SpeciesRecord } from '../../lib/taxon'
 
-type FamiliesFilterProps = {
+type ComplexesFilterProps = {
     handleFiltersChanged: (filter: (f: SpeciesRecord) => boolean) => void,
-    families: Set<string>
 }
 
-type FamiliesFilterState = {
-    selected: Set<string>,
+type ComplexesFilterState = {
+    selected: Set<Complexes>
 }
 
-export class FamiliesFilter extends React.Component<FamiliesFilterProps, FamiliesFilterState>{
-    constructor(props: FamiliesFilterProps) {
+export class ComplexesFilter extends React.Component<ComplexesFilterProps, ComplexesFilterState> {
+    constructor(props: ComplexesFilterProps) {
         super(props);
         this.state = {
-            selected: new Set(),
+            selected: new Set<Complexes>()
         }
         this.handleAllCheckbox = this.handleAllCheckbox.bind(this)
     }
 
-    private readonly prefix: string = "familiesFilter"
+    private readonly prefix: string = 'biomorphFilter'
 
     render() {
         let allCheckbox = (<Form.Check
@@ -31,7 +31,7 @@ export class FamiliesFilter extends React.Component<FamiliesFilterProps, Familie
             checked={this.state.selected.size === 0}
             onChange={this.handleAllCheckbox}
         />)
-        let checkboxes = Array.from(this.props.families).map(e =>
+        let checkboxes = [Complexes.UNKNOWN, Complexes.CALCIPHILES, Complexes.HALOPHILES, Complexes.STEPPE, Complexes.PSAMOPHILES, ].map(e =>
             <Form.Check
                 key={`${this.prefix}-key-${e}`}
                 type='checkbox'
@@ -45,16 +45,16 @@ export class FamiliesFilter extends React.Component<FamiliesFilterProps, Familie
             {
                 [allCheckbox, ...checkboxes]
             }
-        </Form>
+        </Form>;
     }
 
-    handleCheckbox(event: ChangeEvent<HTMLInputElement>, familyName: string) {
+    private handleCheckbox(event: ChangeEvent<HTMLInputElement>, complex: Complexes) {
         let isChecked = event.target.checked
         let newSelectedSet = this.state.selected
         if (isChecked) {
-            newSelectedSet.add(familyName)
+            newSelectedSet.add(complex)
         } else {
-            newSelectedSet.delete(familyName)
+            newSelectedSet.delete(complex)
         }
         this.setState({
             selected: newSelectedSet,
@@ -63,13 +63,13 @@ export class FamiliesFilter extends React.Component<FamiliesFilterProps, Familie
             if (newSelectedSet.size === 0) {
                 return true
             }
-            return new Set<string>(newSelectedSet.values()).has(e.family.name)
+            return e.complex ?  new Set<string>(newSelectedSet.values()).has(e.complex) : false
         })
     }
 
-    handleAllCheckbox(event: ChangeEvent<HTMLInputElement>) {
+    private handleAllCheckbox(event: ChangeEvent<HTMLInputElement>) {
         this.setState((state, props) => ({
-            selected: new Set<string>()
+            selected: new Set<Complexes>(),
         }))
         this.props.handleFiltersChanged(() => true)
     }
