@@ -4,6 +4,7 @@ import edu.vsu.flora.migrator.insert
 import edu.vsu.flora.migrator.schema.MigrationCollection
 import edu.vsu.flora.migrator.schema.MigrationDescription
 import edu.vsu.flora.migrator.schema.MigrationMetadata
+import org.litote.kmongo.and
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.eq
 import java.time.Instant
@@ -27,7 +28,7 @@ abstract class Migration(
             )
             if (migrationExists(metadata)) {
                 println("migration $metadata already completed")
-                return
+                return@forEachIndexed
             }
             migration.apply(db)
             println("starting ${metadata.migrationId}: $n migration: ${metadata.description}")
@@ -37,7 +38,8 @@ abstract class Migration(
     }
 
     private suspend fun migrationExists(m: MigrationMetadata): Boolean {
-        val metadata = migrations.findOne((MigrationMetadata::migrationId eq m.migrationId))
+        val filter = and(MigrationMetadata::migrationId eq m.migrationId, MigrationMetadata::scriptId eq m.scriptId)
+        val metadata = migrations.findOne(filter)
         return metadata != null
     }
 

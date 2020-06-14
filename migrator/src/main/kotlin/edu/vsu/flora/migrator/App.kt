@@ -7,6 +7,7 @@ import edu.vsu.flora.migrator.scripts.M001AddFrequencyToSpecies
 import edu.vsu.flora.migrator.scripts.M002RenameFrequencies
 import edu.vsu.flora.migrator.scripts.M003ProvideClassDescription
 import edu.vsu.flora.migrator.scripts.M004ProvideDefaultComplexes
+import edu.vsu.flora.migrator.scripts.M005TyposFixes
 import kotlinx.coroutines.runBlocking
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.reactivestreams.KMongo
@@ -21,6 +22,7 @@ fun main(args: Array<String>) {
         M002RenameFrequencies(database).migrate()
         M003ProvideClassDescription(database).migrate()
         M004ProvideDefaultComplexes(database).migrate()
+        M005TyposFixes(database).migrate()
     }
 
 }
