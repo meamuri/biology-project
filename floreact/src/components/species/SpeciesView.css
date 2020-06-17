@@ -2,3 +2,8 @@
 .description {
     text-align: justify
 }
+
+.leaflet-container {
+    height: 400px;
+    width: 620px;
+}
