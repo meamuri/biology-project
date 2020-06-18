@@ -14,8 +14,10 @@ type SpeciesLocationProps = {
 export default class SpeciesLocation extends React.Component<SpeciesLocationProps, any> {
     render() {
         let position: LatLng = new LatLng(this.props.positionLatitude, this.props.positionLongitude)
-        return <Modal show={true}
-                      onHide={this.props.handleCloseModal}
+        return <Modal
+            show={true}
+            onHide={this.props.handleCloseModal}
+            size="xl"
         >
             <Modal.Header closeButton>
                 <Modal.Title>Распространение вида</Modal.Title>
