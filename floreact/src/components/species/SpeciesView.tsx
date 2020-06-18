@@ -17,11 +17,6 @@ type ViewProps = {
 
 export const SpeciesView: React.FC<ViewProps> = (props: ViewProps) => {
     let { data } = props
-    let initialPos = {
-        lat: 51.505,
-        lng: -0.09,
-        zoom: 13,
-    }
     return (
         <Modal show={props.show} size="lg"
             onHide={props.handleCloseModal}

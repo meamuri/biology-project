@@ -135,9 +135,9 @@ export default class Classification extends React.Component<any, AppState> {
                 {this.state.showMap &&
                 <SpeciesLocation
                     showMap={this.state.showMap}
-                    zoom={0.9}
-                    positionLatitude={0.5}
-                    positionLongitude={0.5}
+                    zoom={13}
+                    positionLatitude={51.505}
+                    positionLongitude={-0.09}
                 /> }
                 {this.state.showEdit &&
                 <EditSpeciesModal
