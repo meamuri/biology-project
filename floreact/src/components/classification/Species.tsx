@@ -40,7 +40,7 @@ export const Species: React.FC<SpeciesComponentProps> = (props) => {
                     width: '6%',
                     cursor: 'pointer',
                 }}
-                title='подробности'
+                title='географическое распределение'
             >
                 <FontAwesomeIcon icon={faMapMarker} />
             </td>
