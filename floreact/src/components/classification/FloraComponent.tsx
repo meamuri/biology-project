@@ -1,12 +1,13 @@
 import React from 'react'
 import { Phylum } from './Phylum'
 import { PhylumTaxon as PhylumData } from '../../lib/taxon'
+import { TableActions } from '../core/types'
 
 type FloraComponentState = { }
 
 type FloraComponentProps = {
     data: PhylumData[],
-    handleSelectSpecies: (id: string, forAction: 'show' | 'edit') => void,
+    handleSelectSpecies: (id: string, forAction: TableActions) => void,
 }
 
 export class FloraComponent extends React.Component<FloraComponentProps, FloraComponentState> {
