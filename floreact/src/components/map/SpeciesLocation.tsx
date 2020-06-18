@@ -1,20 +1,22 @@
 import React from 'react'
 import { Map as LeafletMap, Marker, Popup, TileLayer } from 'react-leaflet'
 import { LatLng } from 'leaflet'
-import Modal from "react-bootstrap/Modal"
+import Modal from 'react-bootstrap/Modal'
 import './SpeciesLocation.css'
 
 type SpeciesLocationProps = {
-    showMap: boolean,
     positionLatitude: number,
     positionLongitude: number,
-    zoom: number
+    zoom: number,
+    handleCloseModal: () => void,
 }
 
 export default class SpeciesLocation extends React.Component<SpeciesLocationProps, any> {
     render() {
         let position: LatLng = new LatLng(this.props.positionLatitude, this.props.positionLongitude)
-        return <>
+        return <Modal show={true}
+                      onHide={this.props.handleCloseModal}
+        >
             <Modal.Header closeButton>
                 <Modal.Title>Распространение вида</Modal.Title>
             </Modal.Header>
@@ -31,7 +33,7 @@ export default class SpeciesLocation extends React.Component<SpeciesLocationProp
                     </Marker>
                 </LeafletMap>
             </Modal.Body>
-        </>
+        </Modal>
     }
 
 }

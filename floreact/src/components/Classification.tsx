@@ -55,8 +55,6 @@ export default class Classification extends React.Component<any, AppState> {
         this.handleSuccessfulLogin = this.handleSuccessfulLogin.bind(this)
 
         this.handleSelectSpecies = this.handleSelectSpecies.bind(this)
-        this.handleCloseEditModal = this.handleCloseEditModal.bind(this)
-        this.handleCloseViewModal = this.handleCloseViewModal.bind(this)
         this.handleSuccessfulUpdateSpeciesInfo = this.handleSuccessfulUpdateSpeciesInfo.bind(this)
         this.updateFilters = this.updateFilters.bind(this)
         this.apiClient = client
@@ -134,10 +132,10 @@ export default class Classification extends React.Component<any, AppState> {
                 /> }
                 {this.state.showMap &&
                 <SpeciesLocation
-                    showMap={this.state.showMap}
                     zoom={13}
                     positionLatitude={51.505}
                     positionLongitude={-0.09}
+                    handleCloseModal={() => this.handleCloseModal('showMap')}
                 /> }
                 {this.state.showEdit &&
                 <EditSpeciesModal
@@ -147,12 +145,12 @@ export default class Classification extends React.Component<any, AppState> {
                     token={this.state.token}
                     show={this.state.selectedSpeciesId !== null}
                     species={this.state.species.get(this.state.selectedSpeciesId!)!}
-                    handleCloseEditModal={this.handleCloseEditModal}
+                    handleCloseEditModal={() => this.handleCloseModal('showEdit')}
                 /> }
                 {this.state.showDetails && <SpeciesView
                     data={this.state.species.get(this.state.selectedSpeciesId!)!}
                     show={this.state.showDetails}
-                    handleCloseModal={this.handleCloseViewModal}
+                    handleCloseModal={() => this.handleCloseModal('showDetails')}
                 />}
             </>
         )
@@ -193,9 +191,22 @@ export default class Classification extends React.Component<any, AppState> {
     }
 
     handleSelectSpecies(id: string, forAction: TableActions) {
-        let key = (forAction === 'edit') ? 'showEdit' :
-            (forAction === 'show') ? 'showDetails' :
-            'showMap' // default value
+        let key: 'showMap' | 'showDetails' | 'showEdit' | undefined = undefined
+        switch (forAction) {
+            case "edit":
+                key = 'showEdit'
+                break
+            case "show":
+                key = 'showDetails'
+                break;
+            case "map":
+                key = 'showMap'
+                break;
+        }
+        if (!key) {
+            return
+        }
+
         this.setState({
             [key]: true,
             selectedSpeciesId: id,
@@ -245,16 +256,9 @@ export default class Classification extends React.Component<any, AppState> {
         })
     }
 
-    handleCloseViewModal() {
+    handleCloseModal(action: 'showMap' | 'showDetails' | 'showEdit') {
         this.setState({
-            showDetails: false,
-            selectedSpeciesId: null,
-        })
-    }
-
-    handleCloseEditModal() {
-        this.setState({
-            showEdit: false,
+            [action]: false,
             selectedSpeciesId: null,
         })
     }
