@@ -13,6 +13,8 @@ import SpeciesView from './species'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Filter from './filter'
+import { TableActions } from './core/types'
+import SpeciesLocation from './map'
 
 type AppState =
     { [key: string]: any } &
@@ -41,6 +43,7 @@ export default class Classification extends React.Component<any, AppState> {
             show: false,
             showDetails: false,
             showEdit: false,
+            showMap: false,
             selectedSpeciesId: null,
             data: [],
             species: new Map(),
@@ -129,6 +132,13 @@ export default class Classification extends React.Component<any, AppState> {
                        handleSuccessfulLogin={this.handleSuccessfulLogin}
                        httpClient={this.apiClient}
                 /> }
+                {this.state.showMap &&
+                <SpeciesLocation
+                    showMap={this.state.showMap}
+                    zoom={0.9}
+                    positionLatitude={0.5}
+                    positionLongitude={0.5}
+                /> }
                 {this.state.showEdit &&
                 <EditSpeciesModal
                     user={this.state.user}
@@ -182,8 +192,10 @@ export default class Classification extends React.Component<any, AppState> {
         })
     }
 
-    handleSelectSpecies(id: string, forAction: 'edit' | 'show') {
-        let key = forAction === 'edit' ? 'showEdit' : 'showDetails'
+    handleSelectSpecies(id: string, forAction: TableActions) {
+        let key = (forAction === 'edit') ? 'showEdit' :
+            (forAction === 'show') ? 'showDetails' :
+            'showMap' // default value
         this.setState({
             [key]: true,
             selectedSpeciesId: id,

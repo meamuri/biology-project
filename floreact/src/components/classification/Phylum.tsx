@@ -1,8 +1,9 @@
 import React from 'react';
 import { Family } from './Family';
 import { TaxonProps } from './taxon-props';
+import { TableActions } from '../core/types'
 
-type PhylumComponentProps = TaxonProps & { handleSelectSpecies: (id: string, forAction: 'show' | 'edit') => void }
+type PhylumComponentProps = TaxonProps & { handleSelectSpecies: (id: string, forAction: TableActions) => void }
 
 export const Phylum: React.FC<PhylumComponentProps> = (props) => {
     let families = props.children.map(e => <Family

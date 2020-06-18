@@ -2,10 +2,10 @@ import React from 'react'
 import { SpeciesProps } from './taxon-props'
 import { frequencyToLabel, frequencyToDigitSign } from '../../lib/frequency'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit, faEye } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faEye, faMap } from '@fortawesome/free-solid-svg-icons'
+import { TableActions } from '../core/types'
 
-
-type SpeciesComponentProps = SpeciesProps & { handleSelectSpecies: (id: string, forAction: 'show' | 'edit') => void }
+type SpeciesComponentProps = SpeciesProps & { handleSelectSpecies: (id: string, forAction: TableActions) => void }
 
 export const Species: React.FC<SpeciesComponentProps> = (props) => {
     let label = frequencyToLabel(props.frequency)
@@ -33,6 +33,16 @@ export const Species: React.FC<SpeciesComponentProps> = (props) => {
                 title='подробности'
             >
                 <FontAwesomeIcon icon={faEye} />
+            </td>
+            <td
+                onClick={e => props.handleSelectSpecies(props.id, 'map')}
+                style={{
+                    width: '5%',
+                    cursor: 'pointer',
+                }}
+                title='подробности'
+            >
+                <FontAwesomeIcon icon={faMap} />
             </td>
         </tr>
     )
