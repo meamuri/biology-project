@@ -3,6 +3,7 @@ package edu.vsu.flora.florest.florest.taxones.repository
 import edu.vsu.flora.florest.florest.taxones.Complexes
 import edu.vsu.flora.florest.florest.taxones.schema.Biomorph
 import edu.vsu.flora.florest.florest.taxones.schema.Frequency
+import edu.vsu.flora.florest.florest.taxones.schema.Hydrophile
 import edu.vsu.flora.florest.florest.taxones.schema.Record
 import org.springframework.data.mongodb.core.FindAndModifyOptions
 import org.springframework.data.mongodb.core.MongoTemplate
@@ -33,6 +34,7 @@ class TaxonRepositoryCustomImpl(private val mongoTemplate: MongoTemplate) : Taxo
         frequency: Frequency?,
         biomorph: Biomorph?,
         complex: Complexes?,
+        hydrophile: Hydrophile?,
         description: String
     ): Record? {
         val query = Query(Criteria.where("_id").`is`(id))
@@ -47,6 +49,9 @@ class TaxonRepositoryCustomImpl(private val mongoTemplate: MongoTemplate) : Taxo
         }
         complex?.let {
             update.set("complex", complex)
+        }
+        hydrophile?.let {
+            update.set("hydrophile", hydrophile)
         }
 
         return mongoTemplate.findAndModify(
