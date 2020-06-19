@@ -7,7 +7,7 @@ import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.setTo
 
 class M006DefaultHydrophile(database: CoroutineDatabase) : Migration(
-    database, 4, listOf(
+    database, 6, listOf(
         migrationDescription
     )
 ) {
