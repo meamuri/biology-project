@@ -2,6 +2,7 @@ import { FREQUENCY } from './frequency'
 import { Area } from './location'
 import Biomorph from './schema/biomorph'
 import Complexes from './schema/complexes/'
+import { Hydrophile } from './schema/hydrophilie/core'
 
 export abstract class Taxon<T extends Taxon<any>[] | void> {
     id: string;
@@ -52,6 +53,7 @@ export type ClassTaxon = {
 }
 
 export type SpeciesRecord = ParentTaxon & {
+    hydrophile?: Hydrophile
     biomorph?: Biomorph
     frequency?: FREQUENCY
     complex?: Complexes

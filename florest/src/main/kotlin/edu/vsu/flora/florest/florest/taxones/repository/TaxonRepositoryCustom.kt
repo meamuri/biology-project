@@ -3,6 +3,7 @@ package edu.vsu.flora.florest.florest.taxones.repository
 import edu.vsu.flora.florest.florest.taxones.Complexes
 import edu.vsu.flora.florest.florest.taxones.schema.Biomorph
 import edu.vsu.flora.florest.florest.taxones.schema.Frequency
+import edu.vsu.flora.florest.florest.taxones.schema.Hydrophile
 import edu.vsu.flora.florest.florest.taxones.schema.Record
 
 interface TaxonRepositoryCustom {
@@ -12,5 +13,6 @@ interface TaxonRepositoryCustom {
                       frequency: Frequency?,
                       biomorph: Biomorph?,
                       complex: Complexes?,
+                      hydrophile: Hydrophile?,
                       description: String): Record?
 }

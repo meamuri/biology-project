@@ -3,6 +3,7 @@ package edu.vsu.flora.florest.florest.taxones
 import edu.vsu.flora.florest.florest.taxones.repository.TaxonRepository
 import edu.vsu.flora.florest.florest.taxones.schema.Biomorph
 import edu.vsu.flora.florest.florest.taxones.schema.Frequency
+import edu.vsu.flora.florest.florest.taxones.schema.Hydrophile
 import edu.vsu.flora.florest.florest.taxones.schema.Record
 import edu.vsu.flora.florest.florest.taxones.schema.Taxon
 import edu.vsu.flora.florest.florest.taxones.schema.UpdateDTO
@@ -55,7 +56,12 @@ class TaxonService(private val taxonRepository: TaxonRepository) : Logging {
                 .find { it.name == complex }
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown complex")
         }
-        val res = taxonRepository.updateSpecies(id, frequency, biomorph, complex, dto.description)
+        val hydrophile = dto.hydrophile?.let { hydrophile ->
+            Hydrophile.values()
+                .find { it.name == hydrophile }
+                ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown hydrophile")
+        }
+        val res = taxonRepository.updateSpecies(id, frequency, biomorph, complex, hydrophile, dto.description)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown species id")
         return Taxon.Species(res.id, res.name, res.family.id, res.ruLocaleName, res.frequency, res.biomorph, res.description, res.locations)
     }

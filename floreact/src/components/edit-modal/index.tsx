@@ -177,6 +177,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
             frequency: this.state.currentFrequency,
             biomorph: this.state.currentBiomorph,
             complex: this.state.currentComplex || Complexes.UNKNOWN,
+            hydrophile: undefined,
         }
         console.log(changes)
         await this.props.httpClient.updateSpecies(

@@ -15,6 +15,7 @@ data class Record(
     var description: String? = null,
     var locations: List<Location>? = null,
     var biomorph: Biomorph? = null,
+    var hydrophile: Hydrophile? = null,
     var complex: Complexes? = null,
     var classTaxon: ClassTaxon? = null
 )
