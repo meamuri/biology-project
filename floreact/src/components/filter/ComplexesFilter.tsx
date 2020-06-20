@@ -20,7 +20,7 @@ export class ComplexesFilter extends React.Component<ComplexesFilterProps, Compl
         this.handleAllCheckbox = this.handleAllCheckbox.bind(this)
     }
 
-    private readonly prefix: string = 'biomorphFilter'
+    private readonly prefix: string = 'complexesFilter'
 
     render() {
         let allCheckbox = (<Form.Check
