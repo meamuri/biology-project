@@ -1,26 +1,26 @@
 import React, {ChangeEvent} from 'react'
-import {SpeciesRecord} from '../../lib/taxon'
-import {Complexes} from '../../lib/schema/complexes/core'
+import { SpeciesRecord } from '../../lib/taxon'
+import Hydrophile from '../../lib/schema/hydrophilie'
 import Form from 'react-bootstrap/Form'
 
-type ComplexesFilterProps = {
+type HydrophileFilterProps = {
     handleFiltersChanged: (filter: (f: SpeciesRecord) => boolean) => void,
 }
 
-type ComplexesFilterState = {
-    selected: Set<Complexes>
+type HydrophileFilterState = {
+    selected: Set<Hydrophile>
 }
 
-export class ComplexesFilter extends React.Component<ComplexesFilterProps, ComplexesFilterState> {
-    constructor(props: ComplexesFilterProps) {
+export class HydrophileFilter extends React.Component<HydrophileFilterProps, HydrophileFilterState> {
+    private readonly prefix: string = 'hydrophileFilter'
+
+    constructor(props: HydrophileFilterProps) {
         super(props);
         this.state = {
-            selected: new Set<Complexes>()
+            selected: new Set<Hydrophile>()
         }
         this.handleAllCheckbox = this.handleAllCheckbox.bind(this)
     }
-
-    private readonly prefix: string = 'complexesFilter'
 
     render() {
         let allCheckbox = (<Form.Check
@@ -31,7 +31,7 @@ export class ComplexesFilter extends React.Component<ComplexesFilterProps, Compl
             checked={this.state.selected.size === 0}
             onChange={this.handleAllCheckbox}
         />)
-        let checkboxes = [Complexes.UNKNOWN, Complexes.CALCIPHILES, Complexes.HALOPHILES, Complexes.STEPPE, Complexes.PSAMOPHILES, ].map(e =>
+        let checkboxes = [Hydrophile.UNDEFINED, Hydrophile.HYDROPHYTE, Hydrophile.HYGROPHYTE, Hydrophile.MESOPHYTE, Hydrophile.SCLEROPHYTE, Hydrophile.XEROPHYTE, ].map(e =>
             <Form.Check
                 key={`${this.prefix}-key-${e}`}
                 type='checkbox'
@@ -42,19 +42,17 @@ export class ComplexesFilter extends React.Component<ComplexesFilterProps, Compl
             />
         )
         return <Form>
-            {
-                [allCheckbox, ...checkboxes]
-            }
-        </Form>;
+            { [ allCheckbox, ...checkboxes] }
+        </Form>
     }
 
-    private handleCheckbox(event: ChangeEvent<HTMLInputElement>, complex: Complexes) {
+    private handleCheckbox(event: ChangeEvent<HTMLInputElement>, hydrophile: Hydrophile) {
         let isChecked = event.target.checked
         let newSelectedSet = this.state.selected
         if (isChecked) {
-            newSelectedSet.add(complex)
+            newSelectedSet.add(hydrophile)
         } else {
-            newSelectedSet.delete(complex)
+            newSelectedSet.delete(hydrophile)
         }
         this.setState({
             selected: newSelectedSet,
@@ -63,13 +61,13 @@ export class ComplexesFilter extends React.Component<ComplexesFilterProps, Compl
             if (newSelectedSet.size === 0) {
                 return true
             }
-            return e.complex ?  new Set<string>(newSelectedSet.values()).has(e.complex) : false
+            return e.hydrophile ?  new Set<string>(newSelectedSet.values()).has(e.hydrophile) : false
         })
     }
 
     private handleAllCheckbox(event: ChangeEvent<HTMLInputElement>) {
         this.setState((state, props) => ({
-            selected: new Set<Complexes>(),
+            selected: new Set<Hydrophile>(),
         }))
         this.props.handleFiltersChanged(() => true)
     }

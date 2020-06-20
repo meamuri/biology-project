@@ -6,6 +6,7 @@ import { SpeciesRecord } from '../../lib/taxon'
 import { BiomorphFilter } from './biomorph'
 import { FamiliesFilter } from './FamiliesFilter'
 import { ComplexesFilter } from './ComplexesFilter'
+import { HydrophileFilter } from './HydrophileFilter'
 
 type FilterProps = {
     handleFiltersChanged: (filters: ((f: SpeciesRecord) => boolean)[]) => void,
@@ -15,6 +16,7 @@ type FilterProps = {
 type FilterPredicate = (s: SpeciesRecord) => boolean
 
 type FilterState = {
+    showHydrophileFilter: boolean,
     showFrequency: boolean,
     showBiomorph: boolean,
     showComplexesFilter: boolean,
@@ -25,6 +27,7 @@ type FilterState = {
     biomorphFilter: FilterPredicate,
     familiesFilter: FilterPredicate,
     complexesFilter: FilterPredicate,
+    hydrophileFilter: FilterPredicate,
     showFamiliesFilter: boolean,
 }
 
@@ -37,6 +40,7 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
             showFrequency: true,
             showBiomorph: true,
             showFamiliesFilter: true,
+            showHydrophileFilter: true,
             allSelected: true,
             showComplexesFilter: true,
             selected: new Set<string>(),
@@ -45,10 +49,12 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
             biomorphFilter: () => true,
             familiesFilter: () => true,
             complexesFilter: () => true,
+            hydrophileFilter: () => true,
         }
         this.handleAllCheckbox = this.handleAllCheckbox.bind(this)
         this.handleBiomorphFilter = this.handleBiomorphFilter.bind(this)
         this.handleFamiliesFilter = this.handleFamiliesFilter.bind(this)
+        this.handleHydrophileFilter = this.handleHydrophileFilter.bind(this)
     }
 
     render(): React.ReactElement {
@@ -101,7 +107,17 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
                     </Card.Header>
                     { this.state.showComplexesFilter && <Card.Body>
                         <ComplexesFilter
-                            handleFiltersChanged={this.handleFamiliesFilter}
+                            handleFiltersChanged={this.handleComplexesFilter}
+                        />
+                    </Card.Body> }
+                </Card>
+                <Card>
+                    <Card.Header style={{cursor: 'pointer'}} onClick={() => {this.toggleHydrophile()}}>
+                        По отношению к влаге
+                    </Card.Header>
+                    { this.state.showHydrophileFilter && <Card.Body>
+                        <HydrophileFilter
+                            handleFiltersChanged={this.handleHydrophileFilter}
                         />
                     </Card.Body> }
                 </Card>
@@ -144,6 +160,14 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
         })
     }
 
+    private toggleHydrophile() {
+        this.setState((state, e) => {
+            return {
+                showHydrophileFilter: !state.showHydrophileFilter,
+            }
+        })
+    }
+
     private toggleFamilies() {
         this.setState((state, e) => {
             return {
@@ -156,21 +180,28 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
         this.setState({
             biomorphFilter: f,
         })
-        this.updateFilters(f, this.state.frequencyFilter, this.state.familiesFilter, this.state.complexesFilter)
+        this.updateFilters(f, this.state.frequencyFilter, this.state.familiesFilter, this.state.complexesFilter, this.state.hydrophileFilter)
     }
 
     private handleFamiliesFilter(f: (s: SpeciesRecord) => boolean) {
         this.setState({
             familiesFilter: f,
         })
-        this.updateFilters(this.state.biomorphFilter, this.state.frequencyFilter, f, this.state.complexesFilter)
+        this.updateFilters(this.state.biomorphFilter, this.state.frequencyFilter, f, this.state.complexesFilter, this.state.hydrophileFilter)
+    }
+
+    private handleHydrophileFilter(f: (s: SpeciesRecord) => boolean) {
+        this.setState({
+            hydrophileFilter: f,
+        })
+        this.updateFilters(this.state.biomorphFilter, this.state.frequencyFilter, this.state.familiesFilter, this.state.complexesFilter, f)
     }
 
     private handleComplexesFilter(f: (s: SpeciesRecord) => boolean) {
         this.setState({
             complexesFilter: f,
         })
-        this.updateFilters(this.state.biomorphFilter, this.state.frequencyFilter, this.state.familiesFilter, f)
+        this.updateFilters(this.state.biomorphFilter, this.state.frequencyFilter, this.state.familiesFilter, f, this.state.hydrophileFilter)
     }
 
     handleAllCheckbox(event: ChangeEvent<HTMLInputElement>) {
@@ -181,7 +212,7 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
             allSelected: true,
             frequencyFilter,
         }))
-        this.updateFilters(this.state.biomorphFilter, frequencyFilter, this.state.familiesFilter, this.state.complexesFilter)
+        this.updateFilters(this.state.biomorphFilter, frequencyFilter, this.state.familiesFilter, this.state.complexesFilter, this.state.hydrophileFilter)
     }
 
     handleFrequencyCheckbox(event: ChangeEvent<HTMLInputElement>, n: string) {
@@ -208,18 +239,20 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
             }
         })
 
-        this.updateFilters(this.state.biomorphFilter, handler, this.state.familiesFilter, this.state.complexesFilter)
+        this.updateFilters(this.state.biomorphFilter, handler, this.state.familiesFilter, this.state.complexesFilter, this.state.hydrophileFilter)
     }
 
     private updateFilters(biomorphFilter: FilterPredicate,
                           frequencyFilter: FilterPredicate,
                           familiesFilter: FilterPredicate,
-                          complexesFilter: FilterPredicate) {
+                          complexesFilter: FilterPredicate,
+                          hydrophileFilter: FilterPredicate) {
         this.props.handleFiltersChanged([
             biomorphFilter,
             frequencyFilter,
             familiesFilter,
-            complexesFilter
+            complexesFilter,
+            hydrophileFilter,
         ])
     }
 }

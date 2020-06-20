@@ -2,4 +2,4 @@
 import { Hydrophile } from './core'
 
 export default Hydrophile
-export { toLocaleName } from './helpers'
+export { toLocaleName, toHydrophile } from './helpers'

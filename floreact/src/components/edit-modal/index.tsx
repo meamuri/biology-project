@@ -10,6 +10,7 @@ import FloraApiClient from '../../lib/api'
 import {describeFrequency, FREQUENCY, toFrequency} from '../../lib/frequency'
 import Biomorph, {formToName, stringToBiomorph} from '../../lib/schema/biomorph'
 import Complexes, {toComplex, toLocaleName} from '../../lib/schema/complexes'
+import Hydrophile, {toHydrophile, toLocaleName as hydrophileToLocaleName} from '../../lib/schema/hydrophilie'
 
 type EditSpeciesModalProps = {
     user?: string,
@@ -25,6 +26,7 @@ type EditSpeciesState = {
     currentBiomorph: Biomorph | undefined,
     currentFrequency: FREQUENCY,
     currentComplex: Complexes,
+    currentHydrophile: Hydrophile,
     description: string,
     initialDescription: string,
 }
@@ -39,21 +41,24 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
             currentBiomorph: props.species.biomorph,
             currentFrequency: props.species.frequency || 'UNDEFINED',
             currentComplex: props.species.complex || Complexes.UNKNOWN,
+            currentHydrophile: props.species.hydrophile || Hydrophile.UNDEFINED,
             initialDescription: props.species.description || '',
             description: props.species.description || '',
         }
-        this.handleFormInput = this.handleFormInput.bind(this)
-        this.handleFrequencyChange = this.handleFrequencyChange.bind(this)
         this.handleBiomorphChange = this.handleBiomorphChange.bind(this)
+        this.handleFormInput = this.handleFormInput.bind(this)
         this.handleOkButton = this.handleOkButton.bind(this)
         this.handleComplexChanged = this.handleComplexChanged.bind(this)
+        this.handleFrequencyChange = this.handleFrequencyChange.bind(this)
+        this.handleHydrophile = this.handleHydrophile.bind(this)
     }
 
     render() {
         let isFieldsChanged = this.state.currentFrequency !== this.props.species.frequency ||
             this.state.initialDescription !== this.state.description ||
             this.state.currentComplex !== this.props.species.complex ||
-            this.state.currentBiomorph !== this.props.species.biomorph
+            this.state.currentBiomorph !== this.props.species.biomorph ||
+            this.state.currentHydrophile !== this.props.species.hydrophile
         let editingDisabled = !isFieldsChanged || !this.props.user
         return <Modal show={this.props.show} size="lg"
             onHide={this.props.handleCloseEditModal}
@@ -127,6 +132,19 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                         </Form.Control>
                         </Col>
                     </Form.Group>
+
+                    <Form.Group as={Row} controlId="formSelectHydrophile">
+                        <Form.Label column sm="4">
+                            Отношение к влаге
+                        </Form.Label>
+                        <Col sm="8">
+                        <Form.Control as="select" onChange={this.handleHydrophile} defaultValue={this.state.currentHydrophile ? this.state.currentHydrophile : Hydrophile.UNDEFINED }>
+                            {[Hydrophile.UNDEFINED, Hydrophile.HYDROPHYTE, Hydrophile.HYGROPHYTE, Hydrophile.MESOPHYTE, Hydrophile.SCLEROPHYTE, Hydrophile.XEROPHYTE, ].map((complex, i) =>
+                                <option value={complex} key={complex}>{hydrophileToLocaleName(complex)}</option>
+                            )}
+                        </Form.Control>
+                        </Col>
+                    </Form.Group>
                 </Form>
                 {!this.props.user && <Alert variant="danger">
                     Пожалуйста, войдите в систему чтобы осуществлять редактирование данных
@@ -144,6 +162,12 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                 </Button>
             </Modal.Footer>
         </Modal>
+    }
+
+    private handleHydrophile(event: FormEvent<HTMLInputElement>) {
+        this.setState({
+            currentHydrophile: toHydrophile(event.currentTarget.value),
+        })
     }
 
     private handleComplexChanged(event: FormEvent<HTMLInputElement>) {
@@ -177,7 +201,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
             frequency: this.state.currentFrequency,
             biomorph: this.state.currentBiomorph,
             complex: this.state.currentComplex || Complexes.UNKNOWN,
-            hydrophile: undefined,
+            hydrophile: this.state.currentHydrophile,
         }
         console.log(changes)
         await this.props.httpClient.updateSpecies(
