@@ -1,6 +1,6 @@
 import React, {ChangeEvent} from 'react'
 import {SpeciesRecord} from '../../lib/taxon'
-import {Complexes} from '../../lib/schema/complexes/core'
+import Complexes, { toLocaleName } from '../../lib/schema/complexes'
 import Form from 'react-bootstrap/Form'
 
 type ComplexesFilterProps = {
@@ -36,7 +36,7 @@ export class ComplexesFilter extends React.Component<ComplexesFilterProps, Compl
                 key={`${this.prefix}-key-${e}`}
                 type='checkbox'
                 id={`${this.prefix}-id-${e}`}
-                label={e}
+                label={toLocaleName(e)}
                 checked={this.state.selected.has(e)}
                 onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleCheckbox(event, e)}
             />

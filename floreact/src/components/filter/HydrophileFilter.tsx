@@ -1,6 +1,6 @@
 import React, {ChangeEvent} from 'react'
 import { SpeciesRecord } from '../../lib/taxon'
-import Hydrophile from '../../lib/schema/hydrophilie'
+import Hydrophile, { toLocaleName } from '../../lib/schema/hydrophilie'
 import Form from 'react-bootstrap/Form'
 
 type HydrophileFilterProps = {
@@ -36,7 +36,7 @@ export class HydrophileFilter extends React.Component<HydrophileFilterProps, Hyd
                 key={`${this.prefix}-key-${e}`}
                 type='checkbox'
                 id={`${this.prefix}-id-${e}`}
-                label={e}
+                label={toLocaleName(e)}
                 checked={this.state.selected.has(e)}
                 onChange={(event: ChangeEvent<HTMLInputElement>) => this.handleCheckbox(event, e)}
             />
