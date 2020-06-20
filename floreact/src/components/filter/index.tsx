@@ -55,6 +55,7 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
         this.handleBiomorphFilter = this.handleBiomorphFilter.bind(this)
         this.handleFamiliesFilter = this.handleFamiliesFilter.bind(this)
         this.handleHydrophileFilter = this.handleHydrophileFilter.bind(this)
+        this.handleComplexesFilter = this.handleComplexesFilter.bind(this)
     }
 
     render(): React.ReactElement {

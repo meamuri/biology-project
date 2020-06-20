@@ -63,7 +63,7 @@ export class ComplexesFilter extends React.Component<ComplexesFilterProps, Compl
             if (newSelectedSet.size === 0) {
                 return true
             }
-            return e.complex ?  new Set<string>(newSelectedSet.values()).has(e.complex) : false
+            return e.complex ? new Set<string>(newSelectedSet.values()).has(e.complex) : false
         })
     }
 
