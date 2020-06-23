@@ -15,6 +15,8 @@ import Row from 'react-bootstrap/Row'
 import Filter from './filter'
 import { TableActions } from './core/types'
 import SpeciesLocation from './map'
+import {faLeaf} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 type AppState =
     { [key: string]: any } &
@@ -94,7 +96,7 @@ export default class Classification extends React.Component<any, AppState> {
                     <Col xs={1} />
                     <Col xs={10} >
                 <Navbar className="navbar justify-content-between navbar-expand-lg navbar-light bg-light">
-                    <Navbar.Brand href="/">Флора</Navbar.Brand>
+                    <Navbar.Brand href="/"><FontAwesomeIcon icon={faLeaf} /> Флора</Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end mr-3">
                         <Navbar.Text>
                             { this.state.user ? this.state.user : 'Гость' }
