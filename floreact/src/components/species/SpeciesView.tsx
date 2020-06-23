@@ -9,6 +9,7 @@ import { toLocaleName, } from '../../lib/schema/complexes'
 import { toLocaleName as hydrophileToLocaleName, } from '../../lib/schema/hydrophilie'
 import { formToName } from '../../lib/schema/biomorph'
 import './SpeciesView.css'
+import { coenoticToLocaleName } from '../../lib/schema/coenotic'
 
 type ViewProps = {
     data: SpeciesRecord,
@@ -33,6 +34,7 @@ export const SpeciesView: React.FC<ViewProps> = (props: ViewProps) => {
                     {data.frequency && computeRow('Природоохранный статус', describeFrequency(data.frequency))}
                     {data.complex && computeRow('Эколого-флористический комплекс', toLocaleName(data.complex))}
                     {data.hydrophile && computeRow('По отношению к влаге', hydrophileToLocaleName(data.hydrophile))}
+                    {data.coenotic && computeRow('Ценотическая группа', coenoticToLocaleName(data.coenotic))}
                     {computeRow('Описание', data.description, 'description')}
                 </Container>
             </Modal.Body>

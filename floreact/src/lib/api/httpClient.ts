@@ -6,6 +6,7 @@ import { FloraApiException } from './exception'
 import { Biomorph } from '../schema/biomorph/biomorph'
 import Complexes from '../schema/complexes'
 import { Hydrophile } from '../schema/hydrophilie/core'
+import { Coenotic } from '../schema/coenotic/core'
 
 
 const httpClient = axios.create({
@@ -52,6 +53,7 @@ export class FloraApiClient {
         biomorph: Biomorph | undefined,
         hydrophile: Hydrophile | undefined,
         complex: Complexes,
+        coenotic: Coenotic | undefined,
     }): Promise<number> {
         return await this.call(`/species/${id}`, 'put', { authorization: this.token }, change)
     }

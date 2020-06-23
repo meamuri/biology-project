@@ -16,7 +16,8 @@ data class Record(
     var biomorph: Biomorph? = null,
     var hydrophile: Hydrophile? = null,
     var complex: Complexes? = null,
-    var classTaxon: ClassTaxon? = null
+    var classTaxon: ClassTaxon? = null,
+    var coenotic: Coenotic? = null
 )
 
 data class ClassTaxon(var name: String?, var ruLocaleName: String? = null)

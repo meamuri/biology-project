@@ -2,6 +2,7 @@ package edu.vsu.flora.florest.florest.taxones.repository
 
 import edu.vsu.flora.florest.florest.taxones.schema.Complexes
 import edu.vsu.flora.florest.florest.taxones.schema.Biomorph
+import edu.vsu.flora.florest.florest.taxones.schema.Coenotic
 import edu.vsu.flora.florest.florest.taxones.schema.Frequency
 import edu.vsu.flora.florest.florest.taxones.schema.Hydrophile
 import edu.vsu.flora.florest.florest.taxones.schema.Record
@@ -14,5 +15,6 @@ interface TaxonRepositoryCustom {
                       biomorph: Biomorph?,
                       complex: Complexes?,
                       hydrophile: Hydrophile?,
+                      coenotic: Coenotic?,
                       description: String): Record?
 }
