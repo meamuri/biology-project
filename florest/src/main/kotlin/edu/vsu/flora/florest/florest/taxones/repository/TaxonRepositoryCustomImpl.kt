@@ -2,6 +2,7 @@ package edu.vsu.flora.florest.florest.taxones.repository
 
 import edu.vsu.flora.florest.florest.taxones.schema.Complexes
 import edu.vsu.flora.florest.florest.taxones.schema.Biomorph
+import edu.vsu.flora.florest.florest.taxones.schema.Coenotic
 import edu.vsu.flora.florest.florest.taxones.schema.Frequency
 import edu.vsu.flora.florest.florest.taxones.schema.Hydrophile
 import edu.vsu.flora.florest.florest.taxones.schema.Record
@@ -35,6 +36,7 @@ class TaxonRepositoryCustomImpl(private val mongoTemplate: MongoTemplate) : Taxo
         biomorph: Biomorph?,
         complex: Complexes?,
         hydrophile: Hydrophile?,
+        coenotic: Coenotic?,
         description: String
     ): Record? {
         val query = Query(Criteria.where("_id").`is`(id))
@@ -52,6 +54,9 @@ class TaxonRepositoryCustomImpl(private val mongoTemplate: MongoTemplate) : Taxo
         }
         hydrophile?.let {
             update.set("hydrophile", hydrophile)
+        }
+        coenotic?.let {
+            update.set("coenotic", coenotic)
         }
 
         return mongoTemplate.findAndModify(

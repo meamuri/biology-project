@@ -5,5 +5,6 @@ data class UpdateDTO(
     val frequency: String?,
     val biomorph: String?,
     val hydrophile: String?,
-    val complex: String?
+    val complex: String?,
+    var coenotic: String?
 )
