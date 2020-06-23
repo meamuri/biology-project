@@ -104,7 +104,7 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
                 </Card>
                 <Card>
                     <Card.Header style={{cursor: 'pointer'}} onClick={() => {this.toggleComplexes()}}>
-                        Эколого-флористический комплекс
+                        По отношению к почве
                     </Card.Header>
                     { this.state.showComplexesFilter && <Card.Body>
                         <ComplexesFilter

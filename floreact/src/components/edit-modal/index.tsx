@@ -122,11 +122,11 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
 
                     <Form.Group as={Row} controlId="formSelectComplex">
                         <Form.Label column sm="4">
-                            Эколого-флористический комплекс
+                            По отношению к почве
                         </Form.Label>
                         <Col sm="8">
                         <Form.Control as="select" onChange={this.handleComplexChanged} defaultValue={this.state.currentComplex ? this.state.currentComplex : Complexes.UNKNOWN }>
-                            {[Complexes.UNKNOWN, Complexes.CALCIPHILES, Complexes.HALOPHILES, Complexes.PSAMOPHILES, Complexes.STEPPE].map((complex, i) =>
+                            {[Complexes.UNKNOWN, Complexes.CALCIPHILES, Complexes.HALOPHILES, Complexes.PSAMOPHILES, ].map((complex, i) =>
                                 <option value={complex} key={complex}>{toLocaleName(complex)}</option>
                             )}
                         </Form.Control>
