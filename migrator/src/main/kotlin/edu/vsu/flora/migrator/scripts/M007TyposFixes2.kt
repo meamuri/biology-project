@@ -9,7 +9,8 @@ import org.litote.kmongo.setTo
 class M007TyposFixes2(database: CoroutineDatabase) : Migration(
     database, 7, listOf(
         renameAegonychonPurpureocaeruleum,
-        renamoeAdenophoraLilifoliaToAdenophoraLiliifolia
+        renamoeAdenophoraLilifoliaToAdenophoraLiliifolia,
+        renamoeMatteucciaStrutiopterisToMatteucciaStruthiopteris
     )
 ) {
     companion object {
@@ -22,6 +23,11 @@ class M007TyposFixes2(database: CoroutineDatabase) : Migration(
         val renamoeAdenophoraLilifoliaToAdenophoraLiliifolia = MigrationDescription("Adenophora lilifolia (L.) A. DC. to Adenophora liliifolia (L.) A. DC.") { db ->
             val filter = Species::name eq "Adenophora lilifolia (L.) A. DC."
             val update = Species::name setTo "Adenophora liliifolia (L.) A. DC."
+            db.getCollection<Species>().updateMany(filter, update)
+        }
+        val renamoeMatteucciaStrutiopterisToMatteucciaStruthiopteris = MigrationDescription("Matteuccia strutiopteris (L.) Tod to Matteuccia struthiopteris (L.) Tod") { db ->
+            val filter = Species::name eq "Matteuccia strutiopteris (L.) Tod"
+            val update = Species::name setTo "Matteuccia struthiopteris (L.) Tod"
             db.getCollection<Species>().updateMany(filter, update)
         }
     }
