@@ -31,7 +31,7 @@ export class ComplexesFilter extends React.Component<ComplexesFilterProps, Compl
             checked={this.state.selected.size === 0}
             onChange={this.handleAllCheckbox}
         />)
-        let checkboxes = [Complexes.UNKNOWN, Complexes.CALCIPHILES, Complexes.HALOPHILES, Complexes.STEPPE, Complexes.PSAMOPHILES, ].map(e =>
+        let checkboxes = [Complexes.UNKNOWN, Complexes.CALCIPHILES, Complexes.HALOPHILES, Complexes.PSAMOPHILES, ].map(e =>
             <Form.Check
                 key={`${this.prefix}-key-${e}`}
                 type='checkbox'

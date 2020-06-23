@@ -2,7 +2,7 @@ import React from 'react'
 import { SpeciesProps } from './taxon-props'
 import { frequencyToLabel, frequencyToDigitSign } from '../../lib/frequency'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit, faEye, faMapMarker } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faEye, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 import { TableActions } from '../core/types'
 
 type SpeciesComponentProps = SpeciesProps & { handleSelectSpecies: (id: string, forAction: TableActions) => void }
@@ -42,7 +42,7 @@ export const Species: React.FC<SpeciesComponentProps> = (props) => {
                 }}
                 title='географическое распределение'
             >
-                <FontAwesomeIcon icon={faMapMarker} />
+                <FontAwesomeIcon icon={faMapMarkerAlt} />
             </td>
         </tr>
     )

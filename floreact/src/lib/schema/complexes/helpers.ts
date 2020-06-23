@@ -1,9 +1,7 @@
 import {Complexes} from './core'
 
 export function toComplex(name: String): Complexes {
-    if (name === Complexes.STEPPE) {
-        return Complexes.STEPPE
-    } else if (name === Complexes.PSAMOPHILES) {
+    if (name === Complexes.PSAMOPHILES) {
         return Complexes.PSAMOPHILES
     } else if (name === Complexes.HALOPHILES) {
         return Complexes.HALOPHILES
@@ -15,14 +13,12 @@ export function toComplex(name: String): Complexes {
 
 export function toLocaleName(complex: String): string | undefined {
     switch (complex) {
-        case Complexes.STEPPE:
-            return 'Cтепной'
         case Complexes.CALCIPHILES:
-            return 'Кальцефильный'
+            return 'Кальцефиты'
         case Complexes.PSAMOPHILES:
-            return 'Псаммофил'
+            return 'Псаммофиты'
         case Complexes.HALOPHILES:
-            return 'Галофильный'
+            return 'Галофиты'
         case Complexes.UNKNOWN:
         default:
             return 'Неизвестный'

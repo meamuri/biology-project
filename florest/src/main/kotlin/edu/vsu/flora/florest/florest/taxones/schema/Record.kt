@@ -1,6 +1,5 @@
 package edu.vsu.flora.florest.florest.taxones.schema
 
-import edu.vsu.flora.florest.florest.taxones.Complexes
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
