@@ -8,4 +8,5 @@ enum class Coenotic {
     MARSHY,             // Болотные
     WATER,              // Водные
     WEEDY,              // Сорные
+    UNDEFINED,
 }

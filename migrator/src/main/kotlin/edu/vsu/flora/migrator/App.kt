@@ -10,6 +10,7 @@ import edu.vsu.flora.migrator.scripts.M004ProvideDefaultComplexes
 import edu.vsu.flora.migrator.scripts.M005TyposFixes
 import edu.vsu.flora.migrator.scripts.M006DefaultHydrophile
 import edu.vsu.flora.migrator.scripts.M007TyposFixes2
+import edu.vsu.flora.migrator.scripts.M008DefaultCoenotic
 import kotlinx.coroutines.runBlocking
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.reactivestreams.KMongo
@@ -27,6 +28,7 @@ fun main(args: Array<String>) {
         M005TyposFixes(database).migrate()
         M006DefaultHydrophile(database).migrate()
         M007TyposFixes2(database).migrate()
+        M008DefaultCoenotic(database).migrate()
     }
 
 }
