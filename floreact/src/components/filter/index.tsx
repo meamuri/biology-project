@@ -12,6 +12,7 @@ import { CoenoticFilter } from './CoenoticFilter'
 type FilterProps = {
     handleFiltersChanged: (filters: ((f: SpeciesRecord) => boolean)[]) => void,
     familiesList: Set<string>,
+    count: number,
 }
 
 type FilterPredicate = (s: SpeciesRecord) => boolean
@@ -88,6 +89,11 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
         )
         return (
             <>
+                <Card>
+                    <Card.Header>
+                        {this.props.count}
+                    </Card.Header>
+                </Card>
                 <Card>
                     <Card.Header style={{cursor: 'pointer'}} onClick={() => {this.toggleShow('showFrequency')}}>
                             Природоохранный статус

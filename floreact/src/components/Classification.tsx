@@ -26,6 +26,7 @@ type AppState =
         selectedSpeciesId: string | null,
         species: Map<string, SpeciesRecord>,
         showDetails: boolean,
+        recordsOnScreen: number,
     }
 
 export default class Classification extends React.Component<any, AppState> {
@@ -50,6 +51,7 @@ export default class Classification extends React.Component<any, AppState> {
             data: [],
             species: new Map(),
             filters: [],
+            recordsOnScreen: 0,
         }
         this.handleModalClose = this.handleModalClose.bind(this)
         this.handleShow = this.handleShow.bind(this)
@@ -72,6 +74,7 @@ export default class Classification extends React.Component<any, AppState> {
         let filteredRecords = this.excludeSpecies(species, this.state.filters)
         this.setState({
             data: fillClassifications(filteredRecords),
+            recordsOnScreen: filteredRecords.length,
             species: species.reduce((acc, e) => {
                 acc.set(e.id!, e)
                 return acc
@@ -120,6 +123,7 @@ export default class Classification extends React.Component<any, AppState> {
                     </Col>
                     <Col xs={2} style={{marginTop: '62px'}}>
                         <Filter
+                            count={this.state.recordsOnScreen}
                             handleFiltersChanged={this.updateFilters}
                             familiesList={this.extractFamilies()}
                         />
@@ -233,6 +237,7 @@ export default class Classification extends React.Component<any, AppState> {
                 showEdit: false,
                 selectedSpeciesId: null,
                 data: fillClassifications(filteredRecords),
+                recordsOnScreen: filteredRecords.length,
                 species,
             }
         })
@@ -255,6 +260,7 @@ export default class Classification extends React.Component<any, AppState> {
         this.setState({
             filters: newFilters,
             data: fillClassifications(filteredRecords),
+            recordsOnScreen: filteredRecords.length,
         })
     }
 
