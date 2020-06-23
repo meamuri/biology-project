@@ -139,7 +139,8 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                         </Form.Label>
                         <Col sm="8">
                         <Form.Control as="select" onChange={this.handleHydrophile} defaultValue={this.state.currentHydrophile ? this.state.currentHydrophile : Hydrophile.UNDEFINED }>
-                            {[Hydrophile.UNDEFINED, Hydrophile.HYDROPHYTE, Hydrophile.HYGROPHYTE, Hydrophile.MESOPHYTE, Hydrophile.SCLEROPHYTE, Hydrophile.XEROPHYTE, ].map((complex, i) =>
+                            {[Hydrophile.UNDEFINED, Hydrophile.HYDROPHYTE, Hydrophile.HYGROPHYTE, Hydrophile.MESOPHYTE, Hydrophile.SCLEROPHYTE, Hydrophile.XEROPHYTE,
+                            Hydrophile.MESOXEROPHYTE, Hydrophile.MESOHYGROPHYTE, Hydrophile.MESOHYDROPHYTE, ].map((complex, i) =>
                                 <option value={complex} key={complex}>{hydrophileToLocaleName(complex)}</option>
                             )}
                         </Form.Control>

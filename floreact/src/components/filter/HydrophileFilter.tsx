@@ -31,7 +31,8 @@ export class HydrophileFilter extends React.Component<HydrophileFilterProps, Hyd
             checked={this.state.selected.size === 0}
             onChange={this.handleAllCheckbox}
         />)
-        let checkboxes = [Hydrophile.UNDEFINED, Hydrophile.HYDROPHYTE, Hydrophile.HYGROPHYTE, Hydrophile.MESOPHYTE, Hydrophile.SCLEROPHYTE, Hydrophile.XEROPHYTE, ].map(e =>
+        let checkboxes = [Hydrophile.UNDEFINED, Hydrophile.HYDROPHYTE, Hydrophile.HYGROPHYTE, Hydrophile.MESOPHYTE, Hydrophile.SCLEROPHYTE, Hydrophile.XEROPHYTE,
+            Hydrophile.MESOXEROPHYTE, Hydrophile.MESOHYGROPHYTE, Hydrophile.MESOHYDROPHYTE, ].map(e =>
             <Form.Check
                 key={`${this.prefix}-key-${e}`}
                 type='checkbox'
