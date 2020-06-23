@@ -12,6 +12,12 @@ export function toLocaleName(hydrophile: string): string {
             return "Гигрофиты"
         case Hydrophile.HYDROPHYTE:
             return "Гидрофиты"
+        case Hydrophile.MESOXEROPHYTE:
+            return "Мезоксерофиты"
+        case Hydrophile.MESOHYDROPHYTE:
+            return "Месогидрофиты"
+        case Hydrophile.MESOHYGROPHYTE:
+            return "Месогигрофиты"
         case Hydrophile.UNDEFINED:
         default:
             return "Неизвестный"
@@ -29,6 +35,12 @@ export function toHydrophile(hydrophile: string): Hydrophile {
         return Hydrophile.HYDROPHYTE
     } else if (hydrophile === Hydrophile.HYGROPHYTE) {
         return Hydrophile.HYGROPHYTE
+    } else if (hydrophile === Hydrophile.MESOXEROPHYTE) {
+        return Hydrophile.MESOXEROPHYTE
+    } else if (hydrophile === Hydrophile.MESOHYDROPHYTE) {
+        return Hydrophile.MESOHYDROPHYTE
+    } else if (hydrophile === Hydrophile.MESOHYGROPHYTE) {
+        return Hydrophile.MESOHYGROPHYTE
     }
     return Hydrophile.UNDEFINED
 }

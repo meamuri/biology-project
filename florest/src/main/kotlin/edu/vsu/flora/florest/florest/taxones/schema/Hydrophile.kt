@@ -6,5 +6,8 @@ enum class Hydrophile {
     SCLEROPHYTE,
     HYDROPHYTE,
     HYGROPHYTE,
+    MESOXEROPHYTE,
+    MESOHYDROPHYTE,
+    MESOHYGROPHYTE,
     UNDEFINED,
 }
