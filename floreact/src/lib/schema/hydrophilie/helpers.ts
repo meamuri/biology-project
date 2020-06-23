@@ -15,9 +15,9 @@ export function toLocaleName(hydrophile: string): string {
         case Hydrophile.MESOXEROPHYTE:
             return "Мезоксерофиты"
         case Hydrophile.MESOHYDROPHYTE:
-            return "Месогидрофиты"
+            return "Мезогидрофиты"
         case Hydrophile.MESOHYGROPHYTE:
-            return "Месогигрофиты"
+            return "Мезогигрофиты"
         case Hydrophile.UNDEFINED:
         default:
             return "Неизвестный"
