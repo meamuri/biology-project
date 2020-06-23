@@ -11,6 +11,7 @@ import {describeFrequency, FREQUENCY, toFrequency} from '../../lib/frequency'
 import Biomorph, {formToName, stringToBiomorph} from '../../lib/schema/biomorph'
 import Complexes, {toComplex, toLocaleName} from '../../lib/schema/complexes'
 import Hydrophile, {toHydrophile, toLocaleName as hydrophileToLocaleName} from '../../lib/schema/hydrophilie'
+import Coenotic, {coenoticToLocaleName, toCoenotic} from '../../lib/schema/coenotic'
 
 type EditSpeciesModalProps = {
     user?: string,
@@ -27,6 +28,7 @@ type EditSpeciesState = {
     currentFrequency: FREQUENCY,
     currentComplex: Complexes,
     currentHydrophile: Hydrophile,
+    currentCoenotic: Coenotic | undefined,
     description: string,
     initialDescription: string,
 }
@@ -42,6 +44,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
             currentFrequency: props.species.frequency || 'UNDEFINED',
             currentComplex: props.species.complex || Complexes.UNKNOWN,
             currentHydrophile: props.species.hydrophile || Hydrophile.UNDEFINED,
+            currentCoenotic: props.species.coenotic,
             initialDescription: props.species.description || '',
             description: props.species.description || '',
         }
@@ -51,6 +54,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
         this.handleComplexChanged = this.handleComplexChanged.bind(this)
         this.handleFrequencyChange = this.handleFrequencyChange.bind(this)
         this.handleHydrophile = this.handleHydrophile.bind(this)
+        this.handleCoenotic = this.handleCoenotic.bind(this)
     }
 
     render() {
@@ -58,7 +62,8 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
             this.state.initialDescription !== this.state.description ||
             this.state.currentComplex !== this.props.species.complex ||
             this.state.currentBiomorph !== this.props.species.biomorph ||
-            this.state.currentHydrophile !== this.props.species.hydrophile
+            this.state.currentHydrophile !== this.props.species.hydrophile ||
+            this.state.currentCoenotic !== this.props.species.coenotic
         let editingDisabled = !isFieldsChanged || !this.props.user
         return <Modal show={this.props.show} size="lg"
             onHide={this.props.handleCloseEditModal}
@@ -146,6 +151,18 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                         </Form.Control>
                         </Col>
                     </Form.Group>
+                    <Form.Group as={Row} controlId="formSelectCoenotic">
+                        <Form.Label column sm="4">
+                            Ценотическая группа
+                        </Form.Label>
+                        <Col sm="8">
+                        <Form.Control as="select" onChange={this.handleCoenotic} defaultValue={this.state.currentCoenotic ? this.state.currentCoenotic : Coenotic.UNDEFINED }>
+                            {[Coenotic.UNDEFINED, Coenotic.STEPPE, Coenotic.MEADOW, Coenotic.FOREST, Coenotic.COASTAL_WATER, Coenotic.MARSHY, Coenotic.WATER, Coenotic.WEEDY, ].map((complex, i) =>
+                                <option value={complex} key={complex}>{coenoticToLocaleName(complex)}</option>
+                            )}
+                        </Form.Control>
+                        </Col>
+                    </Form.Group>
                 </Form>
                 {!this.props.user && <Alert variant="danger">
                     Пожалуйста, войдите в систему чтобы осуществлять редактирование данных
@@ -163,6 +180,13 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                 </Button>
             </Modal.Footer>
         </Modal>
+    }
+
+    private handleCoenotic(event: FormEvent<HTMLInputElement>) {
+        let coenotic = toCoenotic(event.currentTarget.value)
+        coenotic && this.setState({
+            currentCoenotic: coenotic,
+        })
     }
 
     private handleHydrophile(event: FormEvent<HTMLInputElement>) {
@@ -203,6 +227,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
             biomorph: this.state.currentBiomorph,
             complex: this.state.currentComplex || Complexes.UNKNOWN,
             hydrophile: this.state.currentHydrophile,
+            coenotic: this.state.currentCoenotic || undefined
         }
         console.log(changes)
         await this.props.httpClient.updateSpecies(

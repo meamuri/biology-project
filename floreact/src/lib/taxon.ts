@@ -3,6 +3,7 @@ import { Area } from './location'
 import Biomorph from './schema/biomorph'
 import Complexes from './schema/complexes/'
 import { Hydrophile } from './schema/hydrophilie/core'
+import { Coenotic } from './schema/coenotic/core'
 
 export abstract class Taxon<T extends Taxon<any>[] | void> {
     id: string;
@@ -57,6 +58,7 @@ export type SpeciesRecord = ParentTaxon & {
     biomorph?: Biomorph
     frequency?: FREQUENCY
     complex?: Complexes
+    coenotic?: Coenotic
     description: string | null
     family: ParentTaxon
     phylum: ParentTaxon
