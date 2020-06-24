@@ -8,5 +8,9 @@ enum class Coenotic {
     MARSHY,             // Болотные
     WATER,              // Водные
     WEEDY,              // Сорные
+    EDGE_STEPPE,        // Опушечно-степные
+    MEADOW_STEPPE,      // Лугово-степные
+    EDGE_MEADOW_STEPPE, // Опушечно-лугово-степные
+    MEADOW_EDGE,        // Лугово-опушечные
     UNDEFINED,
 }

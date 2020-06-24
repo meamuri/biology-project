@@ -31,7 +31,8 @@ export class CoenoticFilter extends React.Component<CoenoticFilterProps, Coenoti
             checked={this.state.selected.size === 0}
             onChange={this.handleAllCheckbox}
         />)
-        let checkboxes = [Coenotic.UNDEFINED, Coenotic.STEPPE, Coenotic.MEADOW, Coenotic.FOREST, Coenotic.COASTAL_WATER, Coenotic.MARSHY, Coenotic.WATER, Coenotic.WEEDY, ].map(e =>
+        let checkboxes = [Coenotic.UNDEFINED, Coenotic.STEPPE, Coenotic.MEADOW, Coenotic.FOREST, Coenotic.COASTAL_WATER, Coenotic.MARSHY, Coenotic.WATER, Coenotic.WEEDY,
+            Coenotic.EDGE_STEPPE, Coenotic.EDGE_MEADOW_STEPPE, Coenotic.MEADOW_EDGE, Coenotic.MEADOW_STEPPE, ].map(e =>
             <Form.Check
                 key={`${this.prefix}-key-${e}`}
                 type='checkbox'

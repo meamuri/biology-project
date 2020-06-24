@@ -16,6 +16,14 @@ export function coenoticToLocaleName(coenotic: Coenotic): string {
             return "Водные"
         case Coenotic.WEEDY:
             return "Сорные"
+        case Coenotic.EDGE_STEPPE:
+            return "Опушечно-степные"
+        case Coenotic.MEADOW_EDGE:
+            return "Лугово-опушечные"
+        case Coenotic.MEADOW_STEPPE:
+            return "Лугово-степные"
+        case Coenotic.EDGE_MEADOW_STEPPE:
+            return "Опушечно-лугово-степные"
         case Coenotic.UNDEFINED:
         default:
             return "Неизвестный"
@@ -39,6 +47,14 @@ export function toCoenotic(coenotic: string): Coenotic | null {
         return Coenotic.WEEDY
     } else if (coenotic === Coenotic.UNDEFINED) {
         return Coenotic.UNDEFINED
+    } else if (coenotic === Coenotic.EDGE_MEADOW_STEPPE) {
+        return Coenotic.EDGE_MEADOW_STEPPE
+    } else if (coenotic === Coenotic.EDGE_STEPPE) {
+        return Coenotic.EDGE_STEPPE
+    } else if (coenotic === Coenotic.MEADOW_EDGE) {
+        return Coenotic.MEADOW_EDGE
+    } else if (coenotic === Coenotic.MEADOW_STEPPE) {
+        return Coenotic.MEADOW_STEPPE
     }
     return null
 }

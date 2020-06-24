@@ -157,7 +157,8 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                         </Form.Label>
                         <Col sm="8">
                         <Form.Control as="select" onChange={this.handleCoenotic} defaultValue={this.state.currentCoenotic ? this.state.currentCoenotic : Coenotic.UNDEFINED }>
-                            {[Coenotic.UNDEFINED, Coenotic.STEPPE, Coenotic.MEADOW, Coenotic.FOREST, Coenotic.COASTAL_WATER, Coenotic.MARSHY, Coenotic.WATER, Coenotic.WEEDY, ].map((complex, i) =>
+                            {[Coenotic.UNDEFINED, Coenotic.STEPPE, Coenotic.MEADOW, Coenotic.FOREST, Coenotic.COASTAL_WATER, Coenotic.MARSHY, Coenotic.WATER, Coenotic.WEEDY,
+                            Coenotic.EDGE_STEPPE, Coenotic.EDGE_MEADOW_STEPPE, Coenotic.MEADOW_EDGE, Coenotic.MEADOW_STEPPE, ].map((complex, i) =>
                                 <option value={complex} key={complex}>{coenoticToLocaleName(complex)}</option>
                             )}
                         </Form.Control>
