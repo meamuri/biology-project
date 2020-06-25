@@ -8,6 +8,7 @@ import { FamiliesFilter } from './FamiliesFilter'
 import { ComplexesFilter } from './ComplexesFilter'
 import { HydrophileFilter } from './HydrophileFilter'
 import { CoenoticFilter } from './CoenoticFilter'
+import Button from 'react-bootstrap/Button'
 
 type FilterProps = {
     handleFiltersChanged: (filters: ((f: SpeciesRecord) => boolean)[]) => void,
@@ -91,7 +92,12 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
             <>
                 <Card>
                     <Card.Header>
-                        {this.props.count}
+                        {`Всего видов: ${this.props.count}`}
+                    </Card.Header>
+                </Card>
+                <Card>
+                    <Card.Header>
+                        <Button onClick={() => {}} variant="info">Сбросить фильтры</Button>
                     </Card.Header>
                 </Card>
                 <Card>
