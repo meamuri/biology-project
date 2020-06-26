@@ -128,6 +128,7 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
                     </Card.Header>
                     { this.state.showFamiliesFilter && <Card.Body>
                         <FamiliesFilter
+                            requireFilterReset={this.state.requireFilterReset}
                             handleFiltersChanged={filter => {this.setFilterFor('familiesFilter', filter)}}
                             families={this.props.familiesList}
                         />

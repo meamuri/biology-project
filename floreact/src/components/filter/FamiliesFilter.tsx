@@ -5,6 +5,7 @@ import { SpeciesRecord } from '../../lib/taxon'
 type FamiliesFilterProps = {
     handleFiltersChanged: (filter: (f: SpeciesRecord) => boolean) => void,
     families: Set<string>
+    requireFilterReset: boolean,
 }
 
 type FamiliesFilterState = {
@@ -21,6 +22,14 @@ export class FamiliesFilter extends React.Component<FamiliesFilterProps, Familie
     }
 
     private readonly prefix: string = "familiesFilter"
+
+    componentDidUpdate(prevProps: Readonly<FamiliesFilterProps>, prevState: Readonly<FamiliesFilterState>, snapshot?: any) {
+        if (!prevProps.requireFilterReset && this.props.requireFilterReset) {
+            this.setState({
+                selected: new Set<string>(),
+            })
+        }
+    }
 
     render() {
         let allCheckbox = (<Form.Check
