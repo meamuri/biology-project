@@ -73,6 +73,7 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
                     </Card.Header>
                     { this.state.showFrequency && <Card.Body>
                         <FrequencyFilter
+                            requireFilterReset={this.state.requireFilterReset}
                             handleFilterChanged={filter => {this.setFilterFor('frequencyFilter', filter)}}
                         />
                     </Card.Body> }
@@ -83,6 +84,7 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
                     </Card.Header>
                     { this.state.showBiomorph && <Card.Body>
                         <BiomorphFilter
+                            requireFilterReset={this.state.requireFilterReset}
                             handleFilterChanged={filter => {this.setFilterFor('biomorphFilter', filter)}}
                         />
                     </Card.Body> }
@@ -93,6 +95,7 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
                     </Card.Header>
                     { this.state.showComplexesFilter && <Card.Body>
                         <ComplexesFilter
+                            requireFilterReset={this.state.requireFilterReset}
                             handleFilterChanged={filter => {this.setFilterFor('complexesFilter', filter)}}
                         />
                     </Card.Body> }
@@ -103,6 +106,7 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
                     </Card.Header>
                     { this.state.showHydrophileFilter && <Card.Body>
                         <HydrophileFilter
+                            requireFilterReset={this.state.requireFilterReset}
                             handleFilterChanged={filter => {this.setFilterFor('hydrophileFilter', filter)}}
                         />
                     </Card.Body> }
@@ -113,6 +117,7 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
                     </Card.Header>
                     { this.state.showCoenoticFilter && <Card.Body>
                         <CoenoticFilter
+                            requireFilterReset={this.state.requireFilterReset}
                             handleFilterChanged={filter => {this.setFilterFor('coenoticFilter', filter)}}
                         />
                     </Card.Body> }

@@ -5,6 +5,7 @@ import { SpeciesRecord } from '../../lib/taxon'
 
 interface FilterProps<T> {
     handleFilterChanged: (filter: FilterPredicate | undefined) => void,
+    requireFilterReset: boolean,
 }
 
 interface FilterState<T> {
@@ -23,6 +24,14 @@ export abstract class AbstractFilter<T> extends React.Component<FilterProps<T>, 
             selected: new Set<T>(),
         }
         this.handleAllCheckbox = this.handleAllCheckbox.bind(this)
+    }
+
+    componentDidUpdate(prevProps: Readonly<FilterProps<T>>, prevState: Readonly<FilterState<T>>, snapshot?: any) {
+        if (!prevProps.requireFilterReset && this.props.requireFilterReset) {
+            this.setState({
+                selected: new Set<T>(),
+            })
+        }
     }
 
     render() {
