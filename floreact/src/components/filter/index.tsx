@@ -2,6 +2,7 @@ import React, { ChangeEvent } from 'react'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import { signsToFrequency, frequencyToDigitSign } from '../../lib/frequency'
+import { FilterPredicate } from '../core/types'
 import { SpeciesRecord } from '../../lib/taxon'
 import { BiomorphFilter } from './biomorph'
 import { FamiliesFilter } from './FamiliesFilter'
@@ -11,12 +12,10 @@ import { CoenoticFilter } from './CoenoticFilter'
 import Button from 'react-bootstrap/Button'
 
 type FilterProps = {
-    handleFiltersChanged: (filters: ((f: SpeciesRecord) => boolean)[]) => void,
+    handleFiltersChanged: (filters: (FilterPredicate)[]) => void,
     familiesList: Set<string>,
     count: number,
 }
-
-type FilterPredicate = (s: SpeciesRecord) => boolean
 
 type FilterState = {
     showHydrophileFilter: boolean,
@@ -25,6 +24,7 @@ type FilterState = {
     showCoenoticFilter: boolean,
     showComplexesFilter: boolean,
     allSelected: boolean,
+    requireFilterReset: boolean,
     selected: Set<string>,
     frequenciesSigns: {[s: string]: string},
     frequencyFilter: FilterPredicate,
@@ -49,6 +49,7 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
             allSelected: true,
             showComplexesFilter: true,
             showCoenoticFilter: true,
+            requireFilterReset: true,
             selected: new Set<string>(),
             frequenciesSigns: signsToFrequency(),
             frequencyFilter: () => true,
@@ -163,6 +164,17 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
                 </Card>
             </>
         )
+    }
+
+    private cleanFilters() {
+        this.setState({
+            requireFilterReset: true,
+            coenoticFilter: () => true,
+            // all filters
+        })
+        this.props.handleFiltersChanged([
+            () => true,
+        ])
     }
 
     private toggleShow(fieldName: 'showBiomorph' |
