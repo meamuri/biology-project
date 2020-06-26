@@ -81,7 +81,7 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
                     </Card.Header>
                     { this.state.showBiomorph && <Card.Body>
                         <BiomorphFilter
-                            handleFiltersChanged={filter => {this.setFilterFor('biomorphFilter', filter)}}
+                            handleFilterChanged={filter => {this.setFilterFor('biomorphFilter', filter)}}
                         />
                     </Card.Body> }
                 </Card>
@@ -91,7 +91,7 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
                     </Card.Header>
                     { this.state.showComplexesFilter && <Card.Body>
                         <ComplexesFilter
-                            handleFiltersChanged={filter => {this.setFilterFor('complexesFilter', filter)}}
+                            handleFilterChanged={filter => {this.setFilterFor('complexesFilter', filter)}}
                         />
                     </Card.Body> }
                 </Card>
@@ -101,7 +101,7 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
                     </Card.Header>
                     { this.state.showHydrophileFilter && <Card.Body>
                         <HydrophileFilter
-                            handleFiltersChanged={filter => {this.setFilterFor('hydrophileFilter', filter)}}
+                            handleFilterChanged={filter => {this.setFilterFor('hydrophileFilter', filter)}}
                         />
                     </Card.Body> }
                 </Card>
@@ -111,7 +111,7 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
                     </Card.Header>
                     { this.state.showCoenoticFilter && <Card.Body>
                         <CoenoticFilter
-                            handleFiltersChanged={filter => {this.setFilterFor('coenoticFilter', filter)}}
+                            handleFilterChanged={filter => {this.setFilterFor('coenoticFilter', filter)}}
                         />
                     </Card.Body> }
                 </Card>
