@@ -1,10 +1,10 @@
 import { FilterPredicate } from '../core/types'
 import React, { ChangeEvent } from 'react'
 import Form from 'react-bootstrap/Form'
-import { SpeciesRecord } from "../../lib/taxon"
+import { SpeciesRecord } from '../../lib/taxon'
 
 interface FilterProps<T> {
-    handleFilterChanged: (filter: FilterPredicate) => void,
+    handleFilterChanged: (filter: FilterPredicate | undefined) => void,
 }
 
 interface FilterState<T> {
@@ -80,6 +80,6 @@ export abstract class AbstractFilter<T> extends React.Component<FilterProps<T>, 
         this.setState({
             selected: new Set<T>(),
         })
-        this.props.handleFilterChanged(() => true)
+        this.props.handleFilterChanged(undefined)
     }
 }

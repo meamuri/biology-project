@@ -152,10 +152,14 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
         })
     }
 
-    private setFilterFor(key: PossibleFilters, f: FilterPredicate) {
+    private setFilterFor(key: PossibleFilters, f: FilterPredicate | undefined) {
         this.setState((prevState, currProps) => {
             let filters = prevState.filters
-            filters.set(key, f)
+            if (f) {
+                filters.set(key, f)
+            } else {
+                filters.delete(key)
+            }
 
             this.props.handleFiltersChanged(Array.from(filters.values()))
             return {
