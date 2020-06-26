@@ -72,7 +72,9 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
                             Природоохранный статус
                     </Card.Header>
                     { this.state.showFrequency && <Card.Body>
-                        <FrequencyFilter handleFilterChanged={filter => {this.setFilterFor('frequencyFilter', filter)}} />
+                        <FrequencyFilter
+                            handleFilterChanged={filter => {this.setFilterFor('frequencyFilter', filter)}}
+                        />
                     </Card.Body> }
                 </Card>
                 <Card>
@@ -163,6 +165,7 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
 
             this.props.handleFiltersChanged(Array.from(filters.values()))
             return {
+                requireFilterReset: false,
                 filters
             }
         })
