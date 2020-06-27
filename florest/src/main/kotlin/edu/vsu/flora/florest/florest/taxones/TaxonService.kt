@@ -10,6 +10,7 @@ import edu.vsu.flora.florest.florest.taxones.schema.Record
 import edu.vsu.flora.florest.florest.taxones.schema.Taxon
 import edu.vsu.flora.florest.florest.taxones.schema.UpdateDTO
 import edu.vsu.flora.florest.florest.tools.Logging
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
@@ -21,7 +22,7 @@ class TaxonService(private val taxonRepository: TaxonRepository) : Logging {
             familyName: String?,
             speciesName: String?) = taxonRepository.findWithFilters(phylumName, familyName, speciesName)
 
-    fun all(): List<Record> = taxonRepository.findAll()
+    fun all(): List<Record> = taxonRepository.findAll(Sort.by("name"))
 
     fun format(): List<Taxon.Phylum> = format(all())
     fun format(records: List<Record>): List<Taxon.Phylum> {

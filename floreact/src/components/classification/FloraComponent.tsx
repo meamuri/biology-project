@@ -16,7 +16,7 @@ export class FloraComponent extends React.Component<FloraComponentProps, FloraCo
             return null
         }
 
-        let flora = this.props.data.map(e => <Phylum
+        let flora = this.props.data.sort(this.compare).map(e => <Phylum
             id={e.id}
             key={e.id}
             name={e.name}
@@ -30,5 +30,15 @@ export class FloraComponent extends React.Component<FloraComponentProps, FloraCo
                 {flora}
             </>
         )
+    }
+
+    private compare(a: PhylumData, b: PhylumData) {
+        if (a.name < b.name) {
+            return -1
+        } else if (b.name > a.name) {
+            return 1
+        } else {
+            return 0
+        }
     }
 }
