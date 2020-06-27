@@ -15,8 +15,8 @@ import Row from 'react-bootstrap/Row'
 import Filter from './filter'
 import { TableActions } from './core/types'
 import SpeciesLocation from './map'
-import {faLeaf} from '@fortawesome/free-solid-svg-icons'
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faLeaf } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 type AppState =
     { [key: string]: any } &
@@ -164,7 +164,7 @@ export default class Classification extends React.Component<any, AppState> {
 
     private extractFamilies(): Set<string> {
         let records = Array.from(this.state.species.values());
-        let res = records.map(e => e.family.name)
+        let res = records.map(e => e.family.name).sort()
         return new Set<string>(res)
     }
 
