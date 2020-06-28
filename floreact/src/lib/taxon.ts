@@ -64,7 +64,7 @@ export type SpeciesRecord = ParentTaxon & {
     phylum: ParentTaxon
     locations?: Area[]
     classTaxon?: ClassTaxon
-    areal?: string
+    arial?: string
 }
 
 export type BaseTaxon = ParentTaxon & {children: ParentTaxon[]}

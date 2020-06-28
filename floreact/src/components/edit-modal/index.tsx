@@ -31,6 +31,9 @@ type EditSpeciesState = {
     currentCoenotic: Coenotic | undefined,
     description: string,
     initialDescription: string,
+
+    initialArial: string,
+    currentArial: string,
 }
 
 export default class EditSpeciesModal extends React.Component<EditSpeciesModalProps, EditSpeciesState> {
@@ -47,6 +50,8 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
             currentCoenotic: props.species.coenotic,
             initialDescription: props.species.description || '',
             description: props.species.description || '',
+            initialArial: props.species.arial || '',
+            currentArial: props.species.arial || ''
         }
         this.handleBiomorphChange = this.handleBiomorphChange.bind(this)
         this.handleFormInput = this.handleFormInput.bind(this)
@@ -63,7 +68,8 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
             this.state.currentComplex !== this.props.species.complex ||
             this.state.currentBiomorph !== this.props.species.biomorph ||
             this.state.currentHydrophile !== this.props.species.hydrophile ||
-            this.state.currentCoenotic !== this.props.species.coenotic
+            this.state.currentCoenotic !== this.props.species.coenotic ||
+            this.state.currentArial !== this.state.initialArial
         let editingDisabled = !isFieldsChanged || !this.props.user
         return <Modal show={this.props.show} size="lg"
             onHide={this.props.handleCloseEditModal}

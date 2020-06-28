@@ -15,10 +15,10 @@ export class ArialFilter extends AbstractFilter<Group> {
     ]
 
     protected extractField(e: SpeciesRecord): Group | undefined {
-        if (!e.areal) {
+        if (!e.arial) {
             return undefined
         }
-        return arialToGroup(e.areal) || undefined
+        return arialToGroup(e.arial) || undefined
     }
 
     protected readonly filterKey: string = 'areal'
