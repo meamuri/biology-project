@@ -16,5 +16,6 @@ interface TaxonRepositoryCustom {
                       complex: Complexes?,
                       hydrophile: Hydrophile?,
                       coenotic: Coenotic?,
+                      areal: String?,
                       description: String): Record?
 }

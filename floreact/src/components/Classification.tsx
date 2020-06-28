@@ -17,7 +17,7 @@ import { TableActions } from './core/types'
 import SpeciesLocation from './map'
 import { faLeaf } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Container from "react-bootstrap/Container";
+import Container from 'react-bootstrap/Container'
 
 type AppState =
     { [key: string]: any } &
