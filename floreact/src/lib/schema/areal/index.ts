@@ -13,7 +13,7 @@ export enum Group {
 export function groupToLocaleName(e: Group): string {
     switch (e) {
         case Group.PLURAL:
-            return 'Плюразональная'
+            return 'Плюризональная'
         case Group.EURO_ASIA:
             return 'Европейско-азиатская'
         case Group.EAST_EUROPE_ASIA:
