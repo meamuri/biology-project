@@ -8,6 +8,7 @@ import { ComplexesFilter } from './ComplexesFilter'
 import { HydrophileFilter } from './HydrophileFilter'
 import { CoenoticFilter } from './CoenoticFilter'
 import { FrequencyFilter } from './FrequencyFilter'
+import { ArialFilter } from './ArealFilter'
 
 type FilterProps = {
     handleFiltersChanged: (filters: (FilterPredicate)[]) => void,
@@ -20,6 +21,7 @@ type PossibleFilters = 'frequencyFilter' |
     'familiesFilter' |
     'complexesFilter' |
     'hydrophileFilter' |
+    'arialFilter' |
     'coenoticFilter'
 
 type Filters = Map<PossibleFilters, FilterPredicate>
@@ -30,6 +32,7 @@ type FilterState = {
     showBiomorph: boolean,
     showCoenoticFilter: boolean,
     showComplexesFilter: boolean,
+    showArialFilter: boolean,
     allSelected: boolean,
     requireFilterReset: boolean,
     selected: Set<string>,
@@ -42,6 +45,7 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
         super(props)
         this.state = {
             showFrequency: true,
+            showArialFilter: true,
             showBiomorph: true,
             showFamiliesFilter: true,
             showHydrophileFilter: true,
@@ -123,6 +127,17 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
                     </Card.Body> }
                 </Card>
                 <Card>
+                    <Card.Header style={{cursor: 'pointer'}} onClick={() => {this.toggleShow('showArialFilter')}}>
+                        Занимаемый ареал
+                    </Card.Header>
+                    { this.state.showArialFilter && <Card.Body>
+                        <ArialFilter
+                            requireFilterReset={this.state.requireFilterReset}
+                            handleFilterChanged={filter => {this.setFilterFor('arialFilter', filter)}}
+                        />
+                    </Card.Body> }
+                </Card>
+                <Card>
                     <Card.Header style={{cursor: 'pointer'}} onClick={() => {this.toggleShow('showFamiliesFilter')}}>
                             Семейство
                     </Card.Header>
@@ -146,7 +161,7 @@ export default class Filter extends React.Component<FilterProps, FilterState> {
         this.props.handleFiltersChanged([])
     }
 
-    private toggleShow(fieldName: 'showBiomorph' |
+    private toggleShow(fieldName: 'showBiomorph' | 'showArialFilter' |
         'showFrequency' | 'showHydrophileFilter' |
         'showFamiliesFilter' | 'showComplexesFilter' |
         'showCoenoticFilter')

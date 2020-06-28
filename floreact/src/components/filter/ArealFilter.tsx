@@ -2,7 +2,7 @@ import { AbstractFilter } from './AbstractFilter'
 import { Group, groupToLocaleName, arialToGroup } from '../../lib/schema/areal'
 import { SpeciesRecord } from '../../lib/taxon'
 
-export class ArealFilter extends AbstractFilter<Group> {
+export class ArialFilter extends AbstractFilter<Group> {
     protected readonly elements: Group[] = [
         Group.PLURAL,
         Group.EURO_ASIA,
