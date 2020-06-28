@@ -97,7 +97,7 @@ export default class Classification extends React.Component<any, AppState> {
         return (
             <>
                 <Container fluid>
-                    <Row>
+                    <Row className="ml-3" >
                         <Col >
                             <Navbar className="navbar justify-content-between navbar-expand-lg navbar-light bg-light">
                                 <Navbar.Brand href="/"><FontAwesomeIcon icon={faLeaf} /> Флора</Navbar.Brand>
@@ -116,7 +116,7 @@ export default class Classification extends React.Component<any, AppState> {
                             </Navbar>
                         </Col>
                     </Row>
-                    <Row>
+                    <Row className="ml-3">
                         <Col xs={10} >
                             <FloraComponent data={this.state.data} handleSelectSpecies={this.handleSelectSpecies} />
                         </Col>
