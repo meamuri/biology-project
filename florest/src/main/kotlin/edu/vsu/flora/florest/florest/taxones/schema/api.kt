@@ -6,5 +6,6 @@ data class UpdateDTO(
     val biomorph: String?,
     val hydrophile: String?,
     val complex: String?,
-    var coenotic: String?
+    var coenotic: String?,
+    var areal: String?
 )

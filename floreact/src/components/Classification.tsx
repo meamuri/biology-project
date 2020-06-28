@@ -17,7 +17,7 @@ import { TableActions } from './core/types'
 import SpeciesLocation from './map'
 import { faLeaf } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Container from "react-bootstrap/Container";
+import Container from 'react-bootstrap/Container'
 
 type AppState =
     { [key: string]: any } &
@@ -117,10 +117,10 @@ export default class Classification extends React.Component<any, AppState> {
                         </Col>
                     </Row>
                     <Row className="ml-3">
-                        <Col xs={10} >
+                        <Col xs={9} >
                             <FloraComponent data={this.state.data} handleSelectSpecies={this.handleSelectSpecies} />
                         </Col>
-                        <Col xs={2} style={{marginTop: '62px'}}>
+                        <Col xs={3} style={{marginTop: '62px'}}>
                             <Filter
                                 count={this.state.recordsOnScreen}
                                 handleFiltersChanged={this.updateFilters}

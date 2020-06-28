@@ -17,6 +17,7 @@ data class Record(
     var hydrophile: Hydrophile? = null,
     var complex: Complexes? = null,
     var classTaxon: ClassTaxon? = null,
+    var areal: String? = null,
     var coenotic: Coenotic? = null
 )
 

@@ -69,7 +69,7 @@ class TaxonService(private val taxonRepository: TaxonRepository) : Logging {
                 .find { it.name == coenotic }
                 ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Unknown coenotic")
         }
-        val res = taxonRepository.updateSpecies(id, frequency, biomorph, complex, hydrophile, coenotic, dto.description)
+        val res = taxonRepository.updateSpecies(id, frequency, biomorph, complex, hydrophile, coenotic, dto.areal, dto.description)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown species id")
         return Taxon.Species(res.id, res.name, res.family.id, res.ruLocaleName, res.frequency, res.biomorph, res.description, res.locations)
     }

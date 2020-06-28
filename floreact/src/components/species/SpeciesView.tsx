@@ -35,6 +35,7 @@ export const SpeciesView: React.FC<ViewProps> = (props: ViewProps) => {
                     {data.complex && computeRow('Эколого-флористический комплекс', toLocaleName(data.complex))}
                     {data.hydrophile && computeRow('По отношению к влаге', hydrophileToLocaleName(data.hydrophile))}
                     {data.coenotic && computeRow('Ценотическая группа', coenoticToLocaleName(data.coenotic))}
+                    {data.areal && computeRow('Занимаемый ареал', data.areal)}
                     {computeRow('Описание', data.description, 'description')}
                 </Container>
             </Modal.Body>

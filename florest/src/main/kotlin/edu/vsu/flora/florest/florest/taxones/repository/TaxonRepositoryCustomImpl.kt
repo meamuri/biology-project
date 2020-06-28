@@ -37,6 +37,7 @@ class TaxonRepositoryCustomImpl(private val mongoTemplate: MongoTemplate) : Taxo
         complex: Complexes?,
         hydrophile: Hydrophile?,
         coenotic: Coenotic?,
+        areal: String?,
         description: String
     ): Record? {
         val query = Query(Criteria.where("_id").`is`(id))
@@ -57,6 +58,9 @@ class TaxonRepositoryCustomImpl(private val mongoTemplate: MongoTemplate) : Taxo
         }
         coenotic?.let {
             update.set("coenotic", coenotic)
+        }
+        areal?.let {
+            update.set("areal", areal)
         }
 
         return mongoTemplate.findAndModify(
