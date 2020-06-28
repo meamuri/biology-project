@@ -17,6 +17,7 @@ import { TableActions } from './core/types'
 import SpeciesLocation from './map'
 import { faLeaf } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Container from "react-bootstrap/Container";
 
 type AppState =
     { [key: string]: any } &
@@ -95,40 +96,40 @@ export default class Classification extends React.Component<any, AppState> {
     render(): React.ReactElement {
         return (
             <>
-                <Row>
-                    <Col xs={1} />
-                    <Col xs={10} >
-                <Navbar className="navbar justify-content-between navbar-expand-lg navbar-light bg-light">
-                    <Navbar.Brand href="/"><FontAwesomeIcon icon={faLeaf} /> Флора</Navbar.Brand>
-                    <Navbar.Collapse className="justify-content-end mr-3">
-                        <Navbar.Text>
-                            { this.state.user ? this.state.user : 'Гость' }
-                        </Navbar.Text>
-                    </Navbar.Collapse>
-                    <Form inline>
-                        {
-                            this.state.user ?
-                                <Button onClick={this.handleLogout}>Выход</Button> :
-                                <Button onClick={this.handleShow}>Вход</Button>
-                        }
-                    </Form>
-                </Navbar>
-                    </Col>
-                </Row>
+                <Container fluid>
+                    <Row>
+                        <Col >
+                            <Navbar className="navbar justify-content-between navbar-expand-lg navbar-light bg-light">
+                                <Navbar.Brand href="/"><FontAwesomeIcon icon={faLeaf} /> Флора</Navbar.Brand>
+                                <Navbar.Collapse className="justify-content-end mr-3">
+                                    <Navbar.Text>
+                                        { this.state.user ? this.state.user : 'Гость' }
+                                    </Navbar.Text>
+                                </Navbar.Collapse>
+                                <Form inline>
+                                    {
+                                        this.state.user ?
+                                            <Button onClick={this.handleLogout}>Выход</Button> :
+                                            <Button onClick={this.handleShow}>Вход</Button>
+                                    }
+                                </Form>
+                            </Navbar>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs={10} >
+                            <FloraComponent data={this.state.data} handleSelectSpecies={this.handleSelectSpecies} />
+                        </Col>
+                        <Col xs={2} style={{marginTop: '62px'}}>
+                            <Filter
+                                count={this.state.recordsOnScreen}
+                                handleFiltersChanged={this.updateFilters}
+                                familiesList={this.extractFamilies()}
+                            />
+                        </Col>
+                    </Row>
+                </Container>
 
-                <Row>
-                    <Col xs={1} />
-                    <Col xs={8} >
-                        <FloraComponent data={this.state.data} handleSelectSpecies={this.handleSelectSpecies} />
-                    </Col>
-                    <Col xs={2} style={{marginTop: '62px'}}>
-                        <Filter
-                            count={this.state.recordsOnScreen}
-                            handleFiltersChanged={this.updateFilters}
-                            familiesList={this.extractFamilies()}
-                        />
-                    </Col>
-                </Row>
 
                 {this.state.show &&
                 <Login show={this.state.show}
