@@ -97,7 +97,7 @@ const groups: {[key in Group]: string[]} = {
     ],
 }
 
-const arials: string[] = [
+const areals: string[] = [
     'Голарктический',
     'Циркумбореальный',
     'Космополитный',
@@ -152,11 +152,11 @@ const arials: string[] = [
     'Европейско-средиземноморский',
 ]
 
-export function getArials0() {
-    return [...arials]
+export function getAreals0() {
+    return [...areals]
 }
 
-export function getArials(): string[] {
+export function getAreals(): string[] {
     return Object.values(groups).flatMap(e => e)
 }
 
@@ -181,9 +181,9 @@ function nameToGroup(e: string): Group {
     throw new Error("fix bug with group name")
 }
 
-export function arialToGroup(arial: string): Group | null {
+export function arealToGroup(arial: string): Group | null {
     for (let [k, [...elems]] of Object.entries(groups)) {
-        if (arial in elems) {
+        if (elems.find(e => e === arial)) {
             return nameToGroup(k)
         }
     }

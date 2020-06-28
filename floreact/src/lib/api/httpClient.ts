@@ -54,6 +54,7 @@ export class FloraApiClient {
         hydrophile: Hydrophile | undefined,
         complex: Complexes,
         coenotic: Coenotic | undefined,
+        areal: string | null,
     }): Promise<number> {
         return await this.call(`/species/${id}`, 'put', { authorization: this.token }, change)
     }

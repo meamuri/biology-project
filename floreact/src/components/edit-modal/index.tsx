@@ -9,6 +9,7 @@ import {SpeciesRecord} from '../../lib/taxon'
 import FloraApiClient from '../../lib/api'
 import {describeFrequency, FREQUENCY, toFrequency} from '../../lib/frequency'
 import Biomorph, {formToName, stringToBiomorph} from '../../lib/schema/biomorph'
+import {getAreals} from '../../lib/schema/areal'
 import Complexes, {toComplex, toLocaleName} from '../../lib/schema/complexes'
 import Hydrophile, {toHydrophile, toLocaleName as hydrophileToLocaleName} from '../../lib/schema/hydrophilie'
 import Coenotic, {coenoticToLocaleName, toCoenotic} from '../../lib/schema/coenotic'
@@ -32,13 +33,14 @@ type EditSpeciesState = {
     description: string,
     initialDescription: string,
 
-    initialArial: string,
-    currentArial: string,
+    initialAreal: string,
+    currentAreal: string,
 }
 
 export default class EditSpeciesModal extends React.Component<EditSpeciesModalProps, EditSpeciesState> {
 
     private readonly ifBiomorphEmpty = 'Неизвестная форма'
+    private readonly ifArealEmpty = 'Неизвестный'
 
     constructor(props: EditSpeciesModalProps) {
         super(props)
@@ -50,8 +52,8 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
             currentCoenotic: props.species.coenotic,
             initialDescription: props.species.description || '',
             description: props.species.description || '',
-            initialArial: props.species.arial || '',
-            currentArial: props.species.arial || ''
+            initialAreal: props.species.areal || '',
+            currentAreal: props.species.areal || ''
         }
         this.handleBiomorphChange = this.handleBiomorphChange.bind(this)
         this.handleFormInput = this.handleFormInput.bind(this)
@@ -60,6 +62,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
         this.handleFrequencyChange = this.handleFrequencyChange.bind(this)
         this.handleHydrophile = this.handleHydrophile.bind(this)
         this.handleCoenotic = this.handleCoenotic.bind(this)
+        this.handleAreal = this.handleAreal.bind(this)
     }
 
     render() {
@@ -69,7 +72,7 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
             this.state.currentBiomorph !== this.props.species.biomorph ||
             this.state.currentHydrophile !== this.props.species.hydrophile ||
             this.state.currentCoenotic !== this.props.species.coenotic ||
-            this.state.currentArial !== this.state.initialArial
+            this.state.currentAreal !== this.state.initialAreal
         let editingDisabled = !isFieldsChanged || !this.props.user
         return <Modal show={this.props.show} size="lg"
             onHide={this.props.handleCloseEditModal}
@@ -170,6 +173,18 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
                         </Form.Control>
                         </Col>
                     </Form.Group>
+                    <Form.Group as={Row} controlId="formSelectAreal">
+                        <Form.Label column sm="4">
+                            Занимаемый ареал
+                        </Form.Label>
+                        <Col sm="8">
+                        <Form.Control as="select" onChange={this.handleAreal} defaultValue={this.state.initialAreal || this.ifArealEmpty }>
+                            {[this.ifArealEmpty, ...getAreals()].map((areal, i) =>
+                                <option value={areal} key={areal}>{areal}</option>
+                            )}
+                        </Form.Control>
+                        </Col>
+                    </Form.Group>
                 </Form>
                 {!this.props.user && <Alert variant="danger">
                     Пожалуйста, войдите в систему чтобы осуществлять редактирование данных
@@ -220,6 +235,13 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
         })
     }
 
+    private handleAreal(event: FormEvent<HTMLInputElement>) {
+        let value = event.currentTarget.value;
+        this.setState({
+            currentAreal: (value === this.ifArealEmpty ? '' : value),
+        })
+    }
+
     handleFormInput(event: FormEvent<HTMLInputElement>) {
         event.preventDefault()
         this.setState({
@@ -234,7 +256,8 @@ export default class EditSpeciesModal extends React.Component<EditSpeciesModalPr
             biomorph: this.state.currentBiomorph,
             complex: this.state.currentComplex || Complexes.UNKNOWN,
             hydrophile: this.state.currentHydrophile,
-            coenotic: this.state.currentCoenotic || undefined
+            coenotic: this.state.currentCoenotic || undefined,
+            areal: this.state.currentAreal || null
         }
         console.log(changes)
         await this.props.httpClient.updateSpecies(

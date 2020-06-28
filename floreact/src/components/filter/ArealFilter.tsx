@@ -1,8 +1,8 @@
 import { AbstractFilter } from './AbstractFilter'
-import { Group, groupToLocaleName, arialToGroup } from '../../lib/schema/areal'
+import { Group, groupToLocaleName, arealToGroup } from '../../lib/schema/areal'
 import { SpeciesRecord } from '../../lib/taxon'
 
-export class ArialFilter extends AbstractFilter<Group> {
+export class ArealFilter extends AbstractFilter<Group> {
     protected readonly elements: Group[] = [
         Group.PLURAL,
         Group.EURO_ASIA,
@@ -15,10 +15,10 @@ export class ArialFilter extends AbstractFilter<Group> {
     ]
 
     protected extractField(e: SpeciesRecord): Group | undefined {
-        if (!e.arial) {
+        if (!e.areal) {
             return undefined
         }
-        return arialToGroup(e.arial) || undefined
+        return arealToGroup(e.areal) || undefined
     }
 
     protected readonly filterKey: string = 'areal'
