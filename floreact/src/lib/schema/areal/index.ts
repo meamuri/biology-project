@@ -19,9 +19,9 @@ export function groupToLocaleName(e: Group): string {
         case Group.EAST_EUROPE_ASIA:
             return 'Восточноевропейско-азиатская'
         case Group.SOUTH_EAST_EUROPE_ASIA:
-            return 'Юговосточноевропейско-азитаская'
+            return 'Юговосточноевропейско-азиатская'
         case Group.EURO_SIBERIA_MIDDLE_ASIAN:
-            return 'Евросибирская-среднеазиатская'
+            return 'Евросибирско-среднеазиатская'
         case Group.EURO_SIBERIA:
             return 'Евросибирская'
         case Group.EUROPEAN:
